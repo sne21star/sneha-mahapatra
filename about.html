@@ -5,10 +5,13 @@ description: This is what I do.
 background: '/img/aboutme.jpg'
 ---
 
-
 <p>Hello! My name is Sneha Mahapatra and I am a Software Developer at Superluminal.</p>
 
-<img class="img-fluid" src="https://sne21star.github.io/images/profilepic.jpeg" alt="Demo Image">
+<div class="center">
+
+    <img class="circular_image" src="https://sne21star.github.io/images/profilepic.jpeg" alt="Demo Image">
+
+</div>
 
 
 <p>I completed my Masters Degree in Computer Science with a concentration in Data Science at the University of Massachusetts, Amherst. I earned my Bachelor’s in Computer Engineering from Purdue University.</p>
@@ -21,4 +24,27 @@ background: '/img/aboutme.jpg'
 <p class="mb-5">My passion lies in software engineering coupled with machine learning.</p>
 <p class="mb-5">In my free time I love to read, play soccer, paint, dance and sing!</p>
 
+<style>
+
+.circular_image {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+
+}
+.circular_image img{
+  width:100%;
+}
+.center {
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+
+</style>
 
