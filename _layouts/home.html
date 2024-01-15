@@ -63,8 +63,84 @@ layout: default
 
         {% endif %}
         {% endfor %}
+        <!-- <bodyX>
+          <div class="containerX">
+            <div class="lava-lamp">
+              <div class="bubbles">
+              <div class="base"></div>
+              <div id="background-wrap">
 
+              <div class="bubble x1"></div>
+              <div class="bubble x2"></div>
+              <div class="bubble x3"></div>
+              <div class="bubble x4"></div>
+              <div class="bubble x5"></div>
+              <div class="bubble x6"></div>
+              <div class="bubble x7"></div>
+              <div class="bubble x8"></div>
+              <div class="bubble x9"></div>
+              <div class="bubble x10"></div>
+              </div>
+              </div>
+            </div>
+          </div>
+        </bodyX> -->
       </div>
     </div>
   </div>
 
+
+
+<style>
+.bodyX {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #111;
+  color: white;
+}
+
+.containerX {
+  position: relative;
+  text-align: center;
+}
+
+.lava-lamp {
+  position: relative;
+  width: 400px; /* Adjust the width as needed */
+  height: 100px; /* Adjust the height as needed */
+}
+
+.base {
+  width: 260px; /* Adjust the width as needed */
+  height: 60px; /* Adjust the height as needed */
+  background-color: #222;
+  position: absolute;
+  bottom: 0px; /* Adjust the bottom position as needed */
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 0 0 50% 50%;
+
+}
+
+
+
+@keyframes bubbleAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-40px); /* Adjust the translateY as needed */
+  }
+}
+
+h1, p {
+  z-index: 1;
+}
+
+
+
+</style>
