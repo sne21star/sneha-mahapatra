@@ -30,15 +30,49 @@ layout: default
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-md-10 mx-auto">
-        <div class="clearfix">
-          <a class="btn btn-primary justify-content-center" href="{{"/posts" | relative_url }}">View All Posts</a>
-        </div>
+
         {{ content }}
+
+        <div class="clearfix" align="right">
+          <select name="language" id="choice">
+            <option value="Essays">Essays</option>
+            <option value="Travel">Travel</option>
+            <option value="Science">Science</option>
+            <option value="Paintings">Paintings</option>
+            <option value="LeetCode">LeetCode</option>
+            <option value="Blogs"selected>Blogs</option>
+          </select>
+        </div>
+
+        <!-- <p> The value of the option selected is:
+          <span class="output"></span>
+      </p>
+   
+   
+      <button onclick="getOption()"> Check option </button>
+   
+      <script type="text/javascript">
+          function getOption() {
+              selectElement = 
+                    document.querySelector('#choice');
+              output = selectElement.value;
+              document.querySelector('.output').textContent = output;
+              if(output=="Blogs"){
+                return 'Blogs';
+              }
+              else if(output=="Travel"){
+                return 'Travel';
+              }
+              else{
+                return 'Here';
+              }
+          }
+      </script> -->
 
         <!-- Home Post List -->
         {% for post in site.posts%}
         {% if post.category == 'Blog' %}
-
+        {% if post.type == output %}
         <article class="post-preview">
           <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
             <h2 class="post-title">{{ post.title }}</h2>
@@ -60,9 +94,13 @@ layout: default
         </article>
 
         <hr>
+        {% endif %}
 
         {% endif %}
         {% endfor %}
+        <div class="clearfix" align="right">
+          <a class="btn btn-primary justify-content-center" href="{{"/posts" | relative_url }}">View All Posts</a>
+        </div>
         <!-- <bodyX>
           <div class="containerX">
             <div class="lava-lamp">
@@ -89,6 +127,35 @@ layout: default
     </div>
   </div>
 
+  <!-- <label for="selectTag">Select Tag:</label>
+<select id="selectTag" onchange="showHideTags()">
+    <option value="paragraph">Paragraph</option>
+    <option value="div">Div</option>
+    <option value="span">Span</option>
+</select>
+
+<p class="paragraph">This is a paragraph.</p>
+<div class="div hidden">This is a div.</div>
+<span class="span hidden">This is a span.</span>
+
+<script>
+    function showHideTags() {
+        var selectElement = document.getElementById('selectTag');
+        var selectedTag = selectElement.value;
+
+        // Hide all tags
+        var allTags = document.querySelectorAll('.paragraph, .div, .span');
+        allTags.forEach(function(tag) {
+            tag.classList.add('hidden');
+        });
+
+        // Show the selected tag
+        var selectedTagElement = document.querySelector('.' + selectedTag);
+        if (selectedTagElement) {
+            selectedTagElement.classList.remove('hidden');
+        }
+    }
+</script> -->
 
 
 <style>
@@ -142,5 +209,8 @@ h1, p {
 }
 
 
+.hidden {
+            display: none;
+        }
 
 </style>
