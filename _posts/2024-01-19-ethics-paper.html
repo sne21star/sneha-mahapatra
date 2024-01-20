@@ -1,0 +1,361 @@
+---
+layout: post
+title: "Ethics in Software Development"
+date: 2020-01-31 10:45:13 -0400
+background: '/img/posts/06.jpg'
+category: 'Blog'
+---
+
+<divX >
+    <section class="effect effect-c" align="justify" style="display: grid; font-family: 'Yrsa', Times New Roman, serif;">
+      <h1 class="effect__heading">“Just because it’s out there doesn’t mean we can’t get rid of it...If we see something harmful, we should be able to say no.”</h1>
+      <h2 class="effect__subheading">Timnit Gebru</h2>
+    </section>
+</divX>
+
+<h2 class="section-heading">INTRODUCTION</h2>
+
+<p align="justify">
+    Software development is a highly sought after skill. It teaches you how to logically form a solution, but one that especially withstands the test of time. However, with startup cultures and enforcing fast work paced environments with processes such as agile sprints, developers are no longer taking the time to real think about their product, rather they have grown impatient and are looking for solutions instantaneously.
+</p>
+
+<p align="justify">
+    Then comes the question: what are the factors that are ignored or let go during this process? Ethical ones. This is because integrating ethics into the development process will force people to slow down, and in a capital driven countries, this will be seen as a backwards step. We can see in this article that startups deliberately ignore ethical issues claiming that “it is just a prototype”[1]. But, it is based off of these prototypes that the company gets funding, gets noticed, and the real product is going to based off of. It is guaranteed that flaws found in the prototype will be found in the marketable product as well.
+</p>
+
+<p align="justify">
+    Many people will claim that there is a code of ethics that software engineers or machine learning engineers have that they can follow to make sure that the ethical standards are practiced. However, it has been proven that “Professional codes of ethics do little to change peoples’ behavior; rather, incentives for using an ethical approach to software development may lie in significantly increased likelihood of system success.” [2]
+</p>
+
+<p align="justify">
+    I will investigate in more detail about why ethics is an issue in the development process and debate some viable solutions that will be better than the standard that is already kept in place.
+</p>
+
+<h4 class="section-heading">Software Developement</h4>
+
+<p align="justify">
+    In the software engineering world, workers rely on logical solutions in order to create a comprehensible and impervious design that can stand the test of time. Without a logical plan this would not be possible. That is why software companies are relying heavily on software developmental processes in order to create a system that is efficient. This process is known as the “Software Development Life Cycle” (SDLC)[3] In the early history of software development, developers relied on traditional methodologies such as the Waterfall method, VModel, RUP which consisted of only four phases. However, these four phases do not allow for flexibility and expect that all the requirements and information will be known ahead of the developmental process. However, in almost every situation, developers have never encountered a project where they did not have to change their project and requirements in the middle of the developmental process. This is where processes such as AGILE, Iterative, and DevOps were designed to allow for more flexibility and rely more on what the customer wants rather than what the developers would want to design. They rely on a seven step process which includes planning, defining requirements, design and prototyping, software development, testing, deployment, and operations maintenance. [4] However, while these developmental processes are designed for efficency, they are not necessarily designed ethically. While there have been a limited number of studies that show that developmental processes such as AGILE can be used ethically [5] the developers of the methodology did not have a single section devoted to ethical standards [6] , infact, the word “ethics” or “ethical” were not used at all in the paper. Therefore, when used in the real world, often times the ethical requirements of a project are ignored. [1]
+</p>
+
+<h4 class="section-heading">Ethics in Software</h4>
+
+<p align="justify">
+    When we approach ethics in terms of technology it seems software developers have a pretty straight forward way of viewing it: a way to benefit society without unknowingly or adversely hurting others. If we take a look at the ethical standard that each
+technology company has, however, we can see that they are different from each other. When a company is brought into the limelight for unethical practices, the company rarely faces any real consequences for its actions. Why? The educational requirements of a software developer does not require a course in ethics, many companies do not enforce ethical standards despite developing a Code of Ethics, the Code of Ethics is not clear and vague, software developers rarely follow a Code of Ethics[7] , a Code of Ethics does not exist at all for a specific software, and most fundamentally the law does not have rules that enforce certain ethical values. Many tech companies have abused the latter point in order to continue their work or squeeze out of any legal troubles they may face.
+</p>
+
+<p align="justify">
+    Many times when we look at a problem, our first thought of actions is how can we use technology to solve it. Which is a fair point, that’s what we have been taught throughout our education. Use this programming language for this problem, use the software, use this library, use this that etc. Even when looking at a problem we say, “Start coding something, we can make changes in the future”. And the most important aspect of our software is to make it efficient. And faster and faster. We have grown impatient as software engineers and I believe this leads into extremely dangerous mindsets. When looking at a problem, there are certain steps we must follow before even thinking of design. First reading the problem carefully and truly understanding what it is. When given a problem you should take the majority of your time to understand the problem statement, and understand its ins and outs, and its implications. With most tech companies, they are eager to see a problem and create a solution without understanding what can go wrong and what effect this technology will have in the future. [8] This lack of ethical deliberation usually muddled in the process of software development.
+</p>
+
+<p align="justify">
+    Sometimes software engineers we live in a fantasy world where they assume the products we make is going to be a benefit to society, and that maybe their pursuits are nobel. But without this set standard for specifically technology, our pursuits cannot be entirely ethical–because we share different viewpoints and ethics, which definition is most ethical and which is not? ”With the lack of standard ethical principles in the tech world, myopic focus on individual engineering and tech
+    designs, tech subsumed into corporate logic, and tech companies using “ethic-washing” to maintain social media presences while increasing profit,” [9] a standard of ethics becomes much more important.
+    With so much ambiguity and with software development rapidly evolving we have seen many cases where the software development process has ethical standards. However, from these failures we can find solutions that can be easily integrated into the process such that we not only create an efficient system, but an ethical one. This paper will closely look at failing case studies, the reason for persistence of this problem, and solutions that are possible to solve these problems.
+</p>
+<h2 class="section-heading">CASE STUDIES OF FAILING ETHICAL STANDARD</h2>
+
+<p align="justify">
+    There are, unfortunately, a plethora of case studies where software companies encountered ethical problems despite following a software development process. These case studies shows how certain steps of the software development process fail ethical standards.
+</p>
+
+<h4 class="section-heading">The Solution to a Problem is not Always Tech: PredPol</h4>
+
+<p align="justify">
+    The first step in the SDLC process is planning. Planning allows developers to see the overall scope of the project such as looking at cost, creating timetable goals, creating the structure of the team etc. While this is an important step it lacks an important question that many software engineers do not ask which is: Does this problem need a technological solution? Software Engineers have always been taught to find a technologically based solution to the problem but never to actually look at a problem and see if there is actually another underlying problem. An example of how ignoring this question became an ethical breach is in the Software company PredPol.
+</p>
+
+<p align="justify">
+    Reading police chief of Pennsylvania wanted to apply better policing out of a smaller force. He invested in a crime prediction software made my PredPol, a big data startup based in Santa Cruz, California. The program processed historical crime data and calculated, hour by hour, where crimes were most likely to occur. The reading policemen could view the programs conclusions as a series of squares, each one just the size of two footballs
+    fields. If they spent more time patrolling these squares, there was a good chances they would discourage crimes. And sure enough, a year later chief Heim announced that burglaries were down by 23 percent. This seems good right? However here is the catch.
+</p>
+
+<p align="justify">
+    When setting up the system, PredPol allows users to focus on type 1 crimes: violent crimes that include homicide arson assault etc which are reported to them. Or they can focus on type 2 crimes: vagrancy, aggressive panhandling, and selling and consuming drugs, usually not reported. These are known as more “nuisance” crimes. These crimes are obviously more common and therefore the analysis of the model is more skewed to these areas. There is an increase of policing in these area, thus an increase in spawned data points, and then a pernicious feedback loop is created. Now one might state that we are looking at geography, so why is this bad? It is because geography is proxy for race and which areas will we find more type 2 crimes? impoverished neighborhoods with a high population of African-Americans and Hispanics. The model may be blind to race, but its analysis is not. This software, albeit responsible for enabling unethical policing, is only a tool, but one that mirrors what the policing system is about. A better solution is to start looking in the tactics used by police officers. Or even asking ourselves why are type 2 crimes so persistent in these neighborhoods. This is not really a tech problem. But a social one. [10]
+</p>
+
+<h4 class="section-heading">IBM</h4>
+
+<p align="justify">
+    The two others step in the SDLC process are the “Defining Requirements” step and the “Testing” step. When these processes are not followed correctly, the developers will not be able to catch it during the developmental stage until it is deployed in the real world. This has led to disastrous problems.
+</p>
+
+<p align="justify">
+    The two others step in the SDLC process are the “Defining Requirements” step and the “Testing” step. When these processes are not followed correctly, the developers will not be able to catch it during the developmental stage until it is deployed in the real world. This has led to disastrous problems.
+</p>
+
+<p align="justify">
+    A well documented example of this is IBM’s facial recognition system. Facial Recognition systems are developed to help identify people based on random images it receives on a person and usually matching that image with a government issued identification. In almost all cases, facial recognition systems are used by law enforcement, and in IBM’s case it was no different. The goal of every machine learning system is to be as accurate as possible. The
+    method which is used to test this accuracy, however, is not standardized. Essentially, different software companies will test the accuracy of their models differently.
+</p>
+
+<p align="justify">
+    For example, they will use different data sets to test train/develop their model, and they will test their model on different data sets as well. Therefore, we can see that the “Testing” step is not definitive. Therefore when the MIT Media Lab conducted tests on IBM’s software and found that it was not accurate when the images of the faces were men and women with dark skin. [11] Joy Buolamwini, who conducted the test, stated that “This is a welcome recognition that facial recognition technology, especially as deployed by police, has been used to undermine human rights, and to harm Black people specifically, as well as Indigenous people and other People of Color”.
+</p>
+
+<p align="justify">
+    The most important part of any machine learning model is its data it learns from. If the data is not good, then no matter how robust the model is, or how well developed that architecture is, the model will not be generalizable. Many of the datasets that are used to train the facial recognition model have certain issue such as they are not indicative of all ethnicity and they do not include a fair equal distribution of people of different color[12]. If these problems persist when training the model it will be extremely difficult to create a model that will work for all people.
+</p>
+
+<p align="justify">
+    When this research was published, and with pressure from media, IBM withdrew their system from law enforcement. While this was a good thing to happen, IBM is not the sole provider of facial recognition systems. Amazon, Microsoft etc are also there to. But despite repeated and a plethora of research done on facial recognition systems and finding bias in many, most companies are not concerned with its social impacts, rather they focus on profit margins. Therefore, when many companies are not focusing on solving this issue which also leads to how the “Defining Requirement” step is not correctly or ethically implemented. When defining a requirement, software developers focus on what is purpose of the software and how it will be used. In IBM’s case, one of the requirement should have been understanding who will be using this software. The problem that stems from here is the fact that most software engineers are not people of color. “The most common ethnicity among Software
+    Engineers is White, which makes up 52.3% of all Software Engineers. Comparatively, there are 33.0% of the Asian ethnicity and 6.9% of the Hispanic or Latino ethnicity.”[13] We can see that there is not even a percentage given for black people. Because the people who are developing the software are not indicative of the people who the software will be used on, then the bias that persists within these developers will show up in their product. This is why, in the “Defining Requirements” step of the process we have to now ask ourselves who is defining these requirements and do these requirements uphold ethical standards.
+</p>
+
+<h4 class="section-heading">Invasion of Privacy: ClearView AI</h4>
+
+<p align="justify">
+    Another two steps in the SDLC process is “Design and Prototyping” and “Operations and Maintenance”. The “Design and Prototyping” stage of the process is one of the most important parts of the Software Development process. If there is a single flaw in the Architecture, User Interface, platforms used, programming language, communications, or security, the whole product can collapse and fixing it will take an extraordinary amount of money and time. There is much pressure that arises from this step, especially in start up companies. In order to get funding, many startups need to create some sort of prototype or first stage product that can show that their company has potential and they are worth spending money on. Due to this, ethics are often ignored in this process.[1] Therefore, when prottypes are made, ethical standards are not present in its development process. This can be seen clearly in the start up company ClearView AI.
+</p>
+
+<p align="justify">
+    ClearView AI is a company that developed a facial recognition software for law enforcement. They claim that their “solutions allow agencies to gain intelligence and disrupt crime by” and by doing so “keep our communities and families safer,”. It can take a single picture of person and return multiple other pictures of the person scattered across the web. CNN business recently conducted an interview with the CEO Hoan Ton-That’s. The interviewer had asked the CEO to test the product on his face to see how to software worked. Essentially, “ClearView AI works by scraping images from publicly available websites and social media, without consent, and sells access to the image database to law enforcement agencies and private companies who can use
+it as a facial recognition tool”[14]. Therefore, the software works by taking a single image of a person and then returning a set of images of the person found on the internet. When the interviewer uploaded his current image, being a grown adult, one of the images returned by the software included an image of him at 16 years old [15]. While it may seem that this is such a great software because it works so accurately, the way it was developed was extremely unethical.
+</p>
+
+<p align="justify">
+    This is an extreme invasion of privacy and dishonest as well. No where in the design and prototyping stage does it asks the developer to consider the ethical issues that can arise. Therefore, when the developers created this system, there was no rule or standard to stop them from developing this unethical software. This may seem harmless at first but we can think of a hypothetical situation where this can lead to adverse results. When police officers arrest us, there are still rules that are applied to us protect our individual rights.
+</p>
+
+<p align="justify">
+    But with this system, that idea disappears. But how can the law protect individual freedom in one case, but it does not apply to this case? Now most people may say, this is not ethical because it was derived from a local newspaper, free copyright is in effect and this should not be a problem because as long as you follow the law there should not be any adverse effects. Now let us say you are a black man who was wrongfully arrested. Let’s say that the newspaper takes photos of your arrest and your mugshot. Even if you are found to be innocent, your information is now on the web. And if a police officer uses ClearView AI to find a picture of you and the result is a mug shot, in their head, there is a bias that already forms. . . that he must be a suspect so he could be more guilty than innocent. This can lead to deadly results as we have seen countless times in the media. There is already research studies that show that people of color are unfairly treated by the police force. [16]
+</p>
+
+<p align="justify">
+    Since ClearView AI’s most prominent clientele are law enforcement, this software can lead to the same results we have already seen over and over again. This is where the lack of ethics in the “Operations and Maintenance” step comes in. Since no ethics came into play in the design step, there should be an ethical standard in the “Operations and Maintenance” stage to see if these standards are at least upheld in the real world. If it is not, then the
+    company will know to pull the product before it leads to worse results. There should be an additional ethical practices that should be implemented in this step to ensure that the product is still ethical being used. For this particular example, ClearView AI should conduct tests to see if the police force is using the software ethically and if there are any cases where racial disparities arise. However, the company needs to create this ethical standard in their developmental process for this to happen, otherwise again, the software developers are most likely not going to test for this.
+</p>
+
+<p align="justify">
+    Now with these examples shown, we can see how not having ethics is an issue in software development. Now the next question to ask is then, why do these ethical issues persist?
+</p>
+
+<h2 class="section-heading">WHY ETHICAL ISSUES PERSIST IN THE DEVELOPMENTAL PROCESS</h2>
+
+<h4 class="section-heading">The Standard is Not Enough: Association for Computing Machinery</h4>
+
+<p align="justify">
+    According to Jan Gogoll and their paper Ethics in the Software Development Process: from Codes of Conduct to Ethical Deliberation, people state that to implement ethics in software development we should create a code of conduct, a standard. The ACM provides a well-known Code of Conduct for Software Engineers by ACM [17]. Here are some rules that they have provided.
+</p>
+
+<ol>
+    <li>1.01. Accept full responsibility for their own work.</li>
+    <li>2.09 Promote no interest adverse to their employer or client, unless a higher ethical concern is being compromised; in that case, inform the employer or another appropriate authority of the ethical concern.</li>
+    <li>3.13 Be careful to use only accurate data derived by ethical and lawful means, and use it only in ways properly authorize.</li>
+  </ol> 
+
+<p align="justify">
+    There are many more rules than what I have listed here but I just wanted to highlight some of the language. We can see from this list, that language is vague. The first one is pretty good, but having more detail about what is someone’s work is important. If your name is on a GitHub Repository (a type of version control where multiple programmers can work on the same piece of software simultaneously without being physically present) and you made a
+    single commit for one line of code, are you responsible? I am not sure maybe it was an important line of code. The second one is a little concerning as it seems to protect companies rather than ethical practices, stating to promote not interest adverse to their employers unless a higher ethical concern comes into play. What exactly is higher ethical concern? Racist technology? Technology used in war? Who decides this? The third one talks about using only accurate data. What is accurate data? 90% confidence interval? An AOC of 95%? This shows that a code of ethics, while imperative is not a simple ethical algorithm.This is why even if we have a set of ethical standards, it may not be sufficient enough and that is why ethical deliberation is the most important factor in ethical development.
+</p>
+
+<p align="justify">
+    Before college, I lived in a town called Acton, not to far from here. And using one hand, I can count the number of black people I have ever seen in my high school. I never grew up sharing their same experience. Therefore, if one day I create a facial recognition software without understanding anything about its implications, chances are I am going to run into the same problem of having people of color not benign accurately represented in the facial recognition software. We are not inherently bad people, but we all of biases from how we grow up. This is our responsibility–to overcome these biases and integrate our enhanced ethical deliberation in to the development process. Companies also shoulder the responsibility of ethical issues and should encourage these practices in their developmental phase of the product. And lastly, research is absolutely necessary. Not just for the product itself, but of its implications.
+</p>
+
+<h4 class="section-heading">The Standard is Not Enough: Association for Computing Machinery</h4>
+
+<p align="justify">
+    Roblox is a video game company, specifically, it is a platform that allows young developers (7+) to develop video games. It is has turned into a huge corporation that has 47.3 million daily users [18]. Roblox has claimed to a be a child safe website–specifically using language that is “inviting” and “kid-friendly”, with color images and graphics. However, as the number of developers for Roblox specifically increase, the mindset of creating a child safe website decreases.
+</p>
+
+<p align="justify">
+    This is because after Roblox became huge and people realized they could make a good amount of money, they wanted to take these video games seriously and learn marketable skills and then leave Roblox and sell their video game elsewhere. This is because when someone creates a video game on the website, they take a huge percentage of the money that the user earned through their website. By taking their development somewhere else, they can get more money. This leads to Discord where the problems start to arise.
+</p>
+
+<p align="justify">
+    Discord is a VoIP, instant messaging and digital distribution platform. The developers, who are still kids, come to Discord and sign legal contracts, talk to people that are significantly older but have no idea who they are. Sometimes, the situation is even reversed where the kid is creating contracts for other kids to sign asking for money. Even though the discussions that happen here pertain to Roblox, Roblox does not monitor anything that goes on there. Therefore, if anybody has experience exploitation or unfair treatment they have no way of reporting it. When Roblox was asked about this, they said since it didn’t happen on their platform there was nothing they could do about it. There are more nefarious things that happened as well which we won’t delve deeper into, but looking at this issue, we can see when developers were creating Roblox and expanding it they did not think kids would suddenly become contracts, that they would take business to different platforms and therefore, never created a system or moderation to handle it. Now that it is on a bigger scale we can see that it is going to be harder to fix, and with the company valued at more than a billion dollars they are not concerned with its ethical practices and child labor exploitation’s as their companies grows with what it has.
+</p>
+
+<p align="justify">
+    Now that this has grown to be such a big corporation whose earnings are based off of this software, it is now extremely difficult to change the software and contain the damage that has now spread to other platforms that is not under their control. Due to this, it is easier for Roblox to “pass the blame” to other companies. There is also no rule or law to hold either Discord or Roblox accountable. Therefore, no consequences are formed thus no action is done to reverse these changes.
+</p>
+
+<p align="justify">
+    Although it may seem that having ethics may be an insurmountable task, I believe that including ethics in the very beginning of the developmental process can change stop these problems from happening and also efficiently deal with any problems that may arise in the future.
+</p>
+
+<h2 class="section-heading">SOLUTIONS</h2>
+
+<p align="justify">
+    With a substantially amount of evidence that points to dangerous consequences with lack of ethics in software development, a solution is vital. Rather, there should not be a single solution, but multiple solutions that covers all aspects of the software development process.
+</p>
+
+<h4 class="section-heading">Transparency in The ART principles for AI</h4>
+
+<p align="justify">
+    In the paper “Responsible Autonomy”, Virginia Dignum explains why its necessary to “integrate moral, societal and legal values with technological developments in AI, both during the design process as well as part of the deliberation algorithms employed by these systems”[19]. There are three important components that are highlighted which is Accountability, Responsibility, and transparency. These three components are fundamental to the developmental process for AI which I also claim in fundamental to the software developmental process as well.
+</p>
+
+<p align="justify">
+    Transparency requires “that sufficient information (described below) be published or documented before the design and deployment of an AI technology” as it will improve the system and quality. With this transparency we can also have tests that are also transparent “and of sufficient breadth to cover differences in the performance of the algorithm according to race, ethnicity, gender, age and other relevant human characteristics”[20].
+</p>
+
+<p align="justify">
+    However, this is not a commonplace component in the SDLC’s. For example, in the AGILE methodology, it “significantly reduce[s] the amount of documentation, and even claim that the code itself should act as a document. This causes developers who are accustomed to agile methods have a tendency to place more comments in the code as explanation and clarification”. This means that most developers are practiced nor develop with intent of transparency. Within the AGILE method, there is an impatience that is embedded within it which makes it harder to develop transparent products. In the case study involving IBM, who follow AGILE methodologies, they failed create a robust and diverse testing procedure. Most likely, there was little time to create this testing procedure with the
+    pressures of the AGILE method. Furthermore, IBM pulled out their product entirely, and have so far not made any improvements to their software. If there had been more documentation about the product itself it would have been easier to fix the software and deploy it again.
+</p>
+
+<p align="justify">
+    Accountability ensures that developers will take liability for the decisions they make in developing their product AI. Dignum specifically defines “accountability to be the explanation and justification of one’s decisions and one’s actions to the relevant stakeholders”. This way we can see that the accountability it not just referring to the system but the impact of that system on society in general. The way an AI product is made, with stakeholders and users involved, software development is no different. We can see how lack of accountability can create unethical products. We saw with ClearView AI, they created a product by completely disregarding the ethics of scraping for peoples images without their consent. There was no accountability when the developers created this software and nobody questioned whether they should have a made such a system.
+</p>
+
+<p align="justify">
+    Lastly, responsibility is another component that should also be added to SDLC. Responsibility should not be considered as a sole purpose, rather a chain. There are many other people connected to the software development process not just the developers themselves. Although this paper talks much improving SDLC via software engineering practices, there are still many people linked to the process before and after. If we take a look at PredPol, the case study we talked about before which created a software to help police canvas for crimes, there was a proven bias in their system as they missed the key fact that geography is proxy for race, who becomes accountable for that? Is it the machine learning engineers who did not take this fact into account when developing their algorithm? Is it the software engineers fault for developing the software without understanding the algorithm itself and how it could be biased? Are not the police who used the software also part of it? What about the project managers who were leading the team? Understanding who is responsible for what becomes vital because we can pinpoint the problem where it occurs, fix it, and not repeat the same problem in the future. If we do not have a structured responsibility factor we cannot find this problem, and it will
+continue to occur in other software products.
+</p>
+
+<h4 class="section-heading">Fixing An SDLC Methodology</h4>
+
+<p align="justify">
+    AGILE was one of the aforementioned methods that is commonly used in many companies today. However there is no ethical component that is part of it. Many people feel uncomfortable when talking about their ethical deliberations. Most people believe that they are trying to do the best they can. However, ethics is not something one is born with. It is a continuing practice. According to Browns ””
+</p>
+
+
+<p align="justify">
+    “Making good ethical decisions requires a trained sensitivity to ethical issues and a practiced method for exploring the ethical aspects of a decision and weighing the considerations that should impact our choice of a course of action. Having a method for ethical decision making is essential. When practiced regularly, the method becomes so familiar that we work through it automatically without consulting the specific steps,”[21]. This means that if one has something continuously to follow, one will improve upon it. Same goes for ethical practices.
+</p>
+
+<p align="justify">
+    This is why embedding ethical practices in SDLC’s will make better software products and software developers. And this is not difficult to introduce. In Niina Zuber paper Empowered and Embedded: Ethics and AGILE Processes, they give five reasons why we can and should embed ethics into the AGILE process: 1) agile methods are widely spread, 2) their emphasis on flat hierarchies promotes independent thinking, 3) their reliance on existing team structures serve as an incubator for deliberation, 4) agile development enhances object-focused techno-ethical realism, and, finally, 5) agile structures provide a salient endpoint to deliberation[5].Essentially Zuber has stated because this method is ubiquitous, flexibility for independent thinking, realistic thinking, and a salient endpoint, it is possible and easy to integrate ethics within the process [22].
+</p>
+
+<h4 class="section-heading">Taking a Stand is Vital: Data Science as Political Action</h4>
+
+<p align="justify">
+    In the paper “Data Science as Political Action: grounding Data science in a Politcs of Justice” by Ben Green, he claims we should see people in tech as political actors. Now when most people look at the term political actors they assume it refers to immersing ourselves in politics like specific parties,
+electoral debates etc. But this is not the case. I am talking about the broader impact: government, laws and its representatives. Whether we like to admit it or not politics is everywhere, a powerful force that has broad reach. It is why we must recognize themselves as political actors engaged in normative constructions of society and evaluate their work according to its downstream impacts on people’s lives.
+</p>
+
+<p align="justify">
+    However, there are some arguments that sometimes people present. And it is these three arguments I used to stand behind because I thought they were pretty logical and just. But each argument is actually dismissive to ethical practices.
+</p>
+
+<p align="justify">
+    First there is that “I am just an engineer trope”. Although engineers develop new tools, their work does not determine how a tool will be used. Therefore, it is common for [people in technologies] to argue that the impacts of technology are unknowable. However, political theorist Langdon Winner describes, “technological innovations are similar to legislative acts or political findings that establish a framework for public order that will endure over many generations” [9]. Therefore, even if you try to detach yourself from your work, you can’t. It is now embedded in society. Even though technology does not conform to conventional notions of politics, it often shapes society in much the same way as laws, elections, and judicial opinions.
+</p>
+
+<p align="justify">
+    The next trope is that we should not take political stances, and that staying as neutral as possible is the best way to go. Unfortunately, this society we live in is not neutral to everybody. Therefore, this is something that we have to be cognizant of. “nothing in science can be protected from cultural influence”. We may claim that neutrality means value-free, but what is means is that we have acquiesced to dominant social and political values.
+</p>
+
+<p align="justify">
+
+The third argument claims that its impossible to be neutral and We should not let the perfect be the enemy of the good. There are some cases were staying neutral can be impossible. But we need to ask ourselves what is perfect? What is good? Who decides that? That majority or the minority? The oppressed or the oppressor? We think to ourselves that of course the minority and the oppressed should have a say, but with this thinking we actually encourage oppression and segregation by continuing this practice of “good” because good is decided by those in power.
+</p>
+
+
+<h2 class="section-heading">CONCLUSION</h2>
+
+<p align="justify">
+    While this paper delves deep into fixing the ethical process of software development, it may not always be easy for specifically software developers to do this.
+</p>
+
+<p align="justify">
+    Dr. Timnit Gebru was an AI research at Google. She had been coauthoring on a paper outside of Google where she talked ethical issues raised by recent advances in AI technologies that works with language. However, this particle topic was something that Google had said it was important for the future of its business. Therefore, an internal review was taken place and Dr Gebru was told by her senior manager to take her name of the paper. She refused as she was never given an indication as to why. Dr. Gebru found of the next day that she had been resigned, that Google accepted her resignation and that she is was locked out of her corporate email[23]. Your actions have consequences. And it may seem, you getting fired from a job for standing up for what is right is a waste. We might also be in position where we can’t abide by ethical practices because we have families to feed, bills to pay, people to support. But if you are person where you know you are in a position of power, that you can safely stand up for ethical practices, it could be done.
+</p>
+
+<p align="justify">
+    However, it should not be solely developers who should be part of the solution but managers, CEO’s, companies, the Law, every part in the developmental process and before and afterwards should also include and actually follow through an ethical standard.
+</p>
+
+<p align="justify">
+    If I was in her position, even I would be struck with fear of losing my job and maybe even taken of my name from the paper. Dr. Gebru was not a person in power yet she stood up regardless. Although she was fired, she went on to create a company called Black in AI that “Black in AI increases the presence and inclusion of Black people in the field of AI by creating space for sharing ideas, fostering collaborations, mentorship and advocacy” a company more grounded in ethics. Your actions have consequences, and the more actions we have geared towards being ethical, we will create that set of standard for ethics that the technology world so desperately needs.
+</p>
+
+<h2 class="section-heading">REFERENCES</h2>
+
+<p>
+    [1] V. Vakkuri, K.-K. Kemell, M. Jantunen, and P. Abrahamsson, ““this is just a prototype”: How ethics are ignored in software startup-like environments,” in International Conference on AgileSoftwareDevelopment. Springer,Cham,2020,pp.195–210.
+</p>
+
+<p>
+    [2] A. J. Thomson and D. L. Schmoldt, “Ethics in computer software design and development,” Computers and Electronics in Agriculture, vol. 30, no. 1-3, pp. 85–102, 2001.
+</p>
+
+<p>
+    [3] Y. B. Leau, W. K. Loo, W. Y. Tham, and S. F. Tan, “Software development life cycle agile vs traditional approaches,” in International Conference on Information and Network Technology, vol. 37, no. 1, 2012, pp. 162–167.
+</p>
+
+<p>
+    [4] M. Mahalakshmi and M. Sundararajan, “Traditional sdlc vs scrum methodology–a comparative study,” International Journal of Emerging Technology and Advanced Engineering, vol. 3, no. 6, pp. 192–196, 2013.
+</p>
+
+<p>
+    [5] N. Zuber, S. Kacianka, J. Gogoll, A. Pretschner, and J. NidaRumelin, “Empowered and embedded: ethics and agile processes,” arXiv preprint arXiv:2107.07249, 2021.
+</p>
+
+<p>
+    [6] S. Al-Saqqa, S. Sawalha, and H. AbdelNabi, “Agile software development: Methodologies and trends.” International Journal of Interactive Mobile Technologies, vol. 14, no. 11, 2020.
+</p>
+
+<p>
+    [7] A. McNamara, J. Smith, and E. Murphy-Hill, “Does acm’s code of ethics change ethical decision making in software development?” in Proceedings of the 2018 26th ACM joint meeting on european software engineering conference and symposium on the foundations of software engineering, 2018, pp. 729–733.
+</p>
+
+<p>
+    [8] CJY, “Technology is not the solution to everything,” August 2012, [Online; posted 02-December-2018]. [Online]. Available: https://medium.datadriveninvestor.com/technology- is-not-the-solution-to-everything-4b1655a7f80e
+</p>
+
+
+<p>
+    [9] B. Green, “Data science as political action: grounding data science in a politics of justice,” Journal of Social Computing, vol. 2, no. 3, pp. 249–265, 2021.
+</p>
+
+<p>
+    [10] C. O’Neil, Weapons of Math Destruction. Harlow, England: Penguin Books, 2017.
+</p>
+
+<p>
+    [11] B. Allyn, “Ibm abandons facial recognition products, condemns racially biased surveillance,” April 2022, [Online; posted 09-June-2020]. [Online]. Available: https://www.npr.org/2020/06/09/873298837/ibm-abandons- facial-recognition-products-condemns-racially-biased- surveillance
+</p>
+
+<p>
+    [12] T. Simonite, “The best algorithms struggle to recognize black faces equally,” July 2019, [Online; posted 22-July- 2019]. [Online]. Available: https://www.wired.com/story/best- algorithms-struggle-recognize-black-faces-equally/
+</p>
+
+<p>
+    [13] Zippia, “Software engineer demographics and statistics in the us,” April 2022, [Online; posted 18-April-2022]. [Online]. Available: https://www.zippia.com/software-engineer- jobs/demographics/
+</p>
+
+<p>
+    [14] R. Hart, “Clearview ai — the facial recognition company embraced by u.s. law enforcement — just got hit with a barrage of privacy complaints in europe,” May 2021, [Online; posted 27-May- 2021]. [Online]. Available: https://www.wired.com/story/best- algorithms-struggle-recognize-black-faces-equally/
+</p>
+
+<p>
+    [15] D. O’Sullivan. Clearview ai’s founder hoan ton that speaks out [extended interview]. Youtube. [Online]. Available: https://www.youtube.com/watch?v=q- 1bR3P9RAwab channel=CNNBusiness
+</p>
+
+<p>
+    [16] K. L. Nadal and K. C. Davidoff, “Perceptions of police scale (pops): Measuring attitudes towards law enforcement and be- liefs about police bias,” Journal of Psychology and Behavioral Science, vol. 3, no. 2, pp. 1–9, 2015.
+</p>
+
+<p>
+    [17] D. Gotterbarn, K. Miller, and S. Rogerson, “Software engineering code of ethics,” Communications of the ACM, vol. 40, no. 11, pp. 110–118, 1997.
+</p>
+
+<p>
+    [18] P. M. Games. Roblox pressured us to delete our
+video. so we dug deeper. Youtube. [Online]. Available: https://www.youtube.com/watch?v=vTMF6xEiAaYt=674sab channel=People
+</p>
+
+<p>
+    [19] V. Dignum, “Responsible autonomy,” arXiv preprint arXiv:1706.02513, 2017.
+</p>
+
+<p>
+    [20] S. Swaminathan, “Ethics and governance of artificial intelligence for health,” June 2021, [Online; posted 28-June-2021]. [Online]. Available: https://www.who.int/publications/i/item/9789240029200
+</p>
+
+<p>
+
+[21] B. University. A framework for making ethical decisions. Brown University. [Online]. Available: https://www.brown.edu/academics/science- and-technology-studies/framework-making-ethical-decisions
+</p>
+
+<p>
+    [22] S. Umbrello and O. Gambelin, “Agile as a vehicle for values: A value sensitive design toolkit,” 2022.
+</p>
+
+<p>
+    [23] T. Simonite, “A prominent ai ethics researcher says google fired her,” December 2020, [Online; posted 03-December- 2020]. [Online]. Available: https://www.wired.com/story/best- algorithms-struggle-recognize-black-faces-equally/
+</p>
