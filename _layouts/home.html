@@ -34,71 +34,70 @@ layout: default
         {{ content }}
 
         <div class="clearfix" align="right">
-          <select name="language" id="choice">
-            <option value="Essays">Essays</option>
-            <option value="Travel">Travel</option>
-            <option value="Science">Science</option>
-            <option value="Paintings">Paintings</option>
-            <option value="LeetCode">LeetCode</option>
-            <option value="Blogs"selected>Blogs</option>
+          <select name="language" id="choice" onchange="updateCategory()">
+              <option value="All">All Categories</option>
+              <option value="Essays">Essays</option>
+              <option value="Travel">Travel</option>
+              <option value="Science">Science</option>
+              <option value="Paintings">Paintings</option>
+              <option value="LeetCode">LeetCode</option>
+              <option value="Blogs" selected>Blogs</option>
           </select>
-        </div>
+      </div>
 
-        <!-- <p> The value of the option selected is:
-          <span class="output"></span>
-      </p>
-   
-   
-      <button onclick="getOption()"> Check option </button>
-   
-      <script type="text/javascript">
-          function getOption() {
-              selectElement = 
-                    document.querySelector('#choice');
-              output = selectElement.value;
-              document.querySelector('.output').textContent = output;
-              if(output=="Blogs"){
-                return 'Blogs';
-              }
-              else if(output=="Travel"){
-                return 'Travel';
-              }
-              else{
-                return 'Here';
+        
+        <script>
+          function updateCategory() {
+              var selectedCategory = document.getElementById('choice').value;
+              filterPosts(selectedCategory);
+          }
+
+          function filterPosts(category) {
+              var allPosts = document.querySelectorAll('.post-preview');
+              allPosts.forEach(function(post) {
+                  post.style.display = 'none';
+              });
+
+              if (category === 'All') {
+                  allPosts.forEach(function(post) {
+                      post.style.display = 'block';
+                  });
+              } else {
+                  var selectedPosts = document.querySelectorAll('.post-preview.' + category);
+                  selectedPosts.forEach(function(post) {
+                      post.style.display = 'block';
+                  });
               }
           }
-      </script> -->
+        </script>
+
 
         <!-- Home Post List -->
-        
-        {% for post in site.posts%}
-        {% if post.category == 'Blog'%}
-        {% if post.type == output %}
-        <article class="post-preview">
-          <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
-            <h2 class="post-title">{{ post.title }}</h2>
-            {% if post.subtitle %}
-            <h3 class="post-subtitle">{{ post.subtitle }}</h3>
-            {% else %}
-            <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
-            {% endif %}
-          </a>
-          <p class="post-meta">Posted by
-            {% if post.author %}
-            {{ post.author }}
-            {% else %}
-            {{ site.author }}
-            {% endif %}
-            on
-            {{ post.date | date: '%B %d, %Y' }} &middot; {% include read_time.html content=post.content %}            
-          </p>
-        </article>
 
-        <hr>
-        {% endif %}
-
-        {% endif %}
-        {% endfor %}
+        {% for post in site.posts %}
+          {% if post.category == 'Blog' %}
+              <article class="post-preview {{ post.type }}">
+                  <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
+                      <h2 class="post-title">{{ post.title }}</h2>
+                      {% if post.subtitle %}
+                          <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+                      {% else %}
+                          <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
+                      {% endif %}
+                  </a>
+                  <p class="post-meta">
+                      Posted by
+                      {% if post.author %}
+                          {{ post.author }}
+                      {% else %}
+                          {{ site.author }}
+                      {% endif %}
+                      on {{ post.date | date: '%B %d, %Y' }}
+                      &middot; {% include read_time.html content=post.content %}
+                  </p>
+              </article>
+          {% endif %}
+      {% endfor %}
         <div class="clearfix" align="right">
           <a class="btn btn-primary justify-content-center" href="{{"/posts" | relative_url }}">View All Posts</a>
         </div>
