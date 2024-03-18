@@ -11,6 +11,20 @@ function expandImage(imgs, expandImg, imgtext) {
   expandImg.parentElement.style.display = "block";
 }
 
+function expandIframe(iframeSrc, expandIframe, iframeText) {
+  var expandIframeElem = document.getElementById("expandIframe");
+  var iframeTextElem = document.getElementById("iframeText");
+  
+  // Set the src attribute of the iframe
+  expandIframeElem.contentWindow.location.replace("https://drive.google.com/file/d/1pxX9zgJQVE787qtpP6rHCNb-TvDj59_b/preview");
+  
+  // Set the text related to the iframe
+  iframeTextElem.innerHTML = iframeText;
+
+  // Display the parent container of the iframe
+  expandIframeElem.parentElement.style.display = "block";
+}
+
 // var animationEnd = 'webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend';
 
 // class Random {
