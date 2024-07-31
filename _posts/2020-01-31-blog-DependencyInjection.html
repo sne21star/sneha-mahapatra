@@ -1,0 +1,389 @@
+---
+layout: post
+title: "Dependency Injection"
+date: 2020-01-31 10:45:13 -0400
+background: '/img/test4.gif'
+category: 'Blog'
+type: 'Technology'
+---
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+
+<divX >
+    <section class="effect effect-c" align="justify" style="display: grid; font-family: 'Yrsa', Times New Roman, serif;">
+      <h1 class="effect__heading">"I chooose a lazy person to do a hard job. Because a lazy person will find an easy way to do it."</h1>
+      <h2 class="effect__subheading">Bill Gates</h2>
+    </section>
+</divX>
+
+<h2 class="section-heading">Introduction</h2>
+
+<p align="justify">
+    To understand Dependency Injection it is important to understand Inversion of Control. Inversion of Control or IoC is a design principle which offloads
+    control of the creation / management of an object to an external resource. This definition seems convoluted but it is a simple concept. 
+</p>
+
+
+<p align="justify">
+    It is important to note that Inversion of Control is a principle, and therefore relies on a pattern to implement them. 
+    Let's use the <a href="https://www.geeksforgeeks.org/service-locator-pattern/">Service Locator Pattern</a> to implement IoC. 
+
+<h2 class="section-heading">Inversion Control</h2>
+
+<pre><code class="language-csharp">
+// Service Locator class
+public class ServiceLocator
+{
+    private static readonly Dictionary<Type, object> 
+        services = new Dictionary<Type, object>();
+
+    // Register a service
+    public static void RegisterService<T>(T service)
+    {
+        var type = typeof(T);
+        if (!services.ContainsKey(type))
+        {
+            services.Add(type, service);
+        }
+    }
+
+    // Get a service
+    public static T GetService<T>()
+    {
+        return (T)services[typeof(T)];
+    }
+}   
+</code></pre>
+
+    In the code above we have a simple <code>ServiceLocator</code> class. The class has a <code>service</code> member that keeps track of the type of services and the 
+    service object itself. It has <code>RegisterService</code> function that registers the class and a <code>GetService</code> function that gets a service. 
+    Let us say we are creating a Program and we need to log some information in our program. Lets create a Logger class. 
+
+<pre><code class="language-csharp">
+// Interface for logging service
+public interface ILogger
+{
+    void Log(string message);
+}
+
+// Implementation of the logging service
+public class ConsoleLogger : ILogger
+{
+    public void Log(string message)
+    {
+        Console.WriteLine($"Log: {message}");
+    }
+}
+</code></pre>
+    We have created two classes. One class is the <code>ILogger</code> class which is an <a href="https://docs.oracle.com/javase/tutorial/java/concepts/interface.html ">interface</a>. 
+    There is a function called  <code>Log</code> which takes a string message. 
+    This class is important as it serves as the template to what other logging classes might look like. 
+    Inheriting this class we have created a type of Logger Class called <code>ConsoleLogger</code>. 
+    Essentially this class takes the <code>Log</code> function, overrides it, 
+    and has the Console Loggers objects log any information to the console. Now comes our IoC. 
+<pre><code class="language-csharp">
+class Program
+{
+    static void Main(string[] args)
+    {
+        // Register the logging service with the Service Locator
+        ServiceLocator.RegisterService<ILogger>(new ConsoleLogger());
+
+        // Create and run the business process
+        BusinessProcess process = new BusinessProcess();
+        process.Process();
+    }
+}
+
+
+// Business class using the Service Locator
+public class BusinessProcess
+{
+    public void Process()
+    {
+        // Retrieve the logger from the service locator
+        ILogger logger = ServiceLocator.GetService<ILogger>();
+        logger.Log("Business process started");
+        
+        // Additional processing logic...
+        logger.Log("Business process completed");
+    }
+}
+</code></pre>
+
+    Here we have a <code>Program</code> class with our <code>Main</code> function. We register a <code>ConsoleLogger</code> service with type <code>ILogger</code>. 
+    Next we have a <code>BusinessProcess</code> class. It has function and it calls for the service <code>ILogger</code>. Note here that  <code>BusinessProcess</code> is not specifically
+    calling <code>ConsoleLogger</code>. It is asking for any type Logger, and takes whatever is given and Logs information. It does not care where its logging, 
+    how its logging, how the function works, it just wants to log some information, and will use whatever type of logger is there. 
+    
+</p>
+<p align="justify">
+    We could create different classes of Loggers such as an <code>EmailLogger</code>–which emails a log file to a certain person, or  <code>TextLogger</code>-which creates a text file
+    of the logs that has transpired. The <code>BusinessProcess</code> class does not care for how to the logging is done, rather it just wants the information to be
+    somehow logged. The <code>BusinessProcess</code> class has offloaded the creation / management of the object and handed it off to an extenral source-the <code>ServiceLocator</code> class. 
+    This is how the name came to be, it is an inversion of the application's flow to a framework. Instead of the logger class being created in the <code>BusinessProcess</code>
+    class, it was created in the  <code>Program</code> class first and then it was set aside while the <code>BusinessProcess</code> class was called, and then it was used after the creation of 
+    the <code>BusinessProcess</code>. It is not happening in step by step order, rather we have given control to the external sources. 
+
+<h2 class="section-heading">Dependency Injection</h2>
+
+<p align="justify">
+    Dependency Injection is a type of software design pattern, like how <code>ServiceLocator</code> is, that relies on IoC. Every class that implements Dependency Injection 
+    implements IoC. Dependency Injection is much more specific version of Ioc–instead of creating any kind of callback, we are looking at situation that where implementations
+    are passed into an object through 3 different types of injections: constructors, property, and method injections. (Note this works for C# but may not be the same for 
+    other languages like Java). Below is an implementation of the 3 different types of injections. 
+</p>
+
+
+
+<h2 class="section-heading">Construction Injection</h2>
+
+Construction Injection is exactly what is sounds like: we will dependency inject our dependency(object) through the constructor of our class.
+Below is the example we had used before. We have again <code>ILogger</code> and <code>Logger</code>.
+<pre><code class="language-csharp">
+    // Logger interface
+    public interface ILogger
+    {
+        void Log(string message);
+    }
+    
+    // ConsoleLogger implementation
+    public class ConsoleLogger : ILogger
+    {
+        public void Log(string message)
+        {
+            Console.WriteLine($"Log: {message}");
+        }
+    }
+</code></pre>
+
+However, the difference is in the <code>BusinessService</code> class. 
+
+<pre><code class="language-csharp">
+// Business class using constructor injection
+public class BusinessService
+{
+    private readonly ILogger _logger;
+
+    // Constructor Injection
+    public BusinessService(ILogger logger)
+    {
+        _logger = logger;
+    }
+
+    public void Process()
+    {
+        _logger.Log("Processing started...");
+        // Additional processing logic...
+        _logger.Log("Processing completed.");
+    }
+}
+
+// Usage
+class Program
+{
+    static void Main(string[] args)
+    {
+        ILogger logger = new ConsoleLogger();
+        BusinessService service = new BusinessService(logger);
+        service.Process();
+    }
+}
+</code></pre>
+
+Beforehand, we had used the <code>ServiceLocater</code> pattern which used a  <code>ServiceLocater</code>  object to add different services. 
+Now we are creating the <code>ConsoleLogger</code> object and injecting it into the logger. 
+The  <code>BusinessService</code> constructor has a parameter of <code>ILogger</code> logger and is not dependent on the type of the logger. 
+
+<h2 class="section-heading">Property Injection</h2>
+
+The difference in Property Injection is that instead of dependency injecting the Logger object through the constructor, we do it through 
+the property (or the member) of the class. 
+
+<pre><code class="language-csharp">
+    // Business class using property injection
+    public class BusinessServiceWithProperty
+    {
+        public ILogger Logger { get; set; } // Property Injection
+    
+        public void Process()
+        {
+            Logger?.Log("Processing started...");
+            // Additional processing logic...
+            Logger?.Log("Processing completed.");
+        }
+    }
+    
+    // Usage
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ILogger logger = new ConsoleLogger();
+            BusinessServiceWithProperty service = new BusinessServiceWithProperty
+            {
+                Logger = logger // Injecting dependency through property
+            };
+            service.Process();
+        }
+    }
+
+</code></pre>
+Here the logger object is created as type <code>ILogger</code>. It is then set in the <code>Program</code> class with the logger object instantiated in the <code>Program</code> class. 
+
+<h2 class="section-heading">Method Injection</h2>
+
+This is very similar to the Constructor Injection, after all a constructor is a special type of method. In this injection type we are Dependency
+injection into a method. 
+
+<pre><code class="language-csharp">
+// Business class using method injection
+public class BusinessServiceWithMethod
+{
+    public void Process(ILogger logger) // Method Injection
+    {
+        logger.Log("Processing started...");
+        // Additional processing logic...
+        logger.Log("Processing completed.");
+    }
+}
+
+// Usage
+class Program
+{
+    static void Main(string[] args)
+    {
+        ILogger logger = new ConsoleLogger();
+        BusinessServiceWithMethod service = new BusinessServiceWithMethod();
+        service.Process(logger); // Injecting dependency through method parameter
+    }
+}
+
+</code></pre>
+
+Here we have injected an <code>ILogger</code> object into a method called <code>Process</code>. 
+
+<h2 class="section-heading">Is this Dependency Injection?</h2>
+
+Now let's take a look at a certain example. 
+
+<pre><code class="language-csharp">
+    // Business class using method injection
+    public class BusinessServiceWithMethod
+    {
+        public void Process(ConsoleLogger logger) // Method Injection
+        {
+            logger.Log("Processing started...");
+            // Additional processing logic...
+            logger.Log("Processing completed.");
+        }
+    }
+    
+    // Usage
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            BusinessServiceWithMethod service = new BusinessServiceWithMethod();
+            service.Process(new ConsoleLogger()); // Injecting dependency through method parameter
+        }
+    }
+    
+</code></pre>
+
+<body>
+    <h5>Is the provided example above implementing Dependency Injection?</h5>
+    <button class="answer" onclick="checkAnswer(false)">Yes</button>
+    <button class="answer" onclick="checkAnswer(true)">No</button>
+    <div id="moreInfo"></div>
+</body>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Is the provided example above implementing Dependency Injection?</title>
+    <style>
+        .correct {
+            background-color: green;
+        }
+        .incorrect {
+            background-color: red;
+        }
+        #moreInfo {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+    <script>
+        let answered = false; // Flag to track if the question has been answered
+
+        function checkAnswer(isCorrect) {
+            if (answered) return; // Prevent further answers if already answered
+
+            answered = true; // Mark the question as answered
+
+            const buttons = document.querySelectorAll('.answer');
+            buttons.forEach(button => {
+                button.disabled = true; // Disable all buttons
+                button.classList.remove('correct', 'incorrect');
+            });
+
+            buttons.forEach(button => {
+                button.classList.remove('correct', 'incorrect');
+            });
+
+            const moreInfo = document.getElementById('moreInfo');
+
+            if (isCorrect) {
+                event.target.classList.add('correct');
+                moreInfo.innerHTML = 'Correct! While this may look similar to our method injection it is NOT dependency injection. It is important to note we are just passing a specific class to the <code>Process</code> method, not an interface or a base class. This means if we need to change the <code>Console Logger</code> type we have to go back and change the <code>BusinessServiceWithMethod</code> class.';
+            } else {
+                event.target.classList.add('incorrect');
+                moreInfo.innerHTML = 'Incorrect. While this may look similar to our method injection it is NOT dependency injection. It is important to note we are just passing a specific class to the <code>Process</code> method, not an interface or a base class. This means if we need to change the <code>Console Logger</code> type we have to go back and change the <code>BusinessServiceWithMethod</code> class.';
+            }
+
+            moreInfo.style.display = 'block';
+        }
+    </script>
+</head>
+
+
+<h2 class="section-heading">Key Concepts of IoC and Dependency Injection</h2>
+
+<p align="justify">
+
+After learning about IoC and Dependency Injection it is important to understand why it is important and why it is used. 
+There are many key ideas to the importance of IoC but it can be brought down to three points: 
+
+<ul>
+    <li>
+        <details>
+            <summary>Decoupling</summary>
+                IoC helps in reducing the tight coupling between classes by allowing an external entity to handle the creation and management of dependencies.
+        </details>
+    </li>
+    <li>
+        <details>
+            <summary>Flexibility</summary>
+            By separating the dependency configuration from the application logic, it becomes easier to switch out implementations and configure them differently for various environments (e.g., testing, production).
+        </details>
+    </li>
+    <li>
+        <details>
+            <summary>Maintainability</summary>
+            With IoC, code becomes easier to maintain because dependencies can be modified without changing the classes that use them.        
+        </details>
+    </li>
+
+</ul>
+
+</p>
+
+<h2 class="section-heading">WorkCited</h2>
+<ul>
+    <li><a href="https://stackoverflow.com/questions/6550700/inversion-of-control-vs-dependency-injection">Stackoverflow-Inversion of Control vs Dependency Injection</a></li>
+    <li><a href="https://stackoverflow.com/questions/3058/what-is-inversion-of-control">Stackoverflow-What is Inversion of Control?</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection">Micrsoft-.NET dependency injection</a></li>
+</ul>
