@@ -4,33 +4,98 @@ layout: default_about
 
 <!-- Page Header -->
 {% if page.background %}
-<header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
-  {% else %}
-  <header class="masthead" >
-    {% endif %}
-    <div class="overlay" ></div>
+<header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}'); background-color: #f4f4f4;">
+{% else %}
+<header class="masthead" style="background-color: #f4f4f4;">
+{% endif %}
+    <div class="overlay"></div>
     <div class="containerd">
-      <div class="row" >
-        <div class="col-lg-8 col-md-10 mx-auto" >
-          <div class="page-heading">
-            <h1>{{ page.title }}</h1>
-            {% if page.description %}
-            <span class="subheading">{{ page.description }}</span>
-            {% endif %}
-          </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="page-heading">
+                    <h1>{{ page.title }}</h1>
+                    {% if page.description %}
+                    <span class="subheading">{{ page.description }}</span>
+                    {% endif %}
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </header>
+</header>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-
-        {{ content }}
-
-      </div>
+<div class="content-area">
+    <div class="sidebar">
+      <div class="profile-pic">
+        <img src="https://sgu.ac.id/wp-content/uploads/2020/12/1_QHxBLzMK7rp_5ysw77uK3A.gif" alt="Profile Picture">
     </div>
-  </div>
+        <a href="https://www.linkedin.com/in/sneha-mahapatra/" target="_blank"> <i class="fab fa-linkedin"></i>&nbsp; LinkedIn </a>
+        <a href="https://github.com/sne21star" target="_blank"><i class="fab fa-github"></i>&nbsp;GitHub</a>
+        <a href="mailto:sne21pasas@gmail.com"><i class="fas fa-envelope"></i>&nbsp;Email</a>
+        <a href="https://www.instagram.com/snehas_tea_shop/" target="_blank"><i class="fab fa-instagram"></i>&nbsp;Instagram</a>
+        <a href="https://www.goodreads.com/review/list/179146826-sneha-mahapatra?shelf=read&utm_medium=api&utm_source=custom_widget" target="_blank"><i class="fab fa-goodreads"></i>&nbsp;GoodReads</a>
+        <a href="https://scholar.google.com/citations?user=Gj0zeswAAAAJ&hl=en" target="_blank"><i class="fas fa-graduation-cap"></i>&nbsp;Google Scholar</a>
+        <a href="" target="_blank"><i class="fas fa-map-marker-alt"></i>&nbsp;Boston, MA</a>
 
-  
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {{ content }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMUuA9nOW9LRB1e9D4KtO0cq5eegKmqKzM4/yyI" crossorigin="anonymous">
+<style>
+    .content-area {
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px; /* Adjust margin from masthead */
+    }
+    .sidebar {
+        width: 2in; /* Set margin to 2 inches */
+        background-color: white; /* Same background color as masthead */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 20px;
+        margin-left: 2cm; /* Add left margin of 2 cm */
+    }
+    .sidebar a {
+        display: flex;
+        align-items: center;
+        font-size: 17.5px; /* Adjust text size */
+        margin: 15px 0;
+        color: #555;
+        text-decoration: none;
+        transition: color 0.3s;
+
+    }
+    .sidebar i {
+        font-size: 46.5px; /* Increase icon size */
+        margin-right: 25px; /* Add space between icon and text */
+        margin-left: 25px; /* Add space between icon and text */
+    }
+    .sidebar a:hover {
+        color: #0077b5; /* Change color on hover */
+    }
+    .container {
+        flex-grow: 1;
+        padding: 20px;
+    }
+    .profile-pic {
+        width: 200px; /* Adjust width for ellipse */
+        height: 160px; /* Adjust height for ellipse */
+        border-radius: 110%; /* Makes the image elliptical */
+        overflow: hidden;
+        margin-bottom: 10px; /* Space below the image */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .profile-pic img {
+        width: 100%; /* Makes image cover the container */
+        height: auto;
+    }
+</style>

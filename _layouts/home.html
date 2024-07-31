@@ -5,212 +5,345 @@ layout: default
 <!-- Page Header -->
 {% if page.background %}
 <header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
-  {% else %}
-  <header class="masthead">
-    {% endif %}
+{% else %}
+<header class="masthead">
+{% endif %}
     <div class="overlay"></div>
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8 col-md-10 mx-auto">
-          <div class="page-heading">
-            <h1>{{ site.title }}</h1>
-            {% if site.description %}
-            <span class="subheading">{{ site.description }}</span>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  
-        <!-- Pager -->
-
-
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-md-10 mx-auto">
-
-        {{ content }}
-
-        <div class="clearfix" align="right">
-          <select name="language" id="choice" onchange="updateCategory()">
-              <option value="All" selected>All Categories</option>
-              <option value="Essays">Essays</option>
-              <option value="Travel">Travel</option>
-              <option value="Science">Science</option>
-              <option value="Paintings">Paintings</option>
-              <option value="Blogs">Blogs</option>
-                    <option value="Technology">Technology</option>
-          </select>
-      </div>
-
-        
-        <script>
-          function updateCategory() {
-              var selectedCategory = document.getElementById('choice').value;
-              filterPosts(selectedCategory);
-          }
-
-          function filterPosts(category) {
-              var allPosts = document.querySelectorAll('.post-preview');
-              allPosts.forEach(function(post) {
-                  post.style.display = 'none';
-              });
-
-              if (category === 'All') {
-                  allPosts.forEach(function(post) {
-                      post.style.display = 'block';
-                  });
-              } else {
-                  var selectedPosts = document.querySelectorAll('.post-preview.' + category);
-                  selectedPosts.forEach(function(post) {
-                      post.style.display = 'block';
-                  });
-              }
-          }
-        </script>
-
-
-        <!-- Home Post List -->
-
-        {% for post in site.posts %}
-          {% if post.category == 'Blog' %}
-              <article class="post-preview {{ post.type }}">
-                  <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
-                      <h2 class="post-title">{{ post.title }}</h2>
-                      {% if post.subtitle %}
-                          <h3 class="post-subtitle">{{ post.subtitle }}</h3>
-                      {% else %}
-                          <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
-                      {% endif %}
-                  </a>
-                  <p class="post-meta">
-                      Posted by
-                      {% if post.author %}
-                          {{ post.author }}
-                      {% else %}
-                          {{ site.author }}
-                      {% endif %}
-                      on {{ post.date | date: '%B %d, %Y' }}
-                      &middot; {% include read_time.html content=post.content %}
-                  </p>
-              </article>
-          {% endif %}
-      {% endfor %}
-        <div class="clearfix" align="right">
-          <a class="btn btn-primary justify-content-center" href="{{"/posts" | relative_url }}">View All Posts</a>
-        </div>
-        <!-- <bodyX>
-          <div class="containerX">
-            <div class="lava-lamp">
-              <div class="bubbles">
-              <div class="base"></div>
-              <div id="background-wrap">
-
-              <div class="bubble x1"></div>
-              <div class="bubble x2"></div>
-              <div class="bubble x3"></div>
-              <div class="bubble x4"></div>
-              <div class="bubble x5"></div>
-              <div class="bubble x6"></div>
-              <div class="bubble x7"></div>
-              <div class="bubble x8"></div>
-              <div class="bubble x9"></div>
-              <div class="bubble x10"></div>
-              </div>
-              </div>
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <div class="page-heading">
+                    <h1>{{ site.title }}</h1>
+                    {% if site.description %}
+                    <span class="subheading">{{ site.description }}</span>
+                    {% endif %}
+                </div>
             </div>
-          </div>
-        </bodyX> -->
-      </div>
+        </div>
     </div>
+</header>
+
+<div class="content-area">
+           <!-- Show static HTML/CSS as a placeholder in case js is not enabled - javascript include will override this if things work -->
+<!-- Show static HTML/CSS as a placeholder in case js is not enabled - javascript include will override this if things work -->
+<style type="text/css" media="screen">
+  .gr_custom_container_1722457171 {
+    /* customize your Goodreads widget container here*/
+    border: 5px solid #bd9671;
+    border-radius:10px;
+    padding: 10px 5px 10px 5px;
+    background-color: #add9ff;
+    color: #000000;
+    margin-left: 50px;
+
+  }
+  .gr_custom_header_1722457171 {
+    /* customize your Goodreads header here*/
+    border-bottom: 1px solid #bd9671;
+    width: 100%;
+    margin-bottom: 5px;
+    text-align: center;
+    font-size: 120%
+  }
+  .gr_custom_each_container_1722457171 {
+    /* customize each individual book container here */
+    width: 100%;
+    clear: both;
+    margin-bottom: 10px;
+    overflow: auto;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #aaa;
+  }
+  .gr_custom_book_container_1722457171 {
+    /* customize your book covers here */
+    overflow: hidden;
+    height: 160px;
+      float: left;
+      margin-right: 4px;
+      width: 98px;
+  }
+  .gr_custom_author_1722457171 {
+    /* customize your author names here */
+    font-size: 10px;
+  }
+  .gr_custom_tags_1722457171 {
+    /* customize your tags here */
+    font-size: 10px;
+    color: gray;
+  }
+  .gr_custom_rating_1722457171 {
+    /* customize your rating stars here */
+    float: right;
+  }
+</style>
+
+<div id="gr_custom_widget_1722457171">
+    <div class="gr_custom_container_1722457171">
+      <h2 class="gr_custom_header_1722457887">
+        <a style="text-decoration: none;" rel="nofollow" href="https://www.goodreads.com/review/list/179146826-sneha-mahapatra?shelf=read&amp;utm_medium=api&amp;utm_source=custom_widget">Sneha&#39;s Library 2024</a>
+        </h2>
+      <div class="gr_custom_each_container_1722457171">
+          <div class="gr_custom_book_container_1722457171">
+            <a title="101 Essays That Will Change The Way You Think" rel="nofollow" href="https://www.goodreads.com/review/show/6698441570?utm_medium=api&amp;utm_source=custom_widget"><img alt="101 Essays That Will Change The Way You Think" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1479346785l/32998876._SX98_.jpg" /></a>
+          </div>
+          <div class="gr_custom_rating_1722457171">
+            <span class=" staticStars notranslate" title="liked it"><img alt="liked it" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /></span>
+          </div>
+          <div class="gr_custom_title_1722457171">
+            <a rel="nofollow" href="https://www.goodreads.com/review/show/6698441570?utm_medium=api&amp;utm_source=custom_widget">101 Essays That Will Change The Way You Think</a>
+          </div>
+          <div class="gr_custom_author_1722457171">
+            by <a rel="nofollow" href="https://www.goodreads.com/author/show/7280364.Brianna_Wiest">Brianna Wiest</a>
+          </div>
+      </div>
+      <div class="gr_custom_each_container_1722457171">
+          <div class="gr_custom_book_container_1722457171">
+            <a title="Dracula" rel="nofollow" href="https://www.goodreads.com/review/show/6698436925?utm_medium=api&amp;utm_source=custom_widget"><img alt="Dracula" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1387151694l/17245._SY160_.jpg" /></a>
+          </div>
+          <div class="gr_custom_rating_1722457171">
+            <span class=" staticStars notranslate" title="really liked it"><img alt="really liked it" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /></span>
+          </div>
+          <div class="gr_custom_title_1722457171">
+            <a rel="nofollow" href="https://www.goodreads.com/review/show/6698436925?utm_medium=api&amp;utm_source=custom_widget">Dracula</a>
+          </div>
+          <div class="gr_custom_author_1722457171">
+            by <a rel="nofollow" href="https://www.goodreads.com/author/show/6988.Bram_Stoker">Bram Stoker</a>
+          </div>
+      </div>
+      <div class="gr_custom_each_container_1722457171">
+          <div class="gr_custom_book_container_1722457171">
+            <a title="The Fifth Season (The Broken Earth, #1)" rel="nofollow" href="https://www.goodreads.com/review/show/6698450464?utm_medium=api&amp;utm_source=custom_widget"><img alt="The Fifth Season" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1386803701l/19161852._SX98_.jpg" /></a>
+          </div>
+          <div class="gr_custom_rating_1722457171">
+            <span class=" staticStars notranslate" title="it was amazing"><img alt="it was amazing" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /></span>
+          </div>
+          <div class="gr_custom_title_1722457171">
+            <a rel="nofollow" href="https://www.goodreads.com/review/show/6698450464?utm_medium=api&amp;utm_source=custom_widget">The Fifth Season</a>
+          </div>
+          <div class="gr_custom_author_1722457171">
+            by <a rel="nofollow" href="https://www.goodreads.com/author/show/2917917.N_K_Jemisin">N.K. Jemisin</a>
+          </div>
+          <div class="gr_custom_tags_1722457171">
+            tagged:
+            fantasy
+          </div>
+      </div>
+      <div class="gr_custom_each_container_1722457171">
+          <div class="gr_custom_book_container_1722457171">
+            <a title="Fourth Wing (The Empyrean, #1)" rel="nofollow" href="https://www.goodreads.com/review/show/6698448996?utm_medium=api&amp;utm_source=custom_widget"><img alt="Fourth Wing" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1701980900l/61431922._SX98_.jpg" /></a>
+          </div>
+          <div class="gr_custom_rating_1722457171">
+            <span class=" staticStars notranslate" title="really liked it"><img alt="really liked it" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /></span>
+          </div>
+          <div class="gr_custom_title_1722457171">
+            <a rel="nofollow" href="https://www.goodreads.com/review/show/6698448996?utm_medium=api&amp;utm_source=custom_widget">Fourth Wing</a>
+          </div>
+          <div class="gr_custom_author_1722457171">
+            by <a rel="nofollow" href="https://www.goodreads.com/author/show/7539785.Rebecca_Yarros">Rebecca Yarros</a>
+          </div>
+      </div>
+      <div class="gr_custom_each_container_1722457171">
+          <div class="gr_custom_book_container_1722457171">
+            <a title="Iron Flame (The Empyrean, #2)" rel="nofollow" href="https://www.goodreads.com/review/show/6698448346?utm_medium=api&amp;utm_source=custom_widget"><img alt="Iron Flame" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1706724269l/90202302._SX98_.jpg" /></a>
+          </div>
+          <div class="gr_custom_rating_1722457171">
+            <span class=" staticStars notranslate" title="really liked it"><img alt="really liked it" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /></span>
+          </div>
+          <div class="gr_custom_title_1722457171">
+            <a rel="nofollow" href="https://www.goodreads.com/review/show/6698448346?utm_medium=api&amp;utm_source=custom_widget">Iron Flame</a>
+          </div>
+          <div class="gr_custom_author_1722457171">
+            by <a rel="nofollow" href="https://www.goodreads.com/author/show/7539785.Rebecca_Yarros">Rebecca Yarros</a>
+          </div>
+      </div>
+      <div class="gr_custom_each_container_1722457171">
+          <div class="gr_custom_book_container_1722457171">
+            <a title="King Nyx" rel="nofollow" href="https://www.goodreads.com/review/show/6698446362?utm_medium=api&amp;utm_source=custom_widget"><img alt="King Nyx" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1685993825l/150778897._SX98_.jpg" /></a>
+          </div>
+          <div class="gr_custom_rating_1722457171">
+            <span class=" staticStars notranslate" title="really liked it"><img alt="really liked it" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /></span>
+          </div>
+          <div class="gr_custom_title_1722457171">
+            <a rel="nofollow" href="https://www.goodreads.com/review/show/6698446362?utm_medium=api&amp;utm_source=custom_widget">King Nyx</a>
+          </div>
+          <div class="gr_custom_author_1722457171">
+            by <a rel="nofollow" href="https://www.goodreads.com/author/show/173906.Kirsten_Bakis">Kirsten Bakis</a>
+          </div>
+      </div>
+      <div class="gr_custom_each_container_1722457171">
+          <div class="gr_custom_book_container_1722457171">
+            <a title="The Lost Bookshop" rel="nofollow" href="https://www.goodreads.com/review/show/6698438692?utm_medium=api&amp;utm_source=custom_widget"><img alt="The Lost Bookshop" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1721406796l/65137920._SX98_.jpg" /></a>
+          </div>
+          <div class="gr_custom_rating_1722457171">
+            <span class=" staticStars notranslate" title="it was amazing"><img alt="it was amazing" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /></span>
+          </div>
+          <div class="gr_custom_title_1722457171">
+            <a rel="nofollow" href="https://www.goodreads.com/review/show/6698438692?utm_medium=api&amp;utm_source=custom_widget">The Lost Bookshop</a>
+          </div>
+          <div class="gr_custom_author_1722457171">
+            by <a rel="nofollow" href="https://www.goodreads.com/author/show/37272748.Evie_Woods">Evie  Woods</a>
+          </div>
+          <div class="gr_custom_tags_1722457171">
+            tagged:
+            romance and historical-fiction
+          </div>
+      </div>
+      <div class="gr_custom_each_container_1722457171">
+          <div class="gr_custom_book_container_1722457171">
+            <a title="The Phoenix King (The Ravence Trilogy, #1)" rel="nofollow" href="https://www.goodreads.com/review/show/6698447731?utm_medium=api&amp;utm_source=custom_widget"><img alt="The Phoenix King" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1669882165l/63325346._SX98_.jpg" /></a>
+          </div>
+          <div class="gr_custom_rating_1722457171">
+            <span class=" staticStars notranslate" title="really liked it"><img alt="really liked it" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /></span>
+          </div>
+          <div class="gr_custom_title_1722457171">
+            <a rel="nofollow" href="https://www.goodreads.com/review/show/6698447731?utm_medium=api&amp;utm_source=custom_widget">The Phoenix King</a>
+          </div>
+          <div class="gr_custom_author_1722457171">
+            by <a rel="nofollow" href="https://www.goodreads.com/author/show/21243479.Aparna_Verma">Aparna Verma</a>
+          </div>
+      </div>
+      <div class="gr_custom_each_container_1722457171">
+          <div class="gr_custom_book_container_1722457171">
+            <a title="West With Giraffes" rel="nofollow" href="https://www.goodreads.com/review/show/6651911919?utm_medium=api&amp;utm_source=custom_widget"><img alt="West With Giraffes" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1609183326l/56449476._SX98_.jpg" /></a>
+          </div>
+          <div class="gr_custom_rating_1722457171">
+            <span class=" staticStars notranslate" title="it was amazing"><img alt="it was amazing" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_active.png" /></span>
+          </div>
+          <div class="gr_custom_title_1722457171">
+            <a rel="nofollow" href="https://www.goodreads.com/review/show/6651911919?utm_medium=api&amp;utm_source=custom_widget">West With Giraffes</a>
+          </div>
+          <div class="gr_custom_author_1722457171">
+            by <a rel="nofollow" href="https://www.goodreads.com/author/show/867854.Lynda_Rutledge">Lynda Rutledge</a>
+          </div>
+      </div>
+  <br style="clear: both"/>
+  <center>
+    <a rel="nofollow" href="https://www.goodreads.com/"><img alt="goodreads.com" style="border:0" src="https://s.gr-assets.com/images/widget/widget_logo.gif" /></a>
+  </center>
+  <noscript>
+    Share <a rel="nofollow" href="https://www.goodreads.com/">book reviews</a> and ratings with Sneha, and even join a <a rel="nofollow" href="https://www.goodreads.com/group">book club</a> on Goodreads.
+  </noscript>
   </div>
 
-  <!-- <label for="selectTag">Select Tag:</label>
-<select id="selectTag" onchange="showHideTags()">
-    <option value="paragraph">Paragraph</option>
-    <option value="div">Div</option>
-    <option value="span">Span</option>
-</select>
+      </div>
+      <script src="https://www.goodreads.com/review/custom_widget/179146826.Sneha's%20bookshelf:%20read?cover_position=left&cover_size=medium&num_books=50&order=a&shelf=read&show_author=1&show_cover=1&show_rating=1&show_review=0&show_tags=1&show_title=1&sort=title&widget_bg_color=add9ff&widget_bg_transparent=&widget_border_width=1&widget_id=1722457171&widget_text_color=000000&widget_title_size=medium&widget_width=full" type="text/javascript" charset="utf-8"></script>
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {{ content }}
+                <div class="clearfix" align="right">
+                    <select name="language" id="choice" onchange="updateCategory()">
+                        <option value="All" selected>All Categories</option>
+                        <option value="Essays">Essays</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Science">Science</option>
+                        <option value="Paintings">Paintings</option>
+                        <option value="Blogs">Blogs</option>
+                        <option value="Technology">Technology</option>
+                    </select>
+                </div>
+                <script>
+                    function updateCategory() {
+                        var selectedCategory = document.getElementById('choice').value;
+                        filterPosts(selectedCategory);
+                    }
 
-<p class="paragraph">This is a paragraph.</p>
-<div class="div hidden">This is a div.</div>
-<span class="span hidden">This is a span.</span>
+                    function filterPosts(category) {
+                        var allPosts = document.querySelectorAll('.post-preview');
+                        allPosts.forEach(function(post) {
+                            post.style.display = 'none';
+                        });
 
-<script>
-    function showHideTags() {
-        var selectElement = document.getElementById('selectTag');
-        var selectedTag = selectElement.value;
+                        if (category === 'All') {
+                            allPosts.forEach(function(post) {
+                                post.style.display = 'block';
+                            });
+                        } else {
+                            var selectedPosts = document.querySelectorAll('.post-preview.' + category);
+                            selectedPosts.forEach(function(post) {
+                                post.style.display = 'block';
+                            });
+                        }
+                    }
+                </script>
+                <!-- Home Post List -->
+                {% for post in site.posts %}
+                {% if post.category == 'Blog' %}
+                    <article class="post-preview {{ post.type }}">
+                        <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
+                            <h2 class="post-title">{{ post.title }}</h2>
+                            {% if post.subtitle %}
+                                <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+                            {% else %}
+                                <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
+                            {% endif %}
+                        </a>
+                        <p class="post-meta">
+                            Posted by
+                            {% if post.author %}
+                                {{ post.author }}
+                            {% else %}
+                                {{ site.author }}
+                            {% endif %}
+                            on {{ post.date | date: '%B %d, %Y' }}
+                            &middot; {% include read_time.html content=post.content %}
+                        </p>
+                    </article>
+                {% endif %}
+                {% endfor %}
+                <div class="clearfix" align="right">
+                    <a class="btn btn-primary justify-content-center" href="{{"/posts" | relative_url }}">View All Posts</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-        // Hide all tags
-        var allTags = document.querySelectorAll('.paragraph, .div, .span');
-        allTags.forEach(function(tag) {
-            tag.classList.add('hidden');
-        });
-
-        // Show the selected tag
-        var selectedTagElement = document.querySelector('.' + selectedTag);
-        if (selectedTagElement) {
-            selectedTagElement.classList.remove('hidden');
-        }
-    }
-</script> -->
-
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMUuA9nOW9LRB1e9D4KtO0cq5eegKmqKzM4/yyI" crossorigin="anonymous">
 <style>
-.bodyX {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  background-color: #111;
-  color: white;
-}
-
-.containerX {
-  position: relative;
-  text-align: center;
-}
-
-.lava-lamp {
-  position: relative;
-  width: 400px; /* Adjust the width as needed */
-  height: 100px; /* Adjust the height as needed */
-}
-
-.base {
-  width: 260px; /* Adjust the width as needed */
-  height: 60px; /* Adjust the height as needed */
-  background-color: #222;
-  position: absolute;
-  bottom: 0px; /* Adjust the bottom position as needed */
-  left: 50%;
-  transform: translateX(-50%);
-  border-radius: 0 0 50% 50%;
-
-}
-
-
-
-@keyframes bubbleAnimation {
-  0% {
-    transform: translateY(0);
-  }
-  100% {
-    transform: translateY(-40px); /* Adjust the translateY as needed */
-  }
-}
-
-h1, p {
-  z-index: 1;
-}
-
-
-.hidden {
-            display: none;
-        }
-
+    .content-area {
+        display: flex;
+        flex-direction: row;
+        margin-top: 20px; /* Adjust margin from masthead */
+    }
+    .sidebar {
+        width: 2cm; /* Set margin to 2 cm */
+        background-color: #f4f4f4; /* Same background color as masthead */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        padding-left: 2cm; /* Added left padding for space */
+    }
+    .profile-pic {
+        width: 120px; /* Adjust width for ellipse */
+        height: 80px; /* Adjust height for ellipse */
+        border-radius: 50%; /* Makes the image elliptical */
+        overflow: hidden;
+        margin-bottom: 20px; /* Space below the image */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .profile-pic img {
+        width: 100%; /* Makes image cover the container */
+        height: auto;
+    }
+    .social-link {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+        text-decoration: none;
+        color: #333;
+        font-size: 1em; /* Adjust font size */
+    }
+    .social-link i {
+        font-size: 2em; /* Adjust icon size */
+        margin-right: 10px; /* Space between icon and text */
+    }
+    .container {
+        flex-grow: 1;
+        padding: 20px;
+    }
 </style>
