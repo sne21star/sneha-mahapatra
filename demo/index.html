@@ -226,10 +226,24 @@
     via <code>three.js</code>, so it works on GitHub Pages.
   </p>
 
-  <!-- three.js -->
+  <!-- three.js: import map lets add-ons resolve the bare "three" specifier -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+      }
+    }
+  </script>
   <script type="module">
-    import * as THREE from "https://unpkg.com/three@0.160.0/build/three.module.js";
-    import { OrbitControls } from "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js";
+    import * as THREE from "three";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
+    window.addEventListener("error", (e) => {
+      const w = document.getElementById("canvas-wrap");
+      if (w) w.insertAdjacentHTML("beforeend",
+        `<div style="position:absolute;inset:0;display:grid;place-items:center;color:#93a0b8;font:14px Inter,sans-serif;text-align:center;padding:20px">3D failed to load:<br>${e.message}</div>`);
+    });
 
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const canvas = document.getElementById("scene");

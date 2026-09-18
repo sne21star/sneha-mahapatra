@@ -4,9 +4,9 @@ layout: default_about
 
 <!-- Page Header -->
 {% if page.background %}
-<header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}'); background-color: #f4f4f4;">
+<header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}'); background-color: #0a0f1c;">
 {% else %}
-<header class="masthead" style="background-color: #f4f4f4;">
+<header class="masthead" style="background-color: #0a0f1c;">
 {% endif %}
     <div class="overlay"></div>
     <div class="containerd">
@@ -55,11 +55,14 @@ layout: default_about
     }
     .sidebar {
         width: 2in; /* Set margin to 2 inches */
-        background-color: white; /* Same background color as masthead */
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.10);
+        border-radius: 16px;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         padding-top: 20px;
+        padding-bottom: 10px;
         margin-left: 2cm; /* Add left margin of 2 cm */
     }
     .sidebar a {
@@ -67,7 +70,7 @@ layout: default_about
         align-items: center;
         font-size: 17.5px; /* Adjust text size */
         margin: 15px 0;
-        color: #555;
+        color: #93a0b8;
         text-decoration: none;
         transition: color 0.3s;
 
@@ -78,7 +81,7 @@ layout: default_about
         margin-left: 25px; /* Add space between icon and text */
     }
     .sidebar a:hover {
-        color: #0077b5; /* Change color on hover */
+        color: #5eead4; /* Change color on hover */
     }
     .container {
         flex-grow: 1;

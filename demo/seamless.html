@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Seamless Scroll — Apple-style</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#05070d; --text:#e8ecf5; --muted:#93a0b8; --accent:#5eead4; --accent-2:#7c8cff;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:var(--bg);color:var(--text);font-family:"Inter",system-ui,sans-serif;line-height:1.6;overflow-x:hidden;}
+    h1,h2,h3{font-family:"Space Grotesk",sans-serif;letter-spacing:-1px;}
+    a{color:inherit;text-decoration:none;}
+
+    /* scroll progress bar */
+    #progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:100;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 0 12px var(--accent);}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;justify-content:space-between;
+      align-items:center;padding:16px clamp(20px,6vw,60px);font-family:"Space Grotesk",sans-serif;
+      backdrop-filter:blur(8px);background:linear-gradient(to bottom,rgba(5,7,13,.7),transparent);}
+    nav .brand{font-weight:700;} nav .brand span{color:var(--accent);}
+    nav .hint{color:var(--muted);font-size:.8rem;}
+
+    /* ===== The pinned stage: stays fixed while the story scrolls ===== */
+    .story{position:relative;}
+    .stage{position:sticky;top:0;height:100vh;overflow:hidden;}
+    #scene{position:absolute;inset:0;width:100%;height:100%;}
+
+    /* chapter text overlays, stacked & crossfaded by scroll progress */
+    .chapters{position:absolute;inset:0;pointer-events:none;}
+    .chapter{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+      padding:0 clamp(24px,8vw,120px);opacity:0;transform:translateY(30px);will-change:opacity,transform;}
+    .chapter.right{align-items:flex-end;text-align:right;}
+    .chapter .kicker{color:var(--accent);font-size:.85rem;letter-spacing:3px;text-transform:uppercase;margin-bottom:14px;}
+    .chapter h2{font-size:clamp(2rem,6vw,4.2rem);line-height:1.02;max-width:14ch;}
+    .chapter h2 .grad{background:linear-gradient(120deg,var(--accent),var(--accent-2));
+      -webkit-background-clip:text;background-clip:text;color:transparent;}
+    .chapter p{color:var(--muted);font-size:clamp(1rem,1.6vw,1.25rem);max-width:40ch;margin-top:18px;}
+
+    /* the scroll spacers that give the story its length (1 per chapter) */
+    .spacer{height:100vh;}
+
+    /* normal content after the pinned story */
+    .after{max-width:900px;margin:0 auto;padding:120px clamp(20px,6vw,60px);text-align:center;}
+    .after h3{font-size:clamp(1.6rem,4vw,2.6rem);margin-bottom:16px;}
+    .after p{color:var(--muted);}
+    code{color:var(--accent);background:rgba(255,255,255,.05);padding:2px 7px;border-radius:6px;font-size:.85em;}
+    .scroll-cue{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:60;color:var(--muted);
+      font-size:.78rem;letter-spacing:2px;text-transform:uppercase;animation:bob 1.8s ease-in-out infinite;}
+    @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0);opacity:.6;}50%{transform:translateX(-50%) translateY(6px);opacity:1;}}
+  </style>
+</head>
+<body>
+  <div id="progress"></div>
+  <nav>
+    <div class="brand">SM<span>.</span></div>
+    <div class="hint">scroll ↓</div>
+  </nav>
+
+  <!-- ================= PINNED SCROLL STORY ================= -->
+  <div class="story" id="story">
+    <div class="stage">
+      <canvas id="scene"></canvas>
+      <div class="chapters" id="chapters">
+        <div class="chapter">
+          <div class="kicker">Sneha Mahapatra</div>
+          <h2>I build things that <span class="grad">think.</span></h2>
+          <p>Scroll to move through the work — the object reacts to you.</p>
+        </div>
+        <div class="chapter right">
+          <div class="kicker">Engineering</div>
+          <h2>Full-stack <span class="grad">systems.</span></h2>
+          <p>Backend services, web &amp; desktop apps, shipped end to end.</p>
+        </div>
+        <div class="chapter">
+          <div class="kicker">Machine Learning</div>
+          <h2>Models that <span class="grad">understand.</span></h2>
+          <p>Real-time ASL translation, BioNLP research, data pipelines.</p>
+        </div>
+        <div class="chapter right">
+          <div class="kicker">Now</div>
+          <h2>Software Engineer <span class="grad">@ Microsoft.</span></h2>
+          <p>Experiences &amp; Devices — building for millions.</p>
+        </div>
+      </div>
+    </div>
+    <!-- one spacer per chapter defines total scroll length -->
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+    <div class="spacer"></div>
+  </div>
+
+  <!-- ================= REGULAR CONTENT AFTER ================= -->
+  <div class="after">
+    <h3>…and then your normal page continues.</h3>
+    <p>This is the <code>Apple-style</code> seamless scroll: a pinned scene that scrubs through
+    chapters as you scroll, then releases into the rest of the site. Nothing live has changed.</p>
+  </div>
+
+  <div class="scroll-cue">scroll</div>
+
+  <script type="importmap">
+    { "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+    } }
+  </script>
+  <script type="module">
+    import * as THREE from "three";
+    import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
+    import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
+    import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
+
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canvas = document.getElementById("scene");
+    const story = document.getElementById("story");
+    const chapters = [...document.querySelectorAll(".chapter")];
+    const progressBar = document.getElementById("progress");
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    camera.position.set(0,0,6);
+
+    // hero object
+    const group = new THREE.Group(); scene.add(group);
+    const baseGeo = new THREE.IcosahedronGeometry(1.5, 1);
+    const inner = new THREE.Mesh(baseGeo.clone(),
+      new THREE.MeshStandardMaterial({ color:0x0b1220, roughness:.3, metalness:.85, flatShading:true }));
+    const wire = new THREE.LineSegments(new THREE.WireframeGeometry(baseGeo),
+      new THREE.LineBasicMaterial({ color:0x5eead4, transparent:true, opacity:.85 }));
+    const pts = new THREE.Points(baseGeo, new THREE.PointsMaterial({ color:0x7c8cff, size:.06 }));
+    group.add(inner, wire, pts);
+
+    // particles
+    const pc=400, pg=new THREE.BufferGeometry(), pa=new Float32Array(pc*3);
+    for(let i=0;i<pc*3;i++) pa[i]=(THREE.MathUtils.randFloatSpread(20));
+    pg.setAttribute("position", new THREE.BufferAttribute(pa,3));
+    const dust=new THREE.Points(pg,new THREE.PointsMaterial({color:0x93a0b8,size:.03,transparent:true,opacity:.6}));
+    scene.add(dust);
+
+    scene.add(new THREE.AmbientLight(0x404060,1.2));
+    const key=new THREE.PointLight(0x5eead4,40,30); key.position.set(4,3,5); scene.add(key);
+    const rim=new THREE.PointLight(0x7c8cff,30,30); rim.position.set(-5,-2,3); scene.add(rim);
+
+    const composer=new EffectComposer(renderer);
+    composer.addPass(new RenderPass(scene,camera));
+    const bloom=new UnrealBloomPass(new THREE.Vector2(1,1),0.7,0.6,0.2);
+    composer.addPass(bloom);
+
+    function resize(){
+      const w=canvas.clientWidth,h=canvas.clientHeight;
+      renderer.setSize(w,h,false); composer.setSize(w,h);
+      camera.aspect=w/h; camera.updateProjectionMatrix();
+    }
+    addEventListener("resize",resize); resize();
+
+    // ---- Keyframes: what the object looks like at each chapter (0..1) ----
+    // seamless because we LERP continuously between them by scroll progress
+    const KEYS = [
+      { rotY:0.0, rotX:0.0,  scale:1.0, camZ:6.0, color:0x5eead4, x:0.0 },
+      { rotY:2.2, rotX:0.4,  scale:0.8, camZ:5.2, color:0x7c8cff, x:-1.4 },
+      { rotY:4.4, rotX:-0.5, scale:1.25,camZ:4.6, color:0x8b5cf6, x:1.3 },
+      { rotY:6.6, rotX:0.2,  scale:1.0, camZ:6.5, color:0x5eead4, x:0.0 },
+    ];
+    const cA=new THREE.Color(), cB=new THREE.Color(), cCur=new THREE.Color(0x5eead4);
+
+    // current (damped) state for buttery motion
+    const state={rotY:0,rotX:0,scale:1,camZ:6,x:0};
+    let targetP=0, curP=0;
+
+    function sampleKeys(t){
+      const seg=(KEYS.length-1);
+      const f=Math.max(0,Math.min(1,t))*seg;
+      const i=Math.min(Math.floor(f),seg-1);
+      const k=f-i, a=KEYS[i], b=KEYS[i+1];
+      const lerp=(x,y)=>x+(y-x)*k;
+      cA.setHex(a.color); cB.setHex(b.color);
+      return {
+        rotY:lerp(a.rotY,b.rotY), rotX:lerp(a.rotX,b.rotX),
+        scale:lerp(a.scale,b.scale), camZ:lerp(a.camZ,b.camZ), x:lerp(a.x,b.x),
+        color:cA.clone().lerp(cB,k)
+      };
+    }
+
+    function onScroll(){
+      const rect=story.getBoundingClientRect();
+      const total=story.offsetHeight - innerHeight;
+      targetP = Math.max(0, Math.min(1, (-rect.top)/total));
+      progressBar.style.width=(targetP*100)+"%";
+      // chapter text crossfade (each chapter centered on its band)
+      const seg=1/chapters.length;
+      chapters.forEach((c,i)=>{
+        const center=(i+0.5)*seg;
+        const d=Math.abs(targetP-center)/(seg*0.75);
+        const o=Math.max(0,1-d);
+        c.style.opacity=o.toFixed(3);
+        c.style.transform=`translateY(${(1-o)*30}px)`;
+      });
+    }
+    addEventListener("scroll",onScroll,{passive:true}); onScroll();
+
+    const clock=new THREE.Clock();
+    function animate(){
+      requestAnimationFrame(animate);
+      // damp scroll progress → seamless, no jitter
+      curP += (targetP-curP)*0.08;
+      const s=sampleKeys(curP);
+      // damp each property toward sampled target
+      state.rotY+=(s.rotY-state.rotY)*0.1;
+      state.rotX+=(s.rotX-state.rotX)*0.1;
+      state.scale+=(s.scale-state.scale)*0.1;
+      state.camZ+=(s.camZ-state.camZ)*0.1;
+      state.x+=(s.x-state.x)*0.1;
+      cCur.lerp(s.color,0.1);
+
+      group.rotation.y=state.rotY + (reduced?0:clock.elapsedTime*0.15);
+      group.rotation.x=state.rotX;
+      group.scale.setScalar(state.scale);
+      group.position.x=state.x;
+      wire.material.color.copy(cCur);
+      inner.material.emissive?.copy(cCur).multiplyScalar(0.05);
+      camera.position.z=state.camZ;
+      dust.rotation.y=clock.elapsedTime*0.02;
+
+      composer.render();
+    }
+    animate();
+
+    addEventListener("error",e=>{
+      document.body.insertAdjacentHTML("beforeend",
+        `<div style="position:fixed;inset:0;display:grid;place-items:center;color:#93a0b8;font:14px Inter;text-align:center;padding:20px">3D failed to load:<br>${e.message}</div>`);
+    });
+  </script>
+</body>
+</html>

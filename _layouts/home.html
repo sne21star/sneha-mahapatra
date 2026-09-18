@@ -2,286 +2,163 @@
 layout: default
 ---
 
-<!-- Page Header -->
-{% if page.background %}
-<header class="masthead" style="background-image: url('{{ page.background | prepend: site.baseurl | replace: '//', '/' }}')">
-{% else %}
-<header class="masthead">
-{% endif %}
-    <div class="overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="page-heading">
-                    <h1>{{ site.title }}</h1>
-                    {% if site.description %}
-                    <span class="subheading">{{ site.description }}</span>
-                    {% endif %}
+<!-- ================= SEAMLESS 3D SCROLL HERO ================= -->
+<div class="home-hero">
+    <div class="hero-progress"></div>
+    <div class="story" id="home-story">
+        <div class="stage">
+            <canvas id="hero-canvas"></canvas>
+            <div class="chapters">
+                <div class="chapter">
+                    <div class="kicker">{{ site.title }}</div>
+                    <h2>I build things that <span class="grad">think.</span></h2>
+                    <p>{{ site.description }}</p>
+                </div>
+                <div class="chapter right">
+                    <div class="kicker">Engineering</div>
+                    <h2>Full-stack <span class="grad">systems.</span></h2>
+                    <p>Backend services, web &amp; desktop apps, shipped end to end.</p>
+                </div>
+                <div class="chapter">
+                    <div class="kicker">Machine Learning</div>
+                    <h2>Models that <span class="grad">understand.</span></h2>
+                    <p>Real-time ASL translation, BioNLP research, data pipelines.</p>
+                </div>
+                <div class="chapter right">
+                    <div class="kicker">Now</div>
+                    <h2>Software Engineer <span class="grad">@ Microsoft.</span></h2>
+                    <p>Experiences &amp; Devices &mdash; building for millions.</p>
                 </div>
             </div>
         </div>
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+        <div class="spacer"></div>
+        <div class="spacer"></div>
     </div>
-</header>
-
-<div class="content-area">
-          <!-- Show static HTML/CSS as a placeholder in case js is not enabled - javascript include will override this if things work -->
-          <style type="text/css" media="screen">
-            .gr_custom_container_1745201747 {
-              /* customize your Goodreads widget container here*/
-              border: 7px solid  #683205;
-              border-radius:10px;
-              padding: 10px 5px 10px 5px;
-              background-color: #d2cabf;
-              color: #000000;
-              margin-left: 50px;
-              width: 300px
-              
-            }
-            .gr_custom_header_1745201747 {
-              /* customize your Goodreads header here*/
-              border-bottom: 1px solid gray;
-              width: 100%;
-              margin-bottom: 5px;
-              text-align: center;
-              font-size: 120%
-            }
-            .gr_custom_each_container_1745201747 {
-              /* customize each individual book container here */
-              width: 100%;
-              clear: both;
-              margin-bottom: 10px;
-              overflow: auto;
-              padding-bottom: 4px;
-              border-bottom: 1px solid #aaa;
-            }
-            .gr_custom_book_container_1745201747 {
-              /* customize your book covers here */
-              overflow: hidden;
-              height: 160px;
-                float: left;
-                margin-right: 4px;
-                width: 98px;
-            }
-            .gr_custom_author_1745201747 {
-              /* customize your author names here */
-              font-size: 10px;
-            }
-            .gr_custom_tags_1745201747 {
-              /* customize your tags here */
-              font-size: 10px;
-              color: gray;
-            }
-            .gr_custom_rating_1745201747 {
-              /* customize your rating stars here */
-              float: right;
-            }
-          </style>
-          
-                <div id="gr_custom_widget_1745201747">
-                    <div class="gr_custom_container_1745201747">
-              <h2 class="gr_custom_header_1745201747">
-              <a style="text-decoration: none;" rel="nofollow" href="https://www.goodreads.com/review/list/179146826-sneha-mahapatra?shelf=currently-reading&amp;utm_medium=api&amp;utm_source=custom_widget">Sneha&#39;s bookshelf: currently-reading</a>
-              </h2>
-                <div class="gr_custom_each_container_1745201747">
-                    <div class="gr_custom_book_container_1745201747">
-                      <a title="Give Her Credit: The Untold Account of a Women's Bank That Empowered a Generation" rel="nofollow" href="https://www.goodreads.com/review/show/7295041130?utm_medium=api&amp;utm_source=custom_widget"><img alt="Give Her Credit: The Untold Account of a Women's Bank That Empowered a Generation" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1718926645l/210670920._SX98_.jpg" /></a>
-                    </div>
-                    <div class="gr_custom_rating_1745201747">
-                      <span class=" staticStars notranslate"><img src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /></span>
-                    </div>
-                    <div class="gr_custom_title_1745201747">
-                      <a rel="nofollow" href="https://www.goodreads.com/review/show/7295041130?utm_medium=api&amp;utm_source=custom_widget">Give Her Credit: The Untold Account of a Women's Bank That Empowered a Generation</a>
-                    </div>
-                    <div class="gr_custom_author_1745201747">
-                      by <a rel="nofollow" href="https://www.goodreads.com/author/show/14406880.Grace_L_Williams">Grace L. Williams</a>
-                    </div>
-                    <div class="gr_custom_tags_1745201747">
-                      tagged:
-                      currently-reading
-                    </div>
-                </div>
-                <div class="gr_custom_each_container_1745201747">
-                    <div class="gr_custom_book_container_1745201747">
-                      <a title="Source Code: My Beginnings" rel="nofollow" href="https://www.goodreads.com/review/show/7297694708?utm_medium=api&amp;utm_source=custom_widget"><img alt="Source Code: My Beginnings" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1719004398l/213034913._SX98_.jpg" /></a>
-                    </div>
-                    <div class="gr_custom_rating_1745201747">
-                      <span class=" staticStars notranslate"><img src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /></span>
-                    </div>
-                    <div class="gr_custom_title_1745201747">
-                      <a rel="nofollow" href="https://www.goodreads.com/review/show/7297694708?utm_medium=api&amp;utm_source=custom_widget">Source Code: My Beginnings</a>
-                    </div>
-                    <div class="gr_custom_author_1745201747">
-                      by <a rel="nofollow" href="https://www.goodreads.com/author/show/23470.Bill_Gates">Bill  Gates</a>
-                    </div>
-                    <div class="gr_custom_tags_1745201747">
-                      tagged:
-                      currently-reading and biography
-                    </div>
-                </div>
-                <div class="gr_custom_each_container_1745201747">
-                    <div class="gr_custom_book_container_1745201747">
-                      <a title="This Is How You Lose the Time War" rel="nofollow" href="https://www.goodreads.com/review/show/7505077480?utm_medium=api&amp;utm_source=custom_widget"><img alt="This Is How You Lose the Time War" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1653185078l/43352954._SX98_.jpg" /></a>
-                    </div>
-                    <div class="gr_custom_rating_1745201747">
-                      <span class=" staticStars notranslate"><img src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /></span>
-                    </div>
-                    <div class="gr_custom_title_1745201747">
-                      <a rel="nofollow" href="https://www.goodreads.com/review/show/7505077480?utm_medium=api&amp;utm_source=custom_widget">This Is How You Lose the Time War</a>
-                    </div>
-                    <div class="gr_custom_author_1745201747">
-                      by <a rel="nofollow" href="https://www.goodreads.com/author/show/4175512.Amal_El_Mohtar">Amal El-Mohtar</a>
-                    </div>
-                    <div class="gr_custom_tags_1745201747">
-                      tagged:
-                      currently-reading and fantasy
-                    </div>
-                </div>
-                <div class="gr_custom_each_container_1745201747">
-                    <div class="gr_custom_book_container_1745201747">
-                      <a title="Dracula's Child" rel="nofollow" href="https://www.goodreads.com/review/show/7505078552?utm_medium=api&amp;utm_source=custom_widget"><img alt="Dracula's Child" border="0" src="https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1570436361l/49991647._SX98_SY160_.jpg" /></a>
-                    </div>
-                    <div class="gr_custom_rating_1745201747">
-                      <span class=" staticStars notranslate"><img src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /><img alt="" src="https://s.gr-assets.com/images/layout/gr_red_star_inactive.png" /></span>
-                    </div>
-                    <div class="gr_custom_title_1745201747">
-                      <a rel="nofollow" href="https://www.goodreads.com/review/show/7505078552?utm_medium=api&amp;utm_source=custom_widget">Dracula's Child</a>
-                    </div>
-                    <div class="gr_custom_author_1745201747">
-                      by <a rel="nofollow" href="https://www.goodreads.com/author/show/19422958.J_S_Barnes">J.S. Barnes</a>
-                    </div>
-                    <div class="gr_custom_tags_1745201747">
-                      tagged:
-                      currently-reading
-                    </div>
-                </div>
-            <br style="clear: both"/>
-            <center>
-              <a rel="nofollow" href="https://www.goodreads.com/"><img alt="goodreads.com" style="border:0" src="https://s.gr-assets.com/images/widget/widget_logo.gif" /></a>
-            </center>
-            <noscript>
-              Share <a rel="nofollow" href="https://www.goodreads.com/">book reviews</a> and ratings with Sneha, and even join a <a rel="nofollow" href="https://www.goodreads.com/group">book club</a> on Goodreads.
-            </noscript>
-            </div>
-          
-                </div>
-                <script src="https://www.goodreads.com/review/custom_widget/179146826.Sneha's%20bookshelf:%20currently-reading?cover_position=left&cover_size=medium&num_books=5&order=a&shelf=currently-reading&show_author=1&show_cover=1&show_rating=1&show_review=1&show_tags=1&show_title=1&sort=date_added&widget_bg_color=FFFFFF&widget_bg_transparent=&widget_border_width=1&widget_id=1745201747&widget_text_color=000000&widget_title_size=medium&widget_width=full" type="text/javascript" charset="utf-8"></script>
-    <!-- Main Content -->
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                {{ content }}
-                <div class="clearfix" align="right">
-                    <select name="language" id="choice" onchange="updateCategory()">
-                        <option value="All" selected>All Categories</option>
-                        <option value="Essays">Essays</option>
-                        <option value="Travel">Travel</option>
-                        <option value="Science">Science</option>
-                        <option value="Paintings">Paintings</option>
-                        <option value="Blogs">Blogs</option>
-                        <option value="Technology">Technology</option>
-                    </select>
-                </div>
-                <script>
-                    function updateCategory() {
-                        var selectedCategory = document.getElementById('choice').value;
-                        filterPosts(selectedCategory);
-                    }
-
-                    function filterPosts(category) {
-                        var allPosts = document.querySelectorAll('.post-preview');
-                        allPosts.forEach(function(post) {
-                            post.style.display = 'none';
-                        });
-
-                        if (category === 'All') {
-                            allPosts.forEach(function(post) {
-                                post.style.display = 'block';
-                            });
-                        } else {
-                            var selectedPosts = document.querySelectorAll('.post-preview.' + category);
-                            selectedPosts.forEach(function(post) {
-                                post.style.display = 'block';
-                            });
-                        }
-                    }
-                </script>
-                <!-- Home Post List -->
-                {% for post in site.posts %}
-                {% if post.category == 'Blog' %}
-                    <article class="post-preview {{ post.type }}">
-                        <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
-                            <h2 class="post-title">{{ post.title }}</h2>
-                            {% if post.subtitle %}
-                                <h3 class="post-subtitle">{{ post.subtitle }}</h3>
-                            {% else %}
-                                <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
-                            {% endif %}
-                        </a>
-                        <p class="post-meta">
-                            Posted by
-                            {% if post.author %}
-                                {{ post.author }}
-                            {% else %}
-                                {{ site.author }}
-                            {% endif %}
-                            on {{ post.date | date: '%B %d, %Y' }}
-                            &middot; {% include read_time.html content=post.content %}
-                        </p>
-                    </article>
-                {% endif %}
-                {% endfor %}
-                <div class="clearfix" align="right">
-                    <a class="btn btn-primary justify-content-center" href="{{"/posts" | relative_url }}">View All Posts</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="scroll-cue">scroll</div>
 </div>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMUuA9nOW9LRB1e9D4KtO0cq5eegKmqKzM4/yyI" crossorigin="anonymous">
-<style>
-    .content-area {
-        display: flex;
-        flex-direction: row;
-        margin-top: 20px; /* Adjust margin from masthead */
+{{ content }}
+
+<!-- ================= BLOG FEED ================= -->
+<section class="home-section">
+    <span class="eyebrow">Writing</span>
+    <h2>From the blog</h2>
+    <p class="sub">Essays, travel, science, art and technology &mdash; filter by what you like.</p>
+
+    <div class="filter-bar" id="filter-bar">
+        <button class="active" data-cat="All">All</button>
+        <button data-cat="Essays">Essays</button>
+        <button data-cat="Travel">Travel</button>
+        <button data-cat="Science">Science</button>
+        <button data-cat="Paintings">Paintings</button>
+        <button data-cat="Blogs">Blogs</button>
+        <button data-cat="Technology">Technology</button>
+    </div>
+
+    <div id="feed">
+        {% for post in site.posts %}
+        {% if post.category == 'Blog' %}
+        <article class="post-preview reveal {{ post.type }}" data-cat="{{ post.type }}">
+            <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
+                <h2 class="post-title">{{ post.title }}</h2>
+                {% if post.subtitle %}
+                <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+                {% else %}
+                <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
+                {% endif %}
+            </a>
+            <p class="post-meta">
+                Posted by
+                {% if post.author %}{{ post.author }}{% else %}{{ site.author }}{% endif %}
+                on {{ post.date | date: '%B %d, %Y' }}
+                &middot; {% include read_time.html content=post.content %}
+            </p>
+        </article>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+    <div id="feed-sentinel"></div>
+
+    <div class="clearfix" align="right" style="margin-top:10px;">
+        <a class="btn btn-primary" href="{{ "/posts" | relative_url }}">View All Posts</a>
+    </div>
+</section>
+
+<!-- ================= CURRENTLY READING ================= -->
+<section class="home-section">
+    <span class="eyebrow">Bookshelf</span>
+    <h2>Currently reading</h2>
+    <p class="sub">A live look at what's on my nightstand, straight from Goodreads.</p>
+    <div class="reading-block">
+        <div id="gr_custom_widget_1745201747">
+            <noscript>
+                Share <a rel="nofollow" href="https://www.goodreads.com/">book reviews</a> and ratings with Sneha
+                on <a rel="nofollow" href="https://www.goodreads.com/review/list/179146826-sneha-mahapatra?shelf=currently-reading">Goodreads</a>.
+            </noscript>
+        </div>
+        <script src="https://www.goodreads.com/review/custom_widget/179146826.Sneha's%20bookshelf:%20currently-reading?cover_position=left&cover_size=medium&num_books=5&order=a&shelf=currently-reading&show_author=1&show_cover=1&show_rating=1&show_review=1&show_tags=1&show_title=1&sort=date_added&widget_bg_color=FFFFFF&widget_bg_transparent=&widget_border_width=1&widget_id=1745201747&widget_text_color=000000&widget_title_size=medium&widget_width=full" type="text/javascript" charset="utf-8"></script>
+    </div>
+</section>
+
+<!-- ================= 3D scene deps ================= -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module" src="{{ "/assets/hero.js" | relative_url }}"></script>
+
+<!-- ================= feed: category filter + infinite reveal ================= -->
+<script>
+(function () {
+    var BATCH = 6;
+    var posts = [].slice.call(document.querySelectorAll('#feed .post-preview'));
+    var buttons = [].slice.call(document.querySelectorAll('#filter-bar button'));
+    var sentinel = document.getElementById('feed-sentinel');
+    var cat = 'All';
+    var shown = 0;
+
+    function matches(p) { return cat === 'All' || p.getAttribute('data-cat') === cat; }
+    function filtered() { return posts.filter(matches); }
+
+    function reveal(n) {
+        var list = filtered();
+        var end = Math.min(shown + n, list.length);
+        for (var i = shown; i < end; i++) {
+            list[i].style.display = 'block';
+            requestAnimationFrame(function (el) { return function () { el.classList.add('in'); }; }(list[i]));
+        }
+        shown = end;
+        sentinel.textContent = shown >= list.length ? '' : 'Loading more…';
     }
-    .sidebar {
-        width: 2cm; /* Set margin to 2 cm */
-        background-color: #f4f4f4; /* Same background color as masthead */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding-top: 20px;
-        padding-left: 2cm; /* Added left padding for space */
+
+    function resetFeed() {
+        posts.forEach(function (p) { p.style.display = 'none'; p.classList.remove('in'); });
+        shown = 0;
+        reveal(BATCH);
     }
-    .profile-pic {
-        width: 120px; /* Adjust width for ellipse */
-        height: 80px; /* Adjust height for ellipse */
-        border-radius: 50%; /* Makes the image elliptical */
-        overflow: hidden;
-        margin-bottom: 20px; /* Space below the image */
-        display: flex;
-        align-items: center;
-        justify-content: center;
+
+    buttons.forEach(function (b) {
+        b.addEventListener('click', function () {
+            buttons.forEach(function (x) { x.classList.remove('active'); });
+            b.classList.add('active');
+            cat = b.getAttribute('data-cat');
+            resetFeed();
+        });
+    });
+
+    if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) reveal(BATCH);
+        }, { rootMargin: '200px' }).observe(sentinel);
     }
-    .profile-pic img {
-        width: 100%; /* Makes image cover the container */
-        height: auto;
-    }
-    .social-link {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-        text-decoration: none;
-        color: #333;
-        font-size: 1em; /* Adjust font size */
-    }
-    .social-link i {
-        font-size: 2em; /* Adjust icon size */
-        margin-right: 10px; /* Space between icon and text */
-    }
-    .container {
-        flex-grow: 1;
-        padding: 20px;
-    }
-</style>
+
+    resetFeed();
+})();
+</script>
