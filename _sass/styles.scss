@@ -813,9 +813,15 @@ body.universe-page.panel-open { overflow: hidden; }
 }
 .panel-back:hover { border-color: var(--accent); color: var(--accent); }
 
-/* corner planet orb (CSS) */
+/* corner planet orb (CSS) — flies in from screen centre */
 .corner-orb {
   width: 66px; height: 66px; border-radius: 50%; flex: 0 0 auto; position: relative;
+  transition: transform 0.72s cubic-bezier(0.22, 0.61, 0.17, 1);
+  will-change: transform; z-index: 5;
+}
+.corner-orb.no-anim { transition: none; }
+.orb-spin {
+  position: absolute; inset: 0; border-radius: 50%;
   background:
     radial-gradient(circle at 32% 28%, var(--orb-hi, #fff) 0%, transparent 22%),
     radial-gradient(circle at 68% 72%, var(--orb-b, #7c8cff) 0%, var(--orb-a, #5eead4) 70%);
@@ -831,6 +837,11 @@ body.universe-page.panel-open { overflow: hidden; }
 .panel-title .kick { color: var(--muted); font-size: 0.72rem; letter-spacing: 2px; text-transform: uppercase; }
 .panel-title h2 { font-family: var(--font-head); font-size: clamp(1.4rem, 3.5vw, 2.2rem); margin: 2px 0 0; }
 
+/* hide the page + heading until the planet finishes flying to the corner */
+.panel-title, .panel-body { transition: opacity 0.45s ease; }
+#planet-panel.landing .panel-title,
+#planet-panel.landing .panel-body { opacity: 0; }
+
 .panel-body {
   max-width: 820px; margin: 0 auto; padding: 10px clamp(20px, 5vw, 40px) 120px;
 }
@@ -840,7 +851,8 @@ body.universe-page.panel-open { overflow: hidden; }
 #panel-sentinel { height: 60px; display: grid; place-items: center; color: var(--muted); font-size: 0.85rem; }
 
 @media (prefers-reduced-motion: reduce) {
-  .corner-orb, .uni-hint { animation: none; }
+  .orb-spin, .uni-hint { animation: none; }
+  .corner-orb { transition: none; }
 }
 
 

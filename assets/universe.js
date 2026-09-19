@@ -252,10 +252,10 @@ if (canvas) {
     controls.autoRotate = false;
     followTarget = sec._mesh;
     if (sec.link) {                       // Earth: zoom in first, then open its page
-      setTimeout(() => { window.location.href = BASE + sec.path; }, 1250);
+      setTimeout(() => { window.location.href = BASE + sec.path; }, 1300);
       return;
     }
-    setTimeout(() => openPanel(sec), 420);
+    setTimeout(() => openPanel(sec), 780); // let the camera zoom into the planet first
   }
 
   /* ---------- Panel ---------- */
@@ -265,41 +265,70 @@ if (canvas) {
   const panelTitle = document.getElementById("panel-heading");
   const panelBody = document.getElementById("panel-body");
 
-  function openPanel(sec) {
-    // Show the panel FIRST so nothing below can prevent it from appearing.
-    document.body.classList.add("panel-open");
-    panel.classList.add("open");
-    panel.scrollTop = 0;
-    panelKick.textContent = sec.kick;
-    panelTitle.textContent = sec.name;
-    panelBody.innerHTML = '<div class="feed-loading"><span class="feed-spinner"></span>Loading…</div>';
+  function setOrbTheme(sec) {
     orbEl.style.setProperty("--orb-hi", sec.orb[0]);
     orbEl.style.setProperty("--orb-a", sec.orb[1]);
     orbEl.style.setProperty("--orb-b", sec.orb[2]);
     orbEl.style.setProperty("--orb-glow", sec.orb[3]);
+  }
 
+  // FLIP: start the orb big at screen centre (the planet we just zoomed into),
+  // then animate it down to its docked corner position.
+  function flyOrbToCorner() {
+    if (reduced) { orbEl.style.transform = "none"; return; }
+    orbEl.classList.add("no-anim");
+    orbEl.style.transform = "none";
+    const r = orbEl.getBoundingClientRect();
+    const dx = innerWidth / 2 - (r.left + r.width / 2);
+    const dy = innerHeight / 2 - (r.top + r.height / 2);
+    const scale = Math.max(6, (Math.min(innerWidth, innerHeight) * 0.42) / r.width);
+    orbEl.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+    void orbEl.offsetWidth;               // force reflow so the start frame sticks
+    orbEl.classList.remove("no-anim");
+    requestAnimationFrame(() => { orbEl.style.transform = "none"; });
+  }
+
+  function loadContent(sec) {
     if (sec.id === "blog") {
-      const tpl = document.getElementById("tpl-blog");
-      panelBody.innerHTML = tpl.innerHTML;
+      panelBody.innerHTML = document.getElementById("tpl-blog").innerHTML;
       initBlogInfinite(panelBody);
-    } else {
-      fetch(BASE + sec.path).then((r) => r.text()).then((html) => {
-        const doc = new DOMParser().parseFromString(html, "text/html");
-        const content = doc.querySelector(".page-content");
-        panelBody.innerHTML = content ? content.innerHTML : '<p>Could not load this section.</p>';
-        panelBody.querySelectorAll("script").forEach((s) => {
-          const n = document.createElement("script");
-          if (s.src) n.src = s.src; else n.textContent = s.textContent;
-          s.replaceWith(n);
-        });
-      }).catch(() => {
-        panelBody.innerHTML = `<p>Couldn't load this section. <a href="${BASE + sec.path}">Open the full page →</a></p>`;
-      });
+      return;
     }
+    fetch(BASE + sec.path).then((r) => r.text()).then((html) => {
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      const content = doc.querySelector(".page-content");
+      panelBody.innerHTML = content ? content.innerHTML : '<p>Could not load this section.</p>';
+      panelBody.querySelectorAll("script").forEach((s) => {
+        const n = document.createElement("script");
+        if (s.src) n.src = s.src; else n.textContent = s.textContent;
+        s.replaceWith(n);
+      });
+    }).catch(() => {
+      panelBody.innerHTML = `<p>Couldn't load this section. <a href="${BASE + sec.path}">Open the full page →</a></p>`;
+    });
+  }
+
+  function openPanel(sec) {
+    // Reveal the panel first, keep its content hidden until the orb lands.
+    document.body.classList.add("panel-open");
+    panel.classList.add("open", "landing");
+    panel.scrollTop = 0;
+    panelKick.textContent = sec.kick;
+    panelTitle.textContent = sec.name;
+    panelBody.innerHTML = '<div class="feed-loading"><span class="feed-spinner"></span>Loading…</div>';
+    setOrbTheme(sec);
+
+    flyOrbToCorner();
+    loadContent(sec);
+    setTimeout(() => panel.classList.remove("landing"), reduced ? 0 : 760);
   }
 
   function closePanel() {
-    panel.classList.remove("open");
+    panel.classList.remove("open", "landing");
+    orbEl.classList.add("no-anim");
+    orbEl.style.transform = "none";
+    void orbEl.offsetWidth;
+    orbEl.classList.remove("no-anim");
     document.body.classList.remove("panel-open");
     followTarget = null;
     controls.target.set(0, 0, 0);
@@ -349,17 +378,19 @@ if (canvas) {
     starField.rotation.y += speed * 0.004;
 
     SECTIONS.forEach((s) => {
+      if (followTarget) return;           // freeze orbits while focusing a planet
       s._angle += speed * s.speed * 0.35;
       s._pivot.rotation.y = s._angle;
       s._mesh.rotation.y += speed * s.spin * 20;
     });
 
     if (followTarget) {
+      followTarget.rotation.y += speed * 0.25;   // keep the focused planet spinning
       const wp = new THREE.Vector3(); followTarget.getWorldPosition(wp);
-      controls.target.lerp(wp, 0.09);
+      controls.target.lerp(wp, 0.12);
       const sz = followTarget.userData.size;
-      const desired = wp.clone().add(new THREE.Vector3(0, sz * 2.4 + 3, sz * 4.5 + 7));
-      camera.position.lerp(desired, 0.06);
+      const desired = wp.clone().add(new THREE.Vector3(0, sz * 0.7, sz * 2.6)); // zoom in close
+      camera.position.lerp(desired, 0.12);
     }
     planetMeshes.forEach((m) => m.scale.setScalar(m === hovered ? 1.22 : 1 + (m.scale.x - 1) * 0.8));
 
