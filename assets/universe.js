@@ -259,8 +259,15 @@ if (canvas) {
       return;
     }
     loadContent(sec);                     // fetch while the camera zooms in
-    setTimeout(() => dockAndReveal(sec), 820); // zoom in, then dock to the corner
+    if (reduced) { snapDock(sec); return; }
+    setTimeout(coverIn, 950);             // planet has filled the screen -> wipe to opaque
+    setTimeout(() => snapDock(sec), 1450); // behind the cover, snap it into the corner + reveal page
+    setTimeout(coverOut, 1560);           // fade the cover away, page + corner planet revealed
   }
+
+  const cover = document.getElementById("warp-cover");
+  const coverIn = () => cover.classList.add("show");
+  const coverOut = () => cover.classList.remove("show");
 
   /* ---------- Panel ---------- */
   const panel = document.getElementById("planet-panel");
@@ -291,27 +298,40 @@ if (canvas) {
     });
   }
 
-  // The page is already sitting under the full-screen canvas. Reveal it by
-  // shrinking the live canvas (with the zoomed planet centred) into the
-  // top-left corner — the collapsing scene wipes the page into view.
-  function dockAndReveal(sec) {
+  // The camera has zoomed the planet to fill the screen; the opaque cover is up.
+  // Snap the live canvas straight into the top-left corner disc (no visible
+  // slide) and reveal the page beneath — the cover then fades to show it.
+  function snapDock(sec) {
     document.body.classList.add("panel-open");
     panel.classList.add("open");
     panel.scrollTop = 0;
-    universeEl.classList.add("docking");           // canvas transforms into the corner
-    const after = () => universeEl.classList.add("clip"); // trim to a disc when it lands
-    if (reduced) after(); else setTimeout(after, 1620);
+    universeEl.classList.add("snap");              // no transform animation while hidden
+    universeEl.classList.add("docking");
+    universeEl.classList.add("clip");
   }
 
   function closePanel() {
-    universeEl.classList.remove("clip");           // un-trim, then grow back to full
-    universeEl.classList.remove("docking");
-    homing = true; followTarget = null;            // camera eases back out to home
-    setTimeout(() => {
+    if (reduced) {
+      universeEl.classList.remove("clip", "docking", "snap");
+      homing = false; followTarget = null;
+      camera.position.copy(HOME); controls.target.set(0, 0, 0); controls.update();
       panel.classList.remove("open");
       document.body.classList.remove("panel-open");
-    }, reduced ? 0 : 1600);
-    controls.autoRotate = !reduced;
+      controls.autoRotate = true;
+      return;
+    }
+    coverIn();                                     // wipe to opaque first
+    setTimeout(() => {
+      universeEl.classList.remove("clip", "docking"); // undock instantly (snap still on)
+      followTarget = null; homing = false;
+      camera.position.copy(HOME);                  // snap camera home behind the cover
+      controls.target.set(0, 0, 0); controls.update();
+      panel.classList.remove("open");
+      document.body.classList.remove("panel-open");
+      controls.autoRotate = true;
+      universeEl.classList.remove("snap");
+      coverOut();                                  // fade cover -> universe back at home
+    }, 550);
   }
   document.getElementById("panel-back").onclick = closePanel;
   addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("panel-open")) closePanel(); });
@@ -367,8 +387,8 @@ if (canvas) {
       const wp = new THREE.Vector3(); followTarget.getWorldPosition(wp);
       controls.target.lerp(wp, 0.12);
       const sz = followTarget.userData.size;
-      const desired = wp.clone().add(new THREE.Vector3(0, sz * 0.7, sz * 2.6)); // zoom in close
-      camera.position.lerp(desired, 0.12);
+      const desired = wp.clone().add(new THREE.Vector3(0, sz * 0.12, sz * 1.5)); // zoom until it fills the screen
+      camera.position.lerp(desired, 0.11);
     } else if (homing) {
       controls.target.lerp(new THREE.Vector3(0, 0, 0), 0.1);
       camera.position.lerp(HOME, 0.1);

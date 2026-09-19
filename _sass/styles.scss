@@ -804,6 +804,7 @@ body.universe-page.panel-open { overflow: hidden; }
 
 /* Canvas docking: transform the whole scene into the top-left corner disc */
 #universe { transition: transform 1.6s cubic-bezier(0.65, 0.02, 0.22, 1); transform-origin: 50% 50%; }
+#universe.snap { transition: none; }        /* dock/undock instantly while the cover hides it */
 #universe.docking {
   z-index: 2600; background: transparent;
   transform: translate(calc(112px - 50vw), calc(96px - 50vh)) scale(0.16);
@@ -812,6 +813,14 @@ body.universe-page.panel-open { overflow: hidden; }
   clip-path: circle(430px at 50% 50%);
   filter: drop-shadow(0 0 22px rgba(120,150,255,0.45));
 }
+
+/* Opaque wipe: after the planet fills the screen, this fades to solid, we snap
+   the planet into the corner behind it, then it fades out to reveal the page. */
+#warp-cover {
+  position: fixed; inset: 0; z-index: 3000; pointer-events: none;
+  background: #04060f; opacity: 0; transition: opacity 0.5s ease;
+}
+#warp-cover.show { opacity: 1; }
 
 .panel-topbar {
   position: sticky; top: 0; z-index: 3;
