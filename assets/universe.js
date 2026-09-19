@@ -255,7 +255,7 @@ if (canvas) {
       setTimeout(() => { window.location.href = BASE + sec.path; }, 1250);
       return;
     }
-    setTimeout(() => openPanel(sec), 620);
+    setTimeout(() => openPanel(sec), 420);
   }
 
   /* ---------- Panel ---------- */
@@ -266,16 +266,17 @@ if (canvas) {
   const panelBody = document.getElementById("panel-body");
 
   function openPanel(sec) {
+    // Show the panel FIRST so nothing below can prevent it from appearing.
+    document.body.classList.add("panel-open");
+    panel.classList.add("open");
+    panel.scrollTop = 0;
+    panelKick.textContent = sec.kick;
+    panelTitle.textContent = sec.name;
+    panelBody.innerHTML = '<div class="feed-loading"><span class="feed-spinner"></span>Loading…</div>';
     orbEl.style.setProperty("--orb-hi", sec.orb[0]);
     orbEl.style.setProperty("--orb-a", sec.orb[1]);
     orbEl.style.setProperty("--orb-b", sec.orb[2]);
     orbEl.style.setProperty("--orb-glow", sec.orb[3]);
-    panelKick.textContent = sec.kick;
-    panelTitle.textContent = sec.name;
-    panelBody.innerHTML = '<div class="feed-loading"><span class="feed-spinner"></span>Loading…</div>';
-    document.body.classList.add("panel-open");
-    panel.classList.add("open");
-    panel.scrollTop = 0;
 
     if (sec.id === "blog") {
       const tpl = document.getElementById("tpl-blog");
@@ -339,7 +340,6 @@ if (canvas) {
   const clock = new THREE.Clock();
   function animate() {
     requestAnimationFrame(animate);
-    const panelOpen = document.body.classList.contains("panel-open");
     const dt = clock.getDelta();
     const speed = reduced ? 0 : dt;
 
@@ -364,7 +364,7 @@ if (canvas) {
     planetMeshes.forEach((m) => m.scale.setScalar(m === hovered ? 1.22 : 1 + (m.scale.x - 1) * 0.8));
 
     controls.update();
-    if (!panelOpen) composer.render();
+    composer.render();
   }
   animate();
 

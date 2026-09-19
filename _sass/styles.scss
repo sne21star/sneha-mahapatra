@@ -793,13 +793,12 @@ body.universe-page.panel-open { overflow: hidden; }
 /* ---------- Planet content panel ---------- */
 #planet-panel {
   position: fixed; inset: 0; z-index: 2000;
-  background: linear-gradient(180deg, rgba(2,3,10,0.96), rgba(2,3,10,0.99));
-  backdrop-filter: blur(6px);
+  background: linear-gradient(180deg, #04060f 0%, #02030a 100%);
   overflow-y: auto; overflow-x: hidden;
   opacity: 0; visibility: hidden; transform: translateY(20px);
-  transition: opacity 0.45s ease, transform 0.45s ease, visibility 0s linear 0.45s;
+  transition: opacity 0.4s ease, transform 0.4s ease, visibility 0s linear 0.4s;
 }
-#planet-panel.open { opacity: 1; visibility: visible; transform: none; transition: opacity 0.45s ease, transform 0.45s ease; }
+#planet-panel.open { opacity: 1; visibility: visible; transform: none; transition: opacity 0.4s ease, transform 0.4s ease; }
 
 .panel-topbar {
   position: sticky; top: 0; z-index: 3;
