@@ -259,7 +259,6 @@ if (canvas) {
       return;
     }
     loadContent(sec);                     // fetch while the camera zooms in
-    if (reduced) { dockCorner(sec); return; }
     document.body.classList.add("panel-open");
     setTimeout(() => panel.classList.add("open"), 1350); // let the planet fill the screen first, THEN fade to the page
     setTimeout(() => dockCorner(sec), 2400);             // page now opaque -> bring the planet into the corner
@@ -298,7 +297,6 @@ if (canvas) {
   // into the top-left corner (hidden behind the opaque page), then fade the
   // corner disc in so the planet reappears docked in the corner.
   function dockCorner(sec) {
-    if (reduced) { document.body.classList.add("panel-open"); panel.classList.add("open"); }
     panel.scrollTop = 0;
     universeEl.classList.add("docking");                 // snap planet into the corner (opacity 0)
     requestAnimationFrame(() => universeEl.classList.add("clip")); // fade the corner disc in
