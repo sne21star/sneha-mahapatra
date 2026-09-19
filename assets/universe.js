@@ -245,7 +245,7 @@ if (canvas) {
     if (obj && obj.userData.id) selectPlanet(obj.userData);
   });
 
-  let followTarget = null, homing = false;
+  let followTarget = null, homing = false, docked = false;
   const universeEl = document.getElementById("universe");
 
   function selectPlanet(sec) {
@@ -253,6 +253,7 @@ if (canvas) {
     canvas.style.cursor = "grab";
     controls.autoRotate = false;
     homing = false;
+    docked = false;
     followTarget = sec._mesh;
     controls.minDistance = 0.5;            // allow the camera to get close enough to cover the screen
     if (sec.link) {                       // Earth: zoom in first, then open its page
@@ -301,12 +302,13 @@ if (canvas) {
     panel.scrollTop = 0;
     universeEl.classList.add("docking");                 // snap planet into the corner (opacity 0)
     requestAnimationFrame(() => universeEl.classList.add("clip")); // fade the corner disc in
+    docked = true;                                        // pull the camera back so the corner shows the whole planet
   }
 
   function closePanel() {
     panel.classList.remove("open");                      // page fades out...
     universeEl.classList.remove("clip", "docking");      // ...revealing the fullscreen scene behind it
-    homing = true; followTarget = null;                  // camera eases back out to home
+    homing = true; followTarget = null; docked = false;  // camera eases back out to home
     controls.minDistance = 10;                           // restore the orbit clamp
     controls.autoRotate = !reduced;
     setTimeout(() => document.body.classList.remove("panel-open"), reduced ? 0 : 1000);
@@ -365,7 +367,9 @@ if (canvas) {
       const wp = new THREE.Vector3(); followTarget.getWorldPosition(wp);
       controls.target.lerp(wp, 0.1);
       const sz = followTarget.userData.size;
-      const desired = wp.clone().add(new THREE.Vector3(0, sz * 0.05, sz * 1.15)); // glide right in until the planet covers the whole screen
+      const near = docked ? 2.6 : 1.15;          // docked: show the whole planet; else: cover the screen
+      const yoff = docked ? 0.15 : 0.05;
+      const desired = wp.clone().add(new THREE.Vector3(0, sz * yoff, sz * near));
       camera.position.lerp(desired, 0.085);
     } else if (homing) {
       controls.target.lerp(new THREE.Vector3(0, 0, 0), 0.1);
