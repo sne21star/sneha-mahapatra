@@ -300,7 +300,7 @@ if (canvas) {
     panel.scrollTop = 0;
     universeEl.classList.add("docking");           // canvas transforms into the corner
     const after = () => universeEl.classList.add("clip"); // trim to a disc when it lands
-    if (reduced) after(); else setTimeout(after, 820);
+    if (reduced) after(); else setTimeout(after, 1620);
   }
 
   function closePanel() {
@@ -310,7 +310,7 @@ if (canvas) {
     setTimeout(() => {
       panel.classList.remove("open");
       document.body.classList.remove("panel-open");
-    }, reduced ? 0 : 800);
+    }, reduced ? 0 : 1600);
     controls.autoRotate = !reduced;
   }
   document.getElementById("panel-back").onclick = closePanel;

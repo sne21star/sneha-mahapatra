@@ -803,7 +803,7 @@ body.universe-page.panel-open { overflow: hidden; }
 #planet-panel.open { visibility: visible; }
 
 /* Canvas docking: transform the whole scene into the top-left corner disc */
-#universe { transition: transform 0.8s cubic-bezier(0.65, 0.02, 0.22, 1); transform-origin: 50% 50%; }
+#universe { transition: transform 1.6s cubic-bezier(0.65, 0.02, 0.22, 1); transform-origin: 50% 50%; }
 #universe.docking {
   z-index: 2600; background: transparent;
   transform: translate(calc(112px - 50vw), calc(96px - 50vh)) scale(0.16);
