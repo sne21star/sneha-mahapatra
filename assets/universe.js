@@ -367,8 +367,8 @@ if (canvas) {
       const wp = new THREE.Vector3(); followTarget.getWorldPosition(wp);
       controls.target.lerp(wp, 0.1);
       const sz = followTarget.userData.size;
-      const near = docked ? 2.6 : 1.15;          // docked: show the whole planet; else: cover the screen
-      const yoff = docked ? 0.15 : 0.05;
+      const near = docked ? 3.8 : 1.15;          // docked: show the whole planet with margin; else: cover the screen
+      const yoff = docked ? 0.2 : 0.05;
       const desired = wp.clone().add(new THREE.Vector3(0, sz * yoff, sz * near));
       camera.position.lerp(desired, 0.085);
     } else if (homing) {
