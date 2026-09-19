@@ -1,0 +1,152 @@
+---
+layout: page
+title: Library
+description: Books I've read
+permalink: /library/
+---
+
+<div class="library">
+  <p class="lib-intro">
+    A shelf of worlds I've visited on paper. Pulled from my
+    <a href="https://www.goodreads.com/review/list/179146826-sneha-mahapatra?shelf=read" target="_blank" rel="noopener">Goodreads</a>
+    &mdash; click any book to open it.
+  </p>
+
+  {% if site.data.books.currently_reading and site.data.books.currently_reading.size > 0 %}
+  <h3 class="lib-shelf-label">Currently reading</h3>
+  <div class="bookshelf">
+    <div class="book-row">
+      {% for b in site.data.books.currently_reading %}
+      <button class="book" type="button"
+              data-title="{{ b.title | escape }}"
+              data-author="{{ b.author | escape }}"
+              data-cover="{{ b.cover }}"
+              data-link="{{ b.link }}"
+              data-rating="{{ b.rating }}"
+              data-avg="{{ b.avg }}"
+              data-year="{{ b.year }}"
+              data-readyear="{{ b.read_year }}"
+              data-review="{{ b.review | escape }}"
+              data-desc="{{ b.desc | escape }}">
+        <span class="book-cover">
+          {% if b.cover and b.cover != "" %}
+          <img loading="lazy" src="{{ b.cover }}" alt="{{ b.title | escape }}">
+          {% else %}
+          <span class="book-fallback"><span>{{ b.title }}</span></span>
+          {% endif %}
+        </span>
+      </button>
+      {% endfor %}
+    </div>
+    <div class="shelf-plank"></div>
+  </div>
+  {% endif %}
+
+  <h3 class="lib-shelf-label">Read &middot; {{ site.data.books.read.size }} books</h3>
+  <div class="bookshelf">
+    {% assign per_row = 6 %}
+    {% for b in site.data.books.read %}
+    {% assign i = forloop.index0 | modulo: per_row %}
+    {% if i == 0 %}<div class="book-row">{% endif %}
+      <button class="book" type="button"
+              data-title="{{ b.title | escape }}"
+              data-author="{{ b.author | escape }}"
+              data-cover="{{ b.cover }}"
+              data-link="{{ b.link }}"
+              data-rating="{{ b.rating }}"
+              data-avg="{{ b.avg }}"
+              data-year="{{ b.year }}"
+              data-readyear="{{ b.read_year }}"
+              data-review="{{ b.review | escape }}"
+              data-desc="{{ b.desc | escape }}">
+        <span class="book-cover">
+          {% if b.cover and b.cover != "" %}
+          <img loading="lazy" src="{{ b.cover }}" alt="{{ b.title | escape }}">
+          {% else %}
+          <span class="book-fallback"><span>{{ b.title }}</span></span>
+          {% endif %}
+        </span>
+      </button>
+    {% assign next = forloop.index | modulo: per_row %}
+    {% if next == 0 or forloop.last %}<div class="shelf-plank"></div></div>{% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- Book detail overlay -->
+<div id="book-modal" class="book-modal" hidden>
+  <div class="book-modal-backdrop" data-close></div>
+  <div class="book-modal-card" role="dialog" aria-modal="true">
+    <button class="book-modal-close" data-close aria-label="Close">&times;</button>
+    <div class="book-modal-body">
+      <div class="bm-cover"><img id="bm-cover" src="" alt=""></div>
+      <div class="bm-info">
+        <h2 id="bm-title"></h2>
+        <p class="bm-author" id="bm-author"></p>
+        <p class="bm-meta" id="bm-meta"></p>
+        <div class="bm-stars" id="bm-stars"></div>
+        <div class="bm-review" id="bm-review"></div>
+        <p class="bm-desc" id="bm-desc"></p>
+        <a class="bm-link" id="bm-link" href="#" target="_blank" rel="noopener">View on Goodreads &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var modal = document.getElementById("book-modal");
+  if (!modal) return;
+  var elCover = document.getElementById("bm-cover"),
+      elTitle = document.getElementById("bm-title"),
+      elAuthor = document.getElementById("bm-author"),
+      elMeta = document.getElementById("bm-meta"),
+      elStars = document.getElementById("bm-stars"),
+      elReview = document.getElementById("bm-review"),
+      elDesc = document.getElementById("bm-desc"),
+      elLink = document.getElementById("bm-link");
+
+  function stars(n) {
+    n = parseInt(n, 10) || 0;
+    var s = "";
+    for (var i = 1; i <= 5; i++) s += '<span class="star' + (i <= n ? " on" : "") + '">\u2605</span>';
+    return n ? s + '<span class="star-label">my rating</span>' : "";
+  }
+
+  function open(btn) {
+    var d = btn.dataset;
+    elCover.src = d.cover || "";
+    elCover.alt = d.title || "";
+    elTitle.textContent = d.title || "";
+    elAuthor.textContent = d.author ? "by " + d.author : "";
+    var meta = [];
+    if (d.year) meta.push("Published " + d.year);
+    if (d.readyear) meta.push("Read " + d.readyear);
+    if (d.avg) meta.push("Goodreads avg " + d.avg + "\u2605");
+    elMeta.textContent = meta.join("  \u00b7  ");
+    elStars.innerHTML = stars(d.rating);
+    if (d.review && d.review.trim()) {
+      elReview.innerHTML = '<span class="bm-review-label">My take</span>' + d.review;
+      elReview.hidden = false;
+    } else { elReview.hidden = true; }
+    elDesc.textContent = d.desc || "";
+    elLink.href = d.link || "#";
+    modal.hidden = false;
+    document.body.classList.add("book-modal-open");
+  }
+  function close() {
+    modal.hidden = true;
+    document.body.classList.remove("book-modal-open");
+  }
+
+  document.querySelectorAll(".library .book").forEach(function (btn) {
+    btn.addEventListener("click", function () { open(btn); });
+  });
+  modal.querySelectorAll("[data-close]").forEach(function (el) {
+    el.addEventListener("click", close);
+  });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !modal.hidden) close();
+  });
+})();
+</script>
