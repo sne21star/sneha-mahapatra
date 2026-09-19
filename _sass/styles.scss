@@ -871,14 +871,34 @@ body.universe-page.panel-open { overflow: hidden; }
 .lib-sort button:hover { color: var(--text); }
 .lib-sort button.is-active { background: linear-gradient(120deg, #f6b73c, #8b5cf6); color: #10121c; }
 .lib-genre { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-family: var(--font-head); font-size: 0.8rem; }
-.lib-genre select {
-  appearance: none; background: var(--surface); color: var(--text);
-  border: 1px solid var(--border); border-radius: 999px; padding: 8px 34px 8px 14px;
-  font-family: var(--font-body); font-size: 0.85rem; cursor: pointer;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%2393a0b8' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
-  background-repeat: no-repeat; background-position: right 14px center;
+
+/* Genre chips */
+.lib-genres { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 20px; max-width: 640px; }
+.genre-chip {
+  appearance: none; cursor: pointer;
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 14px 8px 10px; border-radius: 14px;
+  background: var(--surface); border: 1px solid var(--border);
+  color: var(--text); font-family: var(--font-head); font-size: 0.82rem; font-weight: 600;
+  transition: transform 0.16s ease, background 0.18s, border-color 0.18s, box-shadow 0.18s;
 }
-.lib-genre select:focus { outline: none; border-color: var(--accent); }
+.genre-chip:hover { transform: translateY(-2px); border-color: rgba(246,183,60,0.5); background: var(--surface-2); }
+.genre-chip .gc-icon {
+  font-size: 1.15rem; line-height: 1; width: 1.5rem; height: 1.5rem;
+  display: grid; place-items: center; border-radius: 9px;
+  background: rgba(255,255,255,0.05);
+}
+.genre-chip .gc-count {
+  font-size: 0.7rem; color: var(--muted); background: rgba(255,255,255,0.06);
+  padding: 1px 7px; border-radius: 999px; min-width: 20px; text-align: center;
+}
+.genre-chip.is-active {
+  background: linear-gradient(120deg, rgba(246,183,60,0.22), rgba(139,92,246,0.22));
+  border-color: rgba(246,183,60,0.75);
+  box-shadow: 0 6px 20px -8px rgba(246,183,60,0.5);
+}
+.genre-chip.is-active .gc-icon { background: rgba(255,255,255,0.14); }
+.genre-chip.is-active .gc-count { color: var(--text); background: rgba(255,255,255,0.14); }
 .lib-empty { color: var(--muted); font-style: italic; padding: 30px 4px; }
 
 /* Currently reading — face-out on a display ledge */

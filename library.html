@@ -54,15 +54,19 @@ permalink: /library/
       <button type="button" data-sort="title">Title A&ndash;Z</button>
       <button type="button" data-sort="author">Author</button>
     </div>
-    <label class="lib-genre">
-      <span>Genre</span>
-      <select id="genre-filter">
-        <option value="all">All genres ({{ site.data.books.read.size }})</option>
-        {% for g in genres %}
-        <option value="{{ g }}">{{ g }} ({{ site.data.books.read | where: "genre", g | size }})</option>
-        {% endfor %}
-      </select>
-    </label>
+  </div>
+
+  <div class="lib-genres" role="group" aria-label="Filter by genre">
+    <button type="button" class="genre-chip is-active" data-genre="all">
+      <span class="gc-icon">📚</span><span class="gc-name">All</span><span class="gc-count">{{ site.data.books.read.size }}</span>
+    </button>
+    {% for g in genres %}
+    <button type="button" class="genre-chip" data-genre="{{ g | escape }}">
+      <span class="gc-icon">{% case g %}{% when 'Fantasy' %}🐉{% when 'Horror' %}💀{% when 'Science Fiction' %}🚀{% when 'Thriller' %}🔪{% when 'Mystery' %}🔍{% when 'Romance' %}💗{% when 'Classics' %}🏛️{% when 'Historical Fiction' %}⏳{% when 'Nonfiction' %}🧾{% when 'Self Help' %}🌱{% when 'Artificial Intelligence' %}🤖{% when 'Biography' %}👤{% when 'Memoir' %}📔{% when 'Young Adult' %}✨{% when 'Poetry' %}🕊️{% when 'Contemporary' %}🏙️{% when 'Dystopia' %}🌆{% when 'Adventure' %}🧭{% when 'Philosophy' %}💭{% when 'Business' %}💼{% else %}📖{% endcase %}</span>
+      <span class="gc-name">{{ g }}</span>
+      <span class="gc-count">{{ site.data.books.read | where: "genre", g | size }}</span>
+    </button>
+    {% endfor %}
   </div>
 
   {% assign spine_colors = "#8a2b2b,#b5651d,#c9a227,#2f5d50,#24506e,#3b3f8f,#6b2d5c,#7d4f22,#46603a,#9c3b2e,#2b6b6b,#5a4b8a" | split: "," %}
@@ -232,6 +236,15 @@ permalink: /library/
     });
     var gf = document.getElementById("genre-filter");
     if (gf) gf.addEventListener("change", function () { genre = gf.value; render(); });
+
+    document.querySelectorAll(".genre-chip").forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        document.querySelectorAll(".genre-chip").forEach(function (c) { c.classList.remove("is-active"); });
+        chip.classList.add("is-active");
+        genre = chip.dataset.genre;
+        render();
+      });
+    });
 
     render();
   }
