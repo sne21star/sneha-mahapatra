@@ -43,14 +43,34 @@ permalink: /library/
   {% endif %}
 
   <h3 class="lib-shelf-label">Read &middot; {{ site.data.books.read.size }} books</h3>
-  <p class="lib-hint">Browse the spines &mdash; click any book to pull it off the shelf.</p>
+
+  {% assign glist = "" %}
+  {% for b in site.data.books.read %}{% if b.genre and b.genre != "" %}{% assign glist = glist | append: b.genre | append: "|" %}{% endif %}{% endfor %}
+  {% assign genres = glist | split: "|" | uniq | sort %}
+
+  <div class="lib-controls">
+    <div class="lib-sort" role="group" aria-label="Sort books">
+      <button type="button" class="is-active" data-sort="shelf">Shelf order</button>
+      <button type="button" data-sort="title">Title A&ndash;Z</button>
+      <button type="button" data-sort="author">Author</button>
+    </div>
+    <label class="lib-genre">
+      <span>Genre</span>
+      <select id="genre-filter">
+        <option value="all">All genres ({{ site.data.books.read.size }})</option>
+        {% for g in genres %}
+        <option value="{{ g }}">{{ g }} ({{ site.data.books.read | where: "genre", g | size }})</option>
+        {% endfor %}
+      </select>
+    </label>
+  </div>
 
   {% assign spine_colors = "#8a2b2b,#b5651d,#c9a227,#2f5d50,#24506e,#3b3f8f,#6b2d5c,#7d4f22,#46603a,#9c3b2e,#2b6b6b,#5a4b8a" | split: "," %}
-  {% assign spine_h = "196,220,236,206,228,212,192,232" | split: "," %}
-  {% assign spine_w = "42,48,38,52,44,36,50,40" | split: "," %}
-  {% assign per_shelf = 7 %}
+  {% assign spine_h = "236,268,286,248,274,256,230,280" | split: "," %}
+  {% assign spine_w = "48,56,44,60,50,42,58,46" | split: "," %}
+  {% assign per_shelf = 10 %}
 
-  <div class="bookcase">
+  <div class="bookcase" id="bookcase">
     {% for b in site.data.books.read %}
     {% assign i = forloop.index0 | modulo: per_shelf %}
     {% assign ci = forloop.index0 | modulo: 12 %}
@@ -60,6 +80,8 @@ permalink: /library/
     {% if i == 0 %}<div class="shelf"><div class="shelf-books">{% endif %}
       <button class="spine" type="button"
               style="--spine:{{ spine_colors[ci] }};--h:{{ spine_h[hi] }}px;--w:{{ spine_w[wi] }}px"
+              data-idx="{{ forloop.index0 }}"
+              data-genre="{{ b.genre | escape }}"
               data-title="{{ b.title | escape }}"
               data-author="{{ b.author | escape }}"
               data-cover="{{ b.cover }}"
@@ -68,6 +90,7 @@ permalink: /library/
               data-avg="{{ b.avg }}"
               data-year="{{ b.year }}"
               data-readyear="{{ b.read_year }}"
+              data-genres="{{ b.genres | join: ' · ' | escape }}"
               data-review="{{ b.review | escape }}"
               data-desc="{{ b.desc | escape }}">
         <span class="spine-title">{{ b.title }}</span>
@@ -77,6 +100,7 @@ permalink: /library/
     {% if next == 0 or forloop.last %}</div><div class="shelf-board"></div></div>{% endif %}
     {% endfor %}
   </div>
+  <p class="lib-empty" id="lib-empty" hidden>No books on this shelf yet.</p>
 </div>
 
 <!-- Book detail overlay -->
@@ -89,6 +113,7 @@ permalink: /library/
       <div class="bm-info">
         <h2 id="bm-title"></h2>
         <p class="bm-author" id="bm-author"></p>
+        <p class="bm-genres" id="bm-genres"></p>
         <p class="bm-meta" id="bm-meta"></p>
         <div class="bm-stars" id="bm-stars"></div>
         <div class="bm-review" id="bm-review"></div>
@@ -110,6 +135,7 @@ permalink: /library/
       elStars = document.getElementById("bm-stars"),
       elReview = document.getElementById("bm-review"),
       elDesc = document.getElementById("bm-desc"),
+      elGenres = document.getElementById("bm-genres"),
       elLink = document.getElementById("bm-link");
 
   function stars(n) {
@@ -125,6 +151,14 @@ permalink: /library/
     elCover.alt = d.title || "";
     elTitle.textContent = d.title || "";
     elAuthor.textContent = d.author ? "by " + d.author : "";
+    if (elGenres) {
+      if (d.genres && d.genres.trim()) {
+        elGenres.innerHTML = d.genres.split(" \u00b7 ").map(function (g) {
+          return '<span class="bm-tag">' + g + "</span>";
+        }).join("");
+        elGenres.hidden = false;
+      } else { elGenres.hidden = true; }
+    }
     var meta = [];
     if (d.year) meta.push("Published " + d.year);
     if (d.readyear) meta.push("Read " + d.readyear);
@@ -154,5 +188,52 @@ permalink: /library/
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && !modal.hidden) close();
   });
+
+  /* --- sorting + genre filtering (reflow spines into shelves) --- */
+  var bookcase = document.getElementById("bookcase");
+  if (bookcase) {
+    var PER = 10;
+    var spines = [].slice.call(bookcase.querySelectorAll(".spine"));
+    var emptyMsg = document.getElementById("lib-empty");
+    var sortMode = "shelf", genre = "all";
+
+    function norm(t) { return (t || "").replace(/^(the|a|an)\s+/i, "").toLowerCase(); }
+    function byTitle(a, b) { return norm(a.dataset.title).localeCompare(norm(b.dataset.title)); }
+    function byAuthor(a, b) {
+      return (a.dataset.author || "").localeCompare(b.dataset.author || "") || byTitle(a, b);
+    }
+    function chunk(a, n) { var o = []; for (var i = 0; i < a.length; i += n) o.push(a.slice(i, i + n)); return o; }
+
+    function render() {
+      var list = spines.filter(function (sp) { return genre === "all" || sp.dataset.genre === genre; });
+      if (sortMode === "title") list.sort(byTitle);
+      else if (sortMode === "author") list.sort(byAuthor);
+      else list.sort(function (a, b) { return (+a.dataset.idx) - (+b.dataset.idx); });
+
+      bookcase.innerHTML = "";
+      chunk(list, PER).forEach(function (c) {
+        var shelf = document.createElement("div"); shelf.className = "shelf";
+        var books = document.createElement("div"); books.className = "shelf-books";
+        c.forEach(function (sp) { books.appendChild(sp); });
+        var board = document.createElement("div"); board.className = "shelf-board";
+        shelf.appendChild(books); shelf.appendChild(board); bookcase.appendChild(shelf);
+      });
+      bookcase.hidden = list.length === 0;
+      if (emptyMsg) emptyMsg.hidden = list.length > 0;
+    }
+
+    document.querySelectorAll(".lib-sort button").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        document.querySelectorAll(".lib-sort button").forEach(function (b) { b.classList.remove("is-active"); });
+        btn.classList.add("is-active");
+        sortMode = btn.dataset.sort;
+        render();
+      });
+    });
+    var gf = document.getElementById("genre-filter");
+    if (gf) gf.addEventListener("change", function () { genre = gf.value; render(); });
+
+    render();
+  }
 })();
 </script>

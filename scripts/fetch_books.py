@@ -2,7 +2,7 @@
 """Fetch Goodreads shelves via RSS and write _data/books.yml.
 Re-run any time to refresh the bookshelf. Goodreads has no public API, but the
 per-shelf RSS feed is public and stable."""
-import re, sys, urllib.request, html, datetime, io
+import re, sys, urllib.request, html, datetime, io, time
 
 USER = "179146826"  # Sneha's Goodreads user id
 SHELVES = ["read", "currently-reading"]
@@ -12,6 +12,37 @@ def fetch(shelf):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     with urllib.request.urlopen(req, timeout=45) as r:
         return r.read().decode("utf-8", "replace")
+
+def fetch_url(url):
+    req = urllib.request.Request(url, headers={
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+    with urllib.request.urlopen(req, timeout=45) as r:
+        return r.read().decode("utf-8", "replace")
+
+def genres_for(book_id):
+    """Scrape the top few genres from a Goodreads book page (bookGenres JSON)."""
+    if not book_id:
+        return []
+    for attempt in range(3):
+        try:
+            page = fetch_url(f"https://www.goodreads.com/book/show/{book_id}")
+        except Exception as e:
+            sys.stderr.write(f"  genre fetch failed for {book_id} (try {attempt+1}): {e}\n")
+            time.sleep(1.5 * (attempt + 1))
+            continue
+        m = re.search(r'"bookGenres":\[(.*?)\]', page, re.S)
+        if not m:
+            time.sleep(1.5 * (attempt + 1))
+            continue
+        names = re.findall(r'"name":"([^"]+)"', m.group(1))
+        seen = []
+        for n in names:
+            n = html.unescape(n)
+            if n not in seen:
+                seen.append(n)
+        if seen:
+            return seen[:3]
+    return []
 
 def tag(item, name):
     # handles both <tag><![CDATA[..]]></tag> and <tag>..</tag>
@@ -44,6 +75,8 @@ def parse(xml, shelf):
     for item in re.findall(r"<item>(.*?)</item>", xml, re.S):
         book_id = tag(item, "book_id")
         cover = big_cover(tag(item, "book_large_image_url") or tag(item, "book_medium_image_url"))
+        genres = genres_for(book_id)
+        time.sleep(0.8)  # be polite to Goodreads
         books.append({
             "id": book_id,
             "title": clean(tag(item, "title")),
@@ -56,6 +89,8 @@ def parse(xml, shelf):
             "read_year": read_year(item),
             "review": clean(tag(item, "user_review")),
             "desc": clean(tag(item, "book_description"), 480),
+            "genre": genres[0] if genres else "",
+            "genres": genres,
             "shelf": shelf,
         })
     return books
@@ -83,6 +118,12 @@ def main():
             out.write(f"    read_year: {yaml_str(b['read_year'])}\n")
             out.write(f"    review: {yaml_str(b['review'])}\n")
             out.write(f"    desc: {yaml_str(b['desc'])}\n")
+            out.write(f"    genre: {yaml_str(b['genre'])}\n")
+            if b['genres']:
+                joined = ", ".join(yaml_str(g) for g in b['genres'])
+                out.write(f"    genres: [{joined}]\n")
+            else:
+                out.write(f"    genres: []\n")
         sys.stderr.write(f"{shelf}: {len(books)} books\n")
     with open("_data/books.yml", "w", encoding="utf-8") as f:
         f.write(out.getvalue())

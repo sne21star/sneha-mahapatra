@@ -12,6 +12,8 @@ read:
     read_year: "2025"
     review: "Really well written book. I am normally not a non fiction reader but wanted to branch out to different genres, and this book really does a great job of capturing the readers. She brings the past. back to life and it feels like I am side by side with them, as if watching from a movie perspective. Really enjoyable!"
     desc: "The galvanizing true story of a group of remarkable women in the 1970s male-run world of business, banking, and finance. They didn’t play by the rules. They changed them and made history.In the 1970s, a new wave of feminism was sweeping America. But in the boys’ club of banking and finance, women were still infantilized—no credit without a male cosigner, and their income was dismissed as unreliable. If bankers weren’t going to accommodate women, then women had to take…"
+    genre: "Nonfiction"
+    genres: ["Nonfiction", "History", "Feminism"]
   - id: "49991647"
     title: "Dracula's Child"
     author: "J.S. Barnes"
@@ -23,6 +25,8 @@ read:
     read_year: "2025"
     review: ""
     desc: "Dracula returns... It has been some years since Jonathan and Mina Harker survived their ordeal in Transylvania and, vanquishing Count Dracula, returned to England to try and live ordinary lives. But shadows linger long in this world of blood feud and superstition - and, the older their son Quincy gets, the deeper the shadows that lengthen at the heart of the Harkers' marriage. Jonathan has turned back to drink; Mina finds herself isolated inside the confines of her own…"
+    genre: "Horror"
+    genres: ["Horror", "Vampires", "Fantasy"]
   - id: "59762456"
     title: "How to Survive Your Murder"
     author: "Danielle Valentine"
@@ -34,6 +38,8 @@ read:
     read_year: ""
     review: ""
     desc: "Alice Lawrence is the sole witness in her sister’s murder trial.And in the year since Claire’s death, Alice’s life has completely fallen apart. Her parents have gotten divorced, she’s moved into an apartment that smells like bologna, and she is being forced to face her sister’s killer and a courtroom full of people who doubt what she saw in the corn maze a year prior.Claire was an all-American girl, beautiful and bubbly, and a theater star. Alice was a nerd who dreamed of…"
+    genre: "Horror"
+    genres: ["Horror", "Mystery", "Thriller"]
   - id: "215700930"
     title: "The Next Day: Transitions, Change, and Moving Forward"
     author: "Melinda French Gates"
@@ -45,6 +51,8 @@ read:
     read_year: ""
     review: ""
     desc: "In a rare window into some of her life’s pivotal moments, Melinda French Gates draws from previously untold stories to offer a new perspective on encountering transitions.Transitions are moments in which we step out of our familiar surroundings and into a new landscape―a space that, for many people, is shadowed by confusion, fear, and indecision. The Next Day accompanies readers as they cross that space, offering guidance on how to make the most of the time between an ending…"
+    genre: "Nonfiction"
+    genres: ["Nonfiction", "Memoir", "Audiobook"]
   - id: "223688351"
     title: "The Perfect Marriage"
     author: "Jeneva Rose"
@@ -56,6 +64,8 @@ read:
     read_year: ""
     review: ""
     desc: "'Would you defend your husband if he was accused of killing his mistress?Sarah Morgan is a successful and powerful defense attorney in Washington D.C. At 33 years old, she is a named partner at her firm and life is going exactly how she planned.The same cannot be said for her husband, Adam. He is a struggling writer who has had little success in his career. He begins to tire of his and Sarah’s relationship as she is constantly working.Out in the secluded woods, at Adam and…"
+    genre: "Thriller"
+    genres: ["Thriller", "Mystery", "Audiobook"]
   - id: "27883214"
     title: "Caraval (Caraval, #1)"
     author: "Stephanie Garber"
@@ -67,6 +77,8 @@ read:
     read_year: ""
     review: ""
     desc: "Welcome, welcome to CARAVAL, Stephanie Garber’s fantasy debut about two sisters swept up in a mysterious competition filled with magic, heartbreak, and danger.Scarlett has never left the tiny island where she and her beloved sister, Tella, live with their powerful and cruel father. Now Scarlett’s father has arranged a marriage for her, and Scarlett thinks her dreams of seeing Caraval, the far-away, once-a-year performance where the audience participates in the show, are…"
+    genre: "Fantasy"
+    genres: ["Fantasy", "Young Adult", "Romance"]
   - id: "60623908"
     title: "Power And Prediction: The Disruptive Economics of Artificial Intelligence"
     author: "Ajay Agrawal"
@@ -78,6 +90,8 @@ read:
     read_year: ""
     review: ""
     desc: "Disruption resulting from the proliferation of AI is coming. The authors of the bestselling Prediction Machines describe what you can do to prepare.Banking and finance, pharmaceuticals, automotive, medical technology, retail. Artificial intelligence (AI) has made its way into many industries around the world. But the truth is, it has just begun its odyssey toward cheaper, better, and faster predictions to drive strategic business decisions--powering and accelerating…"
+    genre: "Artificial Intelligence"
+    genres: ["Artificial Intelligence", "Business", "Economics"]
   - id: "209439446"
     title: "Onyx Storm (The Empyrean, #3)"
     author: "Rebecca Yarros"
@@ -89,6 +103,8 @@ read:
     read_year: "2025"
     review: ""
     desc: "After nearly eighteen months at Basgiath War College, Violet Sorrengail knows there’s no more time for lessons. No more time for uncertainty. Because the battle has truly begun, and with enemies closing in from outside their walls and within their ranks, it’s impossible to know who to trust.Now Violet must journey beyond the failing Aretian wards to seek allies from unfamiliar lands to stand with Navarre. The trip will test every bit of her wit, luck, and strength, but she…"
+    genre: "Fantasy"
+    genres: ["Fantasy", "Romantasy", "Romance"]
   - id: "40121378"
     title: "Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones"
     author: "James Clear"
@@ -100,6 +116,8 @@ read:
     read_year: "2025"
     review: ""
     desc: "No matter your goals, Atomic Habits offers a proven framework for improving—every day. James Clear, one of the world's leading experts on habit formation, reveals practical strategies that will teach you exactly how to form good habits, break bad ones, and master the tiny behaviors that lead to remarkable results.If you're having trouble changing your habits, the problem isn't you. The problem is your system. Bad habits repeat themselves again and again not because you don't…"
+    genre: "Self Help"
+    genres: ["Self Help", "Nonfiction", "Psychology"]
   - id: "203688844"
     title: "Not What She Seems"
     author: "Yasmin Angoe"
@@ -111,6 +129,8 @@ read:
     read_year: "2024"
     review: ""
     desc: "She left home as the local pariah at twenty-two, but when a family tragedy brings her back, she must confront her tortured past—and a new danger in town that no one seems to understand but her.After years of self-exile, Jacinda “Jac” Brodie is back in Brook Haven, South Carolina. But the small cliffside town no longer feels like home. Jac hasn’t been there since the beloved chief of police fell to his death—and all the whispers said she was to blame.That chief was Jac’s…"
+    genre: "Mystery"
+    genres: ["Mystery", "Thriller", "Mystery Thriller"]
   - id: "61431922"
     title: "Fourth Wing (The Empyrean, #1)"
     author: "Rebecca Yarros"
@@ -122,6 +142,8 @@ read:
     read_year: ""
     review: ""
     desc: "A #1 New York Times bestseller • TV series in development at MGM Amazon Studios with Michael B. Jordan’s Outlier Society • Amazon Best Books of the Year, #4 • Apple Best Books of the Year 2023 • Barnes & Noble Best Fantasy Book of 2023 • NPR “Books We Love” 2023 • Audible Best Books of 2023 • Hudson Book of the Year • Google Play Best Books of 2023 • Indigo Best Books of 2023 • Waterstones Book of the Year finalist • Goodreads Choice Award Winner • Newsweek Staffers’…"
+    genre: "Fantasy"
+    genres: ["Fantasy", "Romance", "Romantasy"]
   - id: "19161852"
     title: "The Fifth Season (The Broken Earth, #1)"
     author: "N.K. Jemisin"
@@ -133,6 +155,8 @@ read:
     read_year: ""
     review: ""
     desc: "This is the way the world ends. Again.Three terrible things happen in a single day. Essun, a woman living an ordinary life in a small town, comes home to find that her husband has brutally murdered their son and kidnapped their daughter. Meanwhile, mighty Sanze -- the world-spanning empire whose innovations have been civilization's bedrock for a thousand years -- collapses as most of its citizens are murdered to serve a madman's vengeance. And worst of all, across the heart…"
+    genre: "Fantasy"
+    genres: ["Fantasy", "Fiction", "Science Fiction"]
   - id: "90202302"
     title: "Iron Flame (The Empyrean, #2)"
     author: "Rebecca Yarros"
@@ -144,6 +168,8 @@ read:
     read_year: ""
     review: ""
     desc: "Everyone expected Violet Sorrengail to die during her first year at Basgiath War College—Violet included. But Threshing was only the first impossible test meant to weed out the weak-willed, the unworthy, and the unlucky. Now the real training begins, and Violet’s wondering how she’ll get through it. It’s not just that it’s grueling and maliciously brutal, or even that it’s designed to stretch the riders’ capacity for pain beyond endurance. It’s the new vice commandant, who’s…"
+    genre: "Fantasy"
+    genres: ["Fantasy", "Romance", "Romantasy"]
   - id: "63325346"
     title: "The Phoenix King (The Ravence Trilogy, #1)"
     author: "Aparna Verma"
@@ -155,6 +181,8 @@ read:
     read_year: ""
     review: ""
     desc: "The fate of a desert kingdom rests in the hands of a princess desperate for power and an assassin with a dark secret, in this action-packed debut of fire magic and ancient prophecy from a stunning new voice in fantasy.The Ravani kingdom was born of a prophecy, carved from unforgiving desert sands and ruled by the Ravence bloodline: those with the power to command the Eternal Fire.Elena Aadya is the heir to the throne—and the only Ravence who cannot wield her family’s…"
+    genre: "Fantasy"
+    genres: ["Fantasy", "Romance", "Romantasy"]
   - id: "150778897"
     title: "King Nyx"
     author: "Kirsten Bakis"
@@ -166,6 +194,8 @@ read:
     read_year: ""
     review: ""
     desc: "A haunting mystery about the fate of women and girls in the orbit of self-important men.Set in November 1918 on the opulent, castle-like island estate of an eccentric millionaire, Claude Arkel, this atmospheric novel reimagines the life of Anna Filing Fort - whose husband, Charles Hoy Fort, was the most famous “anomalist” of the early twentieth century.Settling in as guests on Prosper Island, the young couple find themselves quarantined in a shabby outpost far from Mr.…"
+    genre: "Horror"
+    genres: ["Horror", "Historical Fiction", "Mystery"]
   - id: "32998876"
     title: "101 Essays That Will Change The Way You Think"
     author: "Brianna Wiest"
@@ -177,6 +207,8 @@ read:
     read_year: ""
     review: ""
     desc: "Over the past few years, Brianna Wiest has gained renown for her deeply moving, philosophical writing. This new compilation of her published work features pieces on why you should pursue purpose over passion, embrace negative thinking, see the wisdom in daily routine, and become aware of the cognitive biases that are creating the way you see your life. Some of these pieces have never been seen; others have been read by millions of people around the world. Regardless, each…"
+    genre: ""
+    genres: []
   - id: "65137920"
     title: "The Lost Bookshop"
     author: "Evie Woods"
@@ -188,6 +220,8 @@ read:
     read_year: ""
     review: ""
     desc: "The Keeper of Stories meets The Lost Apothecary in this evocative and charming novel full of mystery and secrets.‘The thing about books,’ she said ‘is that they help you to imagine a life bigger and better than you could ever dream of.’On a quiet street in Dublin, a lost bookshop is waiting to be found…For too long, Opaline, Martha and Henry have been the side characters in their own lives.But when a vanishing bookshop casts its spell, these three unsuspecting strangers will…"
+    genre: "Fantasy"
+    genres: ["Fantasy", "Fiction", "Historical Fiction"]
   - id: "17245"
     title: "Dracula"
     author: "Bram Stoker"
@@ -199,6 +233,8 @@ read:
     read_year: ""
     review: ""
     desc: "You can find an alternative cover edition for this ISBN here and here.When Jonathan Harker visits Transylvania to help Count Dracula with the purchase of a London house, he makes a series of horrific discoveries about his client. Soon afterwards, various bizarre incidents unfold in England: an apparently unmanned ship is wrecked off the coast of Whitby; a young woman discovers strange puncture marks on her neck; and the inmate of a lunatic asylum raves about the 'Master' and…"
+    genre: "Classics"
+    genres: ["Classics", "Horror", "Fiction"]
   - id: "56449476"
     title: "West with Giraffes"
     author: "Lynda Rutledge"
@@ -210,6 +246,8 @@ read:
     read_year: "2024"
     review: ""
     desc: "An emotional, rousing novel inspired by the incredible true story of two giraffes who made headlines and won the hearts of Depression-era America.“Few true friends have I known and two were giraffes…”Woodrow Wilson Nickel, age 105, feels his life ebbing away. But when he learns giraffes are going extinct, he finds himself recalling the unforgettable experience he cannot take to his grave.It’s 1938. The Great Depression lingers. Hitler is threatening Europe, and world-weary…"
+    genre: "Historical Fiction"
+    genres: ["Historical Fiction", "Book Club", "Fiction"]
 currently_reading:
   - id: "43352954"
     title: "This Is How You Lose the Time War"
@@ -222,6 +260,8 @@ currently_reading:
     read_year: ""
     review: ""
     desc: "Among the ashes of a dying world, an agent of the Commandant finds a letter. It reads: Burn before reading. Thus begins an unlikely correspondence between two rival agents hellbent on securing the best possible future for their warring factions. Now, what began as a taunt, a battlefield boast, grows into something more. Something epic. Something romantic. Something that could change the past and the future.Except the discovery of their bond would mean death for each of them.…"
+    genre: "Science Fiction"
+    genres: ["Science Fiction", "Romance", "Fiction"]
   - id: "213034913"
     title: "Source Code: My Beginnings"
     author: "Bill Gates"
@@ -233,3 +273,5 @@ currently_reading:
     read_year: ""
     review: ""
     desc: "The origin story of one of the most influential and transformative business leaders and philanthropists of the modern age.The business triumphs of Bill Gates are widely known: the twenty-year-old who dropped out of Harvard to start a software company that became an industry giant and changed the way the world works and lives; the billionaire many times over who turned his attention to philanthropic pursuits to address climate change, global health, and U.S. education.Source…"
+    genre: "Biography"
+    genres: ["Biography", "Nonfiction", "Memoir"]
