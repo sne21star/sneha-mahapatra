@@ -261,8 +261,8 @@ if (canvas) {
     loadContent(sec);                     // fetch while the camera zooms in
     if (reduced) { dockCorner(sec); return; }
     document.body.classList.add("panel-open");
-    setTimeout(() => panel.classList.add("open"), 260);  // page fades in over the zooming planet
-    setTimeout(() => dockCorner(sec), 1300);             // page now opaque -> bring the planet into the corner
+    setTimeout(() => panel.classList.add("open"), 1350); // let the planet fill the screen first, THEN fade to the page
+    setTimeout(() => dockCorner(sec), 2400);             // page now opaque -> bring the planet into the corner
   }
 
   /* ---------- Panel ---------- */
@@ -363,10 +363,10 @@ if (canvas) {
     if (followTarget) {
       followTarget.rotation.y += speed * 0.25;   // keep the focused planet spinning
       const wp = new THREE.Vector3(); followTarget.getWorldPosition(wp);
-      controls.target.lerp(wp, 0.12);
+      controls.target.lerp(wp, 0.06);
       const sz = followTarget.userData.size;
-      const desired = wp.clone().add(new THREE.Vector3(0, sz * 0.12, sz * 1.5)); // zoom until it fills the screen
-      camera.position.lerp(desired, 0.11);
+      const desired = wp.clone().add(new THREE.Vector3(0, sz * 0.12, sz * 1.4)); // glide in until it fills the screen
+      camera.position.lerp(desired, 0.05);
     } else if (homing) {
       controls.target.lerp(new THREE.Vector3(0, 0, 0), 0.1);
       camera.position.lerp(HOME, 0.1);
