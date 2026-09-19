@@ -227,14 +227,34 @@ if (canvas) {
     } else { labelEl.style.opacity = 0; canvas.style.cursor = "grab"; }
   });
 
-  addEventListener("click", () => { if (hovered && !document.body.classList.contains("panel-open")) selectPlanet(hovered.userData); });
+  // Robust click: raycast at release point, ignore drags (orbit) and stale hover state.
+  let downX = 0, downY = 0, downT = 0;
+  addEventListener("pointerdown", (e) => { downX = e.clientX; downY = e.clientY; downT = performance.now(); });
+  addEventListener("pointerup", (e) => {
+    if (document.body.classList.contains("panel-open")) return;
+    if (e.button !== undefined && e.button !== 0) return;
+    const moved = Math.hypot(e.clientX - downX, e.clientY - downY);
+    if (moved > 6 || performance.now() - downT > 600) return; // it was a drag/orbit, not a click
+    mouse.x = (e.clientX / innerWidth) * 2 - 1;
+    mouse.y = -(e.clientY / innerHeight) * 2 + 1;
+    ray.setFromCamera(mouse, camera);
+    const hit = ray.intersectObjects(planetMeshes, true)[0];
+    if (!hit) return;
+    let obj = hit.object;
+    while (obj && !obj.userData.id) obj = obj.parent;
+    if (obj && obj.userData.id) selectPlanet(obj.userData);
+  });
 
   let followTarget = null;
   function selectPlanet(sec) {
-    if (sec.link) { window.location.href = BASE + sec.path; return; }
     labelEl.style.opacity = 0;
+    canvas.style.cursor = "grab";
     controls.autoRotate = false;
     followTarget = sec._mesh;
+    if (sec.link) {                       // Earth: zoom in first, then open its page
+      setTimeout(() => { window.location.href = BASE + sec.path; }, 1250);
+      return;
+    }
     setTimeout(() => openPanel(sec), 620);
   }
 
