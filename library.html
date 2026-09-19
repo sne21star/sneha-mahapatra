@@ -56,23 +56,27 @@ permalink: /library/
     </div>
   </div>
 
-  <div class="lib-genres" role="group" aria-label="Filter by genre">
-    <button type="button" class="genre-chip is-active" data-genre="all">
-      <span class="gc-icon">📚</span><span class="gc-name">All</span><span class="gc-count">{{ site.data.books.read.size }}</span>
-    </button>
-    {% for g in genres %}
-    <button type="button" class="genre-chip" data-genre="{{ g | escape }}">
-      <span class="gc-icon">{% case g %}{% when 'Fantasy' %}🐉{% when 'Horror' %}💀{% when 'Science Fiction' %}🚀{% when 'Thriller' %}🔪{% when 'Mystery' %}🔍{% when 'Romance' %}💗{% when 'Classics' %}🏛️{% when 'Historical Fiction' %}⏳{% when 'Nonfiction' %}🧾{% when 'Self Help' %}🌱{% when 'Artificial Intelligence' %}🤖{% when 'Biography' %}👤{% when 'Memoir' %}📔{% when 'Young Adult' %}✨{% when 'Poetry' %}🕊️{% when 'Contemporary' %}🏙️{% when 'Dystopia' %}🌆{% when 'Adventure' %}🧭{% when 'Philosophy' %}💭{% when 'Business' %}💼{% else %}📖{% endcase %}</span>
-      <span class="gc-name">{{ g }}</span>
-      <span class="gc-count">{{ site.data.books.read | where: "genre", g | size }}</span>
-    </button>
-    {% endfor %}
-  </div>
+  <div class="library-case">
+    <div class="genre-ledge" role="group" aria-label="Filter by genre">
+      <div class="genre-ledge-shelf">
+        <button type="button" class="genre-obj is-active" data-genre="all">
+          <span class="go-emoji">📚<span class="go-count">{{ site.data.books.read.size }}</span></span>
+          <span class="go-name">All</span>
+        </button>
+        {% for g in genres %}
+        <button type="button" class="genre-obj" data-genre="{{ g | escape }}">
+          <span class="go-emoji">{% case g %}{% when 'Fantasy' %}🐉{% when 'Horror' %}💀{% when 'Science Fiction' %}🚀{% when 'Thriller' %}🔪{% when 'Mystery' %}🔍{% when 'Romance' %}💗{% when 'Classics' %}🏛️{% when 'Historical Fiction' %}⏳{% when 'Nonfiction' %}🧾{% when 'Self Help' %}🌱{% when 'Artificial Intelligence' %}🤖{% when 'Biography' %}👤{% when 'Memoir' %}📔{% when 'Young Adult' %}✨{% when 'Poetry' %}🕊️{% when 'Contemporary' %}🏙️{% when 'Dystopia' %}🌆{% when 'Adventure' %}🧭{% when 'Philosophy' %}💭{% when 'Business' %}💼{% else %}📖{% endcase %}<span class="go-count">{{ site.data.books.read | where: "genre", g | size }}</span></span>
+          <span class="go-name">{{ g }}</span>
+        </button>
+        {% endfor %}
+      </div>
+      <div class="shelf-board genre-board"></div>
+    </div>
 
   {% assign spine_colors = "#8a2b2b,#b5651d,#c9a227,#2f5d50,#24506e,#3b3f8f,#6b2d5c,#7d4f22,#46603a,#9c3b2e,#2b6b6b,#5a4b8a" | split: "," %}
   {% assign spine_h = "236,268,286,248,274,256,230,280" | split: "," %}
   {% assign spine_w = "48,56,44,60,50,42,58,46" | split: "," %}
-  {% assign per_shelf = 10 %}
+  {% assign per_shelf = 11 %}
 
   <div class="bookcase" id="bookcase">
     {% for b in site.data.books.read %}
@@ -103,6 +107,7 @@ permalink: /library/
     {% assign next = forloop.index | modulo: per_shelf %}
     {% if next == 0 or forloop.last %}</div><div class="shelf-board"></div></div>{% endif %}
     {% endfor %}
+    </div>
   </div>
   <p class="lib-empty" id="lib-empty" hidden>No books on this shelf yet.</p>
 </div>
@@ -237,9 +242,9 @@ permalink: /library/
     var gf = document.getElementById("genre-filter");
     if (gf) gf.addEventListener("change", function () { genre = gf.value; render(); });
 
-    document.querySelectorAll(".genre-chip").forEach(function (chip) {
+    document.querySelectorAll(".genre-obj").forEach(function (chip) {
       chip.addEventListener("click", function () {
-        document.querySelectorAll(".genre-chip").forEach(function (c) { c.classList.remove("is-active"); });
+        document.querySelectorAll(".genre-obj").forEach(function (c) { c.classList.remove("is-active"); });
         chip.classList.add("is-active");
         genre = chip.dataset.genre;
         render();
