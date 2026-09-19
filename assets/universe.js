@@ -259,15 +259,11 @@ if (canvas) {
       return;
     }
     loadContent(sec);                     // fetch while the camera zooms in
-    if (reduced) { snapDock(sec); return; }
-    setTimeout(coverIn, 950);             // planet has filled the screen -> wipe to opaque
-    setTimeout(() => snapDock(sec), 1450); // behind the cover, snap it into the corner + reveal page
-    setTimeout(coverOut, 1560);           // fade the cover away, page + corner planet revealed
+    if (reduced) { dockCorner(sec); return; }
+    document.body.classList.add("panel-open");
+    setTimeout(() => panel.classList.add("open"), 260);  // page fades in over the zooming planet
+    setTimeout(() => dockCorner(sec), 1300);             // page now opaque -> bring the planet into the corner
   }
-
-  const cover = document.getElementById("warp-cover");
-  const coverIn = () => cover.classList.add("show");
-  const coverOut = () => cover.classList.remove("show");
 
   /* ---------- Panel ---------- */
   const panel = document.getElementById("planet-panel");
@@ -298,40 +294,22 @@ if (canvas) {
     });
   }
 
-  // The camera has zoomed the planet to fill the screen; the opaque cover is up.
-  // Snap the live canvas straight into the top-left corner disc (no visible
-  // slide) and reveal the page beneath — the cover then fades to show it.
-  function snapDock(sec) {
-    document.body.classList.add("panel-open");
-    panel.classList.add("open");
+  // The page has faded in over the fully-zoomed planet. Snap the live canvas
+  // into the top-left corner (hidden behind the opaque page), then fade the
+  // corner disc in so the planet reappears docked in the corner.
+  function dockCorner(sec) {
+    if (reduced) { document.body.classList.add("panel-open"); panel.classList.add("open"); }
     panel.scrollTop = 0;
-    universeEl.classList.add("snap");              // no transform animation while hidden
-    universeEl.classList.add("docking");
-    universeEl.classList.add("clip");
+    universeEl.classList.add("docking");                 // snap planet into the corner (opacity 0)
+    requestAnimationFrame(() => universeEl.classList.add("clip")); // fade the corner disc in
   }
 
   function closePanel() {
-    if (reduced) {
-      universeEl.classList.remove("clip", "docking", "snap");
-      homing = false; followTarget = null;
-      camera.position.copy(HOME); controls.target.set(0, 0, 0); controls.update();
-      panel.classList.remove("open");
-      document.body.classList.remove("panel-open");
-      controls.autoRotate = true;
-      return;
-    }
-    coverIn();                                     // wipe to opaque first
-    setTimeout(() => {
-      universeEl.classList.remove("clip", "docking"); // undock instantly (snap still on)
-      followTarget = null; homing = false;
-      camera.position.copy(HOME);                  // snap camera home behind the cover
-      controls.target.set(0, 0, 0); controls.update();
-      panel.classList.remove("open");
-      document.body.classList.remove("panel-open");
-      controls.autoRotate = true;
-      universeEl.classList.remove("snap");
-      coverOut();                                  // fade cover -> universe back at home
-    }, 550);
+    panel.classList.remove("open");                      // page fades out...
+    universeEl.classList.remove("clip", "docking");      // ...revealing the fullscreen scene behind it
+    homing = true; followTarget = null;                  // camera eases back out to home
+    controls.autoRotate = !reduced;
+    setTimeout(() => document.body.classList.remove("panel-open"), reduced ? 0 : 1000);
   }
   document.getElementById("panel-back").onclick = closePanel;
   addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("panel-open")) closePanel(); });
