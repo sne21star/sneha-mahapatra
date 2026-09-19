@@ -2,52 +2,36 @@
 layout: default
 ---
 
-<!-- ================= SEAMLESS 3D SCROLL HERO ================= -->
-<div class="home-hero">
-    <div class="hero-progress"></div>
-    <div class="story" id="home-story">
-        <div class="stage">
-            <canvas id="hero-canvas"></canvas>
-            <div class="chapters">
-                <div class="chapter">
-                    <div class="kicker">{{ site.title }}</div>
-                    <h2>I build things that <span class="grad">think.</span></h2>
-                    <p>{{ site.description }}</p>
-                </div>
-                <div class="chapter right">
-                    <div class="kicker">Engineering</div>
-                    <h2>Full-stack <span class="grad">systems.</span></h2>
-                    <p>Backend services, web &amp; desktop apps, shipped end to end.</p>
-                </div>
-                <div class="chapter">
-                    <div class="kicker">Machine Learning</div>
-                    <h2>Models that <span class="grad">understand.</span></h2>
-                    <p>Real-time ASL translation, BioNLP research, data pipelines.</p>
-                </div>
-                <div class="chapter right">
-                    <div class="kicker">Now</div>
-                    <h2>Software Engineer <span class="grad">@ Microsoft.</span></h2>
-                    <p>Experiences &amp; Devices &mdash; building for millions.</p>
-                </div>
-            </div>
-        </div>
-        <div class="spacer"></div>
-        <div class="spacer"></div>
-        <div class="spacer"></div>
-        <div class="spacer"></div>
-    </div>
-    <div class="scroll-cue">scroll</div>
+<!-- ============ SNEHA'S UNIVERSE ============ -->
+<div id="universe">
+    <canvas id="universe-canvas"></canvas>
 </div>
 
-{{ content }}
+<div class="uni-overlay uni-title">
+    <h1>Sneha's <span class="grad">Universe</span></h1>
+    <p>Drag to orbit · scroll to zoom · click a planet to explore</p>
+</div>
 
-<!-- ================= BLOG FEED ================= -->
-<section class="home-section">
-    <span class="eyebrow">Writing</span>
-    <h2>From the blog</h2>
-    <p class="sub">Essays, travel, science, art and technology &mdash; filter by what you like.</p>
+<div class="uni-overlay uni-nav" id="uni-nav"></div>
+<div class="uni-overlay uni-hint">pick a world</div>
+<div id="uni-label"></div>
 
-    <div class="filter-bar" id="filter-bar">
+<!-- ============ PLANET CONTENT PANEL ============ -->
+<div id="planet-panel">
+    <div class="panel-topbar">
+        <button class="panel-back" id="panel-back">← Back to universe</button>
+        <div class="corner-orb" id="corner-orb"></div>
+        <div class="panel-title">
+            <span class="kick" id="panel-kick"></span>
+            <h2 id="panel-heading"></h2>
+        </div>
+    </div>
+    <div class="panel-body" id="panel-body"></div>
+</div>
+
+<!-- ============ Blog feed template (injected into the Blog planet) ============ -->
+<template id="tpl-blog">
+    <div class="filter-bar">
         <button class="active" data-cat="All">All</button>
         <button data-cat="Essays">Essays</button>
         <button data-cat="Travel">Travel</button>
@@ -56,7 +40,6 @@ layout: default
         <button data-cat="Blogs">Blogs</button>
         <button data-cat="Technology">Technology</button>
     </div>
-
     <div id="feed">
         {% for post in site.posts %}
         {% if post.category == 'Blog' %}
@@ -70,8 +53,7 @@ layout: default
                 {% endif %}
             </a>
             <p class="post-meta">
-                Posted by
-                {% if post.author %}{{ post.author }}{% else %}{{ site.author }}{% endif %}
+                Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.author }}{% endif %}
                 on {{ post.date | date: '%B %d, %Y' }}
                 &middot; {% include read_time.html content=post.content %}
             </p>
@@ -79,31 +61,14 @@ layout: default
         {% endif %}
         {% endfor %}
     </div>
-
-    <div id="feed-sentinel"></div>
-
-    <div class="clearfix" align="right" style="margin-top:10px;">
+    <div id="panel-sentinel"></div>
+    <div style="text-align:right; margin-top:14px;">
         <a class="btn btn-primary" href="{{ "/posts" | relative_url }}">View All Posts</a>
     </div>
-</section>
+</template>
 
-<!-- ================= CURRENTLY READING ================= -->
-<section class="home-section">
-    <span class="eyebrow">Bookshelf</span>
-    <h2>Currently reading</h2>
-    <p class="sub">A live look at what's on my nightstand, straight from Goodreads.</p>
-    <div class="reading-block">
-        <div id="gr_custom_widget_1745201747">
-            <noscript>
-                Share <a rel="nofollow" href="https://www.goodreads.com/">book reviews</a> and ratings with Sneha
-                on <a rel="nofollow" href="https://www.goodreads.com/review/list/179146826-sneha-mahapatra?shelf=currently-reading">Goodreads</a>.
-            </noscript>
-        </div>
-        <script src="https://www.goodreads.com/review/custom_widget/179146826.Sneha's%20bookshelf:%20currently-reading?cover_position=left&cover_size=medium&num_books=5&order=a&shelf=currently-reading&show_author=1&show_cover=1&show_rating=1&show_review=1&show_tags=1&show_title=1&sort=date_added&widget_bg_color=FFFFFF&widget_bg_transparent=&widget_border_width=1&widget_id=1745201747&widget_text_color=000000&widget_title_size=medium&widget_width=full" type="text/javascript" charset="utf-8"></script>
-    </div>
-</section>
-
-<!-- ================= 3D scene deps ================= -->
+<!-- ============ 3D deps ============ -->
+<script>window.SITE_BASEURL = "{{ site.baseurl }}";</script>
 <script type="importmap">
 {
   "imports": {
@@ -112,53 +77,4 @@ layout: default
   }
 }
 </script>
-<script type="module" src="{{ "/assets/hero.js" | relative_url }}"></script>
-
-<!-- ================= feed: category filter + infinite reveal ================= -->
-<script>
-(function () {
-    var BATCH = 6;
-    var posts = [].slice.call(document.querySelectorAll('#feed .post-preview'));
-    var buttons = [].slice.call(document.querySelectorAll('#filter-bar button'));
-    var sentinel = document.getElementById('feed-sentinel');
-    var cat = 'All';
-    var shown = 0;
-
-    function matches(p) { return cat === 'All' || p.getAttribute('data-cat') === cat; }
-    function filtered() { return posts.filter(matches); }
-
-    function reveal(n) {
-        var list = filtered();
-        var end = Math.min(shown + n, list.length);
-        for (var i = shown; i < end; i++) {
-            list[i].style.display = 'block';
-            requestAnimationFrame(function (el) { return function () { el.classList.add('in'); }; }(list[i]));
-        }
-        shown = end;
-        sentinel.textContent = shown >= list.length ? '' : 'Loading more…';
-    }
-
-    function resetFeed() {
-        posts.forEach(function (p) { p.style.display = 'none'; p.classList.remove('in'); });
-        shown = 0;
-        reveal(BATCH);
-    }
-
-    buttons.forEach(function (b) {
-        b.addEventListener('click', function () {
-            buttons.forEach(function (x) { x.classList.remove('active'); });
-            b.classList.add('active');
-            cat = b.getAttribute('data-cat');
-            resetFeed();
-        });
-    });
-
-    if ('IntersectionObserver' in window) {
-        new IntersectionObserver(function (entries) {
-            if (entries[0].isIntersecting) reveal(BATCH);
-        }, { rootMargin: '200px' }).observe(sentinel);
-    }
-
-    resetFeed();
-})();
-</script>
+<script type="module" src="{{ "/assets/universe.js" | relative_url }}"></script>

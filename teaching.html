@@ -10,7 +10,7 @@ permalink: /teaching/
 <div class="container">
     <div class="row">
         <!-- Home Post List -->
-        {% for post in site.posts limit%}
+        {% for post in site.posts %}
         {% if post.category == 'Teaching' %}
         <article class="post-preview">
           <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
