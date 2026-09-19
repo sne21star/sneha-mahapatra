@@ -56,7 +56,7 @@ permalink: /library/
     </div>
   </div>
 
-  <div class="library-case">
+  <div class="library-case-wrap">
     <div class="genre-ledge" role="group" aria-label="Filter by genre">
       <div class="genre-ledge-shelf">
         <button type="button" class="genre-obj is-active" data-genre="all">
@@ -70,13 +70,13 @@ permalink: /library/
         </button>
         {% endfor %}
       </div>
-      <div class="shelf-board genre-board"></div>
     </div>
 
+    <div class="library-case">
   {% assign spine_colors = "#8a2b2b,#b5651d,#c9a227,#2f5d50,#24506e,#3b3f8f,#6b2d5c,#7d4f22,#46603a,#9c3b2e,#2b6b6b,#5a4b8a" | split: "," %}
   {% assign spine_h = "236,268,286,248,274,256,230,280" | split: "," %}
-  {% assign spine_w = "48,56,44,60,50,42,58,46" | split: "," %}
-  {% assign per_shelf = 11 %}
+  {% assign spine_w = "62,72,54,80,64,52,76,58" | split: "," %}
+  {% assign per_shelf = 10 %}
 
   <div class="bookcase" id="bookcase">
     {% for b in site.data.books.read %}
@@ -107,6 +107,7 @@ permalink: /library/
     {% assign next = forloop.index | modulo: per_shelf %}
     {% if next == 0 or forloop.last %}</div><div class="shelf-board"></div></div>{% endif %}
     {% endfor %}
+    </div>
     </div>
   </div>
   <p class="lib-empty" id="lib-empty" hidden>No books on this shelf yet.</p>
