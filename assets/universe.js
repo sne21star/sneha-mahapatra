@@ -260,8 +260,8 @@ if (canvas) {
     }
     loadContent(sec);                     // fetch while the camera zooms in
     document.body.classList.add("panel-open");
-    setTimeout(() => panel.classList.add("open"), 1350); // let the planet fill the screen first, THEN fade to the page
-    setTimeout(() => dockCorner(sec), 2400);             // page now opaque -> bring the planet into the corner
+    setTimeout(() => panel.classList.add("open"), 2100); // hold the full-screen planet longer, THEN fade to the page
+    setTimeout(() => dockCorner(sec), 3150);             // page now opaque -> bring the planet into the corner
   }
 
   /* ---------- Panel ---------- */
