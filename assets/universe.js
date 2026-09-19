@@ -254,6 +254,7 @@ if (canvas) {
     controls.autoRotate = false;
     homing = false;
     followTarget = sec._mesh;
+    controls.minDistance = 0.5;            // allow the camera to get close enough to cover the screen
     if (sec.link) {                       // Earth: zoom in first, then open its page
       setTimeout(() => { window.location.href = BASE + sec.path; }, 1300);
       return;
@@ -306,6 +307,7 @@ if (canvas) {
     panel.classList.remove("open");                      // page fades out...
     universeEl.classList.remove("clip", "docking");      // ...revealing the fullscreen scene behind it
     homing = true; followTarget = null;                  // camera eases back out to home
+    controls.minDistance = 10;                           // restore the orbit clamp
     controls.autoRotate = !reduced;
     setTimeout(() => document.body.classList.remove("panel-open"), reduced ? 0 : 1000);
   }
@@ -361,10 +363,10 @@ if (canvas) {
     if (followTarget) {
       followTarget.rotation.y += speed * 0.25;   // keep the focused planet spinning
       const wp = new THREE.Vector3(); followTarget.getWorldPosition(wp);
-      controls.target.lerp(wp, 0.06);
+      controls.target.lerp(wp, 0.1);
       const sz = followTarget.userData.size;
-      const desired = wp.clone().add(new THREE.Vector3(0, sz * 0.12, sz * 1.4)); // glide in until it fills the screen
-      camera.position.lerp(desired, 0.05);
+      const desired = wp.clone().add(new THREE.Vector3(0, sz * 0.05, sz * 1.15)); // glide right in until the planet covers the whole screen
+      camera.position.lerp(desired, 0.085);
     } else if (homing) {
       controls.target.lerp(new THREE.Vector3(0, 0, 0), 0.1);
       camera.position.lerp(HOME, 0.1);
