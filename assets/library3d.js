@@ -238,7 +238,7 @@
         if (r.bottom < -60 || r.top > innerHeight + 60 || !r.width) continue;   // off-screen: skip
 
         it.hover += ((it.hoverTarget || 0) - it.hover) * 0.15;
-        it.model.rotation.y = (reduced ? 0.6 : tt * (0.55 + it.hover * 0.6)) + it.phase;
+        it.model.rotation.y = tt * ((reduced ? 0.7 : 0.9) + it.hover * 0.7) + it.phase;
         it.model.rotation.x = 0.14 - it.hover * 0.1;
         it.model.position.y = it.hover * 0.12;
         it.model.scale.setScalar(1 + it.hover * 0.06);

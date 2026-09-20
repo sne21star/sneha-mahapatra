@@ -376,10 +376,11 @@ if (canvas) {
   function animate() {
     requestAnimationFrame(animate);
     const dt = clock.getDelta();
-    const speed = reduced ? 0 : dt;
+    const speed = reduced ? 0 : dt;        // gates large orbital / drift motion
+    const axial = dt;                      // axial spin always runs at full rate
 
-    sun.rotation.y += speed * 0.1;
-    sunSkin.rotation.y -= speed * 0.08;
+    sun.rotation.y += axial * 0.1;
+    sunSkin.rotation.y -= axial * 0.08;
     sunSkin.scale.setScalar(1 + Math.sin(clock.elapsedTime * 1.4) * 0.03);
     starField.rotation.y += speed * 0.004;
 
@@ -387,11 +388,11 @@ if (canvas) {
       if (followTarget) return;           // freeze orbits while focusing a planet
       s._angle += speed * s.speed * 0.35;
       s._pivot.rotation.y = s._angle;
-      s._mesh.rotation.y += speed * s.spin * 26;
+      s._mesh.rotation.y += axial * s.spin * 34;
     });
 
     if (followTarget) {
-      followTarget.rotation.y += speed * 0.25;   // keep the focused planet spinning
+      followTarget.rotation.y += axial * 0.25;   // keep the focused planet spinning
       const wp = new THREE.Vector3(); followTarget.getWorldPosition(wp);
       controls.target.lerp(wp, 0.1);
       const sz = followTarget.userData.size;
