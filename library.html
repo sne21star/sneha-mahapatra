@@ -60,12 +60,12 @@ permalink: /library/
     <div class="genre-ledge" role="group" aria-label="Filter by genre">
       <div class="genre-ledge-shelf">
         <button type="button" class="genre-obj is-active" data-genre="all">
-          <span class="go-emoji">📚<span class="go-count">{{ site.data.books.read.size }}</span></span>
+          <span class="go-emoji">📚</span>
           <span class="go-name">All</span>
         </button>
         {% for g in genres %}
         <button type="button" class="genre-obj" data-genre="{{ g | escape }}">
-          <span class="go-emoji">{% case g %}{% when 'Fantasy' %}🐉{% when 'Horror' %}💀{% when 'Science Fiction' %}🚀{% when 'Thriller' %}🔪{% when 'Mystery' %}🔍{% when 'Romance' %}💗{% when 'Classics' %}🏛️{% when 'Historical Fiction' %}⏳{% when 'Nonfiction' %}🧾{% when 'Self Help' %}🌱{% when 'Artificial Intelligence' %}🤖{% when 'Biography' %}👤{% when 'Memoir' %}📔{% when 'Young Adult' %}✨{% when 'Poetry' %}🕊️{% when 'Contemporary' %}🏙️{% when 'Dystopia' %}🌆{% when 'Adventure' %}🧭{% when 'Philosophy' %}💭{% when 'Business' %}💼{% else %}📖{% endcase %}<span class="go-count">{{ site.data.books.read | where: "genre", g | size }}</span></span>
+          <span class="go-emoji">{% case g %}{% when 'Fantasy' %}🐉{% when 'Horror' %}💀{% when 'Science Fiction' %}🚀{% when 'Thriller' %}🔪{% when 'Mystery' %}🔍{% when 'Romance' %}💗{% when 'Classics' %}🏛️{% when 'Historical Fiction' %}⏳{% when 'Nonfiction' %}🧾{% when 'Self Help' %}🌱{% when 'Artificial Intelligence' %}🤖{% when 'Biography' %}👤{% when 'Memoir' %}📔{% when 'Young Adult' %}✨{% when 'Poetry' %}🕊️{% when 'Contemporary' %}🏙️{% when 'Dystopia' %}🌆{% when 'Adventure' %}🧭{% when 'Philosophy' %}💭{% when 'Business' %}💼{% else %}📖{% endcase %}</span>
           <span class="go-name">{{ g }}</span>
         </button>
         {% endfor %}
@@ -75,7 +75,7 @@ permalink: /library/
     <div class="library-case">
   {% assign spine_colors = "#8a2b2b,#b5651d,#c9a227,#2f5d50,#24506e,#3b3f8f,#6b2d5c,#7d4f22,#46603a,#9c3b2e,#2b6b6b,#5a4b8a" | split: "," %}
   {% assign spine_h = "236,268,286,248,274,256,230,280" | split: "," %}
-  {% assign spine_w = "62,72,54,80,64,52,76,58" | split: "," %}
+  {% assign spine_w = "82,96,74,104,88,72,100,80" | split: "," %}
   {% assign per_shelf = 10 %}
 
   <div class="bookcase" id="bookcase">
