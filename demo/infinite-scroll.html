@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Infinite Scroll — Examples</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root{
+      --bg:#05070d; --surface:rgba(255,255,255,.04); --border:rgba(255,255,255,.09);
+      --text:#e8ecf5; --muted:#93a0b8; --accent:#5eead4; --accent-2:#7c8cff;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:"Inter",system-ui,sans-serif;line-height:1.6;overflow-x:hidden;}
+    h1,h2,h3,.brand{font-family:"Space Grotesk",sans-serif;}
+    a{color:inherit;text-decoration:none;}
+
+    /* seamless animated bg (style 4) sits behind everything */
+    #bg-canvas{position:fixed;inset:0;z-index:-1;width:100vw;height:100vh;}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;gap:8px;flex-wrap:wrap;
+      align-items:center;justify-content:center;padding:14px;backdrop-filter:blur(10px);
+      background:linear-gradient(to bottom,rgba(5,7,13,.9),rgba(5,7,13,.2));border-bottom:1px solid var(--border);}
+    nav a{color:var(--muted);font-size:.82rem;font-weight:500;padding:7px 13px;border:1px solid var(--border);
+      border-radius:999px;transition:.2s;}
+    nav a:hover{color:var(--text);border-color:var(--accent);}
+
+    section{padding:clamp(60px,9vw,110px) clamp(20px,6vw,80px);max-width:1100px;margin:0 auto;}
+    .tag{display:inline-block;color:var(--accent);font-size:.78rem;letter-spacing:2px;text-transform:uppercase;
+      border:1px solid var(--border);background:var(--surface);padding:5px 12px;border-radius:999px;margin-bottom:16px;}
+    h2{font-size:clamp(1.6rem,3.6vw,2.4rem);letter-spacing:-.5px;margin-bottom:10px;}
+    .sub{color:var(--muted);margin-bottom:34px;max-width:60ch;}
+    .divider{height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 auto;max-width:1100px;}
+
+    /* ---------- Style 1: load-more feed ---------- */
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;margin-bottom:16px;
+      transition:transform .25s,border-color .25s;}
+    .card:hover{transform:translateY(-4px);border-color:rgba(94,234,212,.5);}
+    .card h3{font-size:1.2rem;margin-bottom:6px;}
+    .card p{color:var(--muted);font-size:.94rem;}
+    .card .meta{color:var(--accent);font-size:.76rem;letter-spacing:1px;text-transform:uppercase;margin-top:12px;}
+    #sentinel{height:60px;display:grid;place-items:center;color:var(--muted);font-size:.85rem;}
+    .spinner{width:22px;height:22px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;
+      animation:spin .8s linear infinite;margin-right:10px;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+
+    /* ---------- Style 2: marquee ---------- */
+    .marquee{overflow:hidden;position:relative;border-block:1px solid var(--border);padding:26px 0;
+      mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);}
+    .marquee-track{display:flex;gap:18px;width:max-content;animation:scroll-x 26s linear infinite;}
+    .marquee:hover .marquee-track{animation-play-state:paused;}
+    .chip{display:flex;align-items:center;gap:10px;white-space:nowrap;background:var(--surface);
+      border:1px solid var(--border);border-radius:12px;padding:12px 22px;font-weight:600;font-size:1rem;color:var(--text);}
+    .chip b{color:var(--accent);}
+    @keyframes scroll-x{to{transform:translateX(-50%);}}
+
+    /* ---------- Style 3: parallax reveal ---------- */
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.2,.7,.2,1),transform .8s cubic-bezier(.2,.7,.2,1);}
+    .reveal.in{opacity:1;transform:none;}
+    .parallax-row{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center;margin-bottom:40px;}
+    @media(max-width:760px){.parallax-row{grid-template-columns:1fr;}}
+    .pbox{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:34px;min-height:170px;
+      display:flex;flex-direction:column;justify-content:center;will-change:transform;}
+    .pbox h3{font-size:1.4rem;margin-bottom:8px;}
+    .pbox p{color:var(--muted);}
+
+    footer{padding:60px 20px;text-align:center;color:var(--muted);font-size:.85rem;border-top:1px solid var(--border);}
+    code{color:var(--accent);background:var(--surface);padding:2px 7px;border-radius:6px;font-size:.85em;}
+    @media (prefers-reduced-motion: reduce){
+      .reveal{opacity:1;transform:none;transition:none;}
+      .marquee-track{animation:none;}
+      html{scroll-behavior:auto;}
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas"></canvas>
+
+  <nav>
+    <a href="#s1">1 · Load-more feed</a>
+    <a href="#s2">2 · Marquee</a>
+    <a href="#s3">3 · Parallax</a>
+    <a href="#s4">4 · Seamless BG</a>
+  </nav>
+
+  <!-- ============ STYLE 1: infinite load-more feed ============ -->
+  <section id="s1" style="padding-top:120px">
+    <span class="tag">Style 1</span>
+    <h2>Auto-loading feed</h2>
+    <p class="sub">Posts keep loading as you scroll — no "next page" click. This is the classic "infinite scroll" for your Home blog feed. Scroll to the bottom and watch new cards append.</p>
+    <div id="feed"></div>
+    <div id="sentinel"><span class="spinner"></span> Loading more…</div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ STYLE 2: marquee ============ -->
+  <section id="s2">
+    <span class="tag">Style 2</span>
+    <h2>Looping marquee</h2>
+    <p class="sub">An endless strip — great for skills/tech. It loops seamlessly and pauses on hover.</p>
+  </section>
+  <div class="marquee">
+    <div class="marquee-track" id="mtrack"></div>
+  </div>
+
+  <!-- ============ STYLE 3: parallax reveal ============ -->
+  <section id="s3">
+    <span class="tag">Style 3</span>
+    <h2>Parallax scroll sections</h2>
+    <p class="sub">Content fades/slides in and drifts at different speeds as you scroll — a premium, modern feel.</p>
+    <div id="parallax"></div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ STYLE 4 explanation ============ -->
+  <section id="s4">
+    <span class="tag">Style 4</span>
+    <h2>Seamless background</h2>
+    <p class="sub">The drifting particle field behind this entire page is style 4 — an infinite animated backdrop that lives behind your content forever. Scroll up and down; it never ends.</p>
+  </section>
+
+  <footer>
+    Four infinite-scroll options in your site theme. Tell me which to wire into the real site
+    (likely <code>Style 1</code> for the Home blog feed). Nothing live has changed.
+  </footer>
+
+  <script>
+    /* ---------- Style 1: infinite load-more feed ---------- */
+    const feed = document.getElementById("feed");
+    const sentinel = document.getElementById("sentinel");
+    const CATS = ["Essays","Travel","Science","Paintings","Blogs","Technology"];
+    let page = 0;
+    function loadPage(){
+      // Simulates fetching the next batch of posts (real site pulls from Jekyll data)
+      for(let i=0;i<4;i++){
+        const n = page*4 + i + 1;
+        const c = document.createElement("div");
+        c.className = "card";
+        c.innerHTML = `<h3>Post #${n}: ${CATS[n%CATS.length]} notes</h3>
+          <p>A short preview of the ${CATS[n%CATS.length].toLowerCase()} post — the first couple of lines pulled in automatically.</p>
+          <div class="meta">${CATS[n%CATS.length]} · ${3+n} min read</div>`;
+        feed.appendChild(c);
+      }
+      page++;
+      if(page >= 8){ // stop after a while in the demo
+        io.disconnect();
+        sentinel.innerHTML = "🎉 You've reached the end (demo caps at 32 posts).";
+      }
+    }
+    const io = new IntersectionObserver((entries)=>{
+      if(entries[0].isIntersecting){ setTimeout(loadPage, 350); }
+    }, { rootMargin: "200px" });
+    loadPage();
+    io.observe(sentinel);
+
+    /* ---------- Style 2: marquee ---------- */
+    const skills = ["Python","JavaScript","TypeScript","React","Node.js","PyTorch","C++","SQL","Java","Pandas","Git","Azure"];
+    const track = document.getElementById("mtrack");
+    const chips = skills.map(s=>`<div class="chip"><b>◆</b> ${s}</div>`).join("");
+    track.innerHTML = chips + chips; // duplicate for a seamless loop
+
+    /* ---------- Style 3: parallax reveal ---------- */
+    const px = document.getElementById("parallax");
+    const items = [
+      ["Machine Learning","Real-time ASL translation with MediaPipe."],
+      ["Backend Systems","Web + desktop apps for medical software."],
+      ["Research","BioNLP work at UMass Amherst."],
+      ["Data Science","M.S. concentration — models, pipelines, insight."],
+    ];
+    items.forEach((it,i)=>{
+      const row = document.createElement("div");
+      row.className = "parallax-row";
+      const box = `<div class="pbox reveal" data-speed="${i%2? 0.06 : -0.06}"><h3>${it[0]}</h3><p>${it[1]}</p></div>`;
+      const box2 = `<div class="pbox reveal" data-speed="${i%2? -0.04 : 0.04}" style="text-align:right"><h3>0${i+1}</h3><p>${it[1].split(" ").slice(0,3).join(" ")}…</p></div>`;
+      row.innerHTML = i%2 ? box2+box : box+box2;
+      px.appendChild(row);
+    });
+    const revObs = new IntersectionObserver((es)=>{
+      es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); } });
+    },{threshold:.15});
+    document.querySelectorAll(".reveal").forEach(el=>revObs.observe(el));
+
+    // subtle parallax drift on scroll
+    const pboxes = [...document.querySelectorAll(".pbox[data-speed]")];
+    window.addEventListener("scroll", ()=>{
+      const vh = window.innerHeight;
+      pboxes.forEach(b=>{
+        const r = b.getBoundingClientRect();
+        const off = (r.top + r.height/2 - vh/2);
+        b.style.transform = `translateY(${off * parseFloat(b.dataset.speed)}px)`;
+      });
+    }, {passive:true});
+
+    /* ---------- Style 4: seamless particle background ---------- */
+    const cv = document.getElementById("bg-canvas");
+    const ctx = cv.getContext("2d");
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let W,H,parts;
+    function initBg(){
+      W = cv.width = innerWidth; H = cv.height = innerHeight;
+      const count = Math.min(140, Math.floor(W*H/14000));
+      parts = Array.from({length:count},()=>({
+        x:Math.random()*W, y:Math.random()*H,
+        r:Math.random()*1.6+0.4, vy:Math.random()*0.25+0.05,
+        a:Math.random()*0.5+0.2
+      }));
+    }
+    function drawBg(){
+      ctx.clearRect(0,0,W,H);
+      for(const p of parts){
+        p.y += p.vy;
+        if(p.y > H+5){ p.y = -5; p.x = Math.random()*W; } // wraps forever = seamless
+        ctx.beginPath();
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fillStyle = `rgba(94,234,212,${p.a})`;
+        ctx.fill();
+      }
+      if(!reduced) requestAnimationFrame(drawBg);
+    }
+    initBg(); drawBg();
+    addEventListener("resize", initBg);
+  </script>
+</body>
+</html>

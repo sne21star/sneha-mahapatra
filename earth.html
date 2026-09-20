@@ -1,0 +1,59 @@
+---
+layout: page
+title: Earth · Travels
+description: Adventures, food and far-flung places
+background: '/img/bg-about.jpg'
+permalink: /earth/
+---
+
+<!-- ============ Snax Adventures · Instagram ============ -->
+<div class="ig-feature">
+    <div class="ig-head">
+        <div class="ig-avatar">🌍</div>
+        <div>
+            <a class="ig-handle" href="https://www.instagram.com/snax_adventures/" target="_blank" rel="noopener">@snax_adventures</a>
+            <div class="ig-sub">My food &amp; travel adventures around the globe</div>
+        </div>
+        <a class="btn btn-primary ig-follow" href="https://www.instagram.com/snax_adventures/" target="_blank" rel="noopener">Follow</a>
+    </div>
+
+    <!-- Latest 3 posts render here from _data/insta.yml (newest first). -->
+    <div class="ig-embeds">
+        {% assign ig_posts = site.data.insta.posts | where_exp: "u", "u" %}
+        {% if ig_posts.size > 0 %}
+        {% for url in ig_posts limit:3 %}
+        <blockquote class="instagram-media" data-instgrm-permalink="{{ url }}" data-instgrm-version="14" style="max-width:326px;width:100%;margin:0;"></blockquote>
+        {% endfor %}
+        {% else %}
+        <p class="ig-empty">Latest posts are on the way — follow along on Instagram in the meantime!</p>
+        {% endif %}
+    </div>
+
+    <a class="ig-cta" href="https://www.instagram.com/snax_adventures/" target="_blank" rel="noopener">
+        Open @snax_adventures on Instagram →
+    </a>
+</div>
+<script async src="https://www.instagram.com/embed.js"></script>
+
+<!-- ============ Travel posts from the blog ============ -->
+{% assign travel_posts = site.posts | where_exp: "p", "p.type == 'Travel'" %}
+{% if travel_posts.size > 0 %}
+<h2 class="section-heading">Travel journal</h2>
+{% for post in travel_posts %}
+<article class="post-preview">
+    <a href="{{ post.url | prepend: site.baseurl | replace: '//', '/' }}">
+        <h2 class="post-title">{{ post.title }}</h2>
+        {% if post.subtitle %}
+        <h3 class="post-subtitle">{{ post.subtitle }}</h3>
+        {% else %}
+        <h3 class="post-subtitle">{{ post.excerpt | strip_html | truncatewords: 15 }}</h3>
+        {% endif %}
+    </a>
+    <p class="post-meta">
+        Posted by {% if post.author %}{{ post.author }}{% else %}{{ site.author }}{% endif %}
+        on {{ post.date | date: '%B %d, %Y' }}
+        &middot; {% include read_time.html content=post.content %}
+    </p>
+</article>
+{% endfor %}
+{% endif %}
