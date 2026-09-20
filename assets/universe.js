@@ -257,11 +257,19 @@ if (canvas) {
     docked = false;
     followTarget = sec._mesh;
     controls.minDistance = 0.5;            // allow the camera to get close enough to cover the screen
-    if (sec.link) {                       // Earth: zoom in first, then open its page
-      setTimeout(() => { window.location.href = BASE + sec.path; }, 1300);
+    if (sec.path) {                       // zoom the camera into the planet, fade a themed
+                                          // curtain over the fully-zoomed planet, THEN navigate
+      const curtain = document.createElement("div");
+      curtain.className = "warp-curtain";
+      curtain.style.background =
+        "radial-gradient(circle at 50% 45%, " + sec.orb[1] + " 0%, " + sec.orb[2] + " 38%, #05070d 78%)";
+      document.body.appendChild(curtain);
+      requestAnimationFrame(() => curtain.classList.add("hold")); // ensure transition applies
+      setTimeout(() => curtain.classList.add("show"), 1150);      // zoom has covered the screen -> fade in
+      setTimeout(() => { window.location.href = BASE + sec.path; }, 1850);
       return;
     }
-    loadContent(sec);                     // fetch while the camera zooms in
+    loadContent(sec);                     // blog has no standalone page — fetch into the panel
     document.body.classList.add("panel-open");
     setTimeout(() => panel.classList.add("open"), 2100); // hold the full-screen planet longer, THEN fade to the page
     setTimeout(() => dockCorner(sec), 3150);             // page now opaque -> bring the planet into the corner

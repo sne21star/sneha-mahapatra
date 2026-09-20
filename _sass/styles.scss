@@ -841,6 +841,13 @@ body.universe-page.panel-open { overflow: hidden; }
 .panel-body .masthead { display: none; } /* strip any fetched page header */
 .panel-body img { max-width: 100%; height: auto; }
 
+/* Full-screen themed fade shown over the fully-zoomed planet just before navigating */
+.warp-curtain {
+  position: fixed; inset: 0; z-index: 120; pointer-events: none;
+  opacity: 0; transition: opacity 0.66s ease;
+}
+.warp-curtain.show { opacity: 1; }
+
 #panel-sentinel { height: 60px; display: grid; place-items: center; color: var(--muted); font-size: 0.85rem; }
 
 @media (prefers-reduced-motion: reduce) {
