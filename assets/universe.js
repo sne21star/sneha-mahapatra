@@ -28,7 +28,7 @@ if (canvas) {
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.setSize(innerWidth, innerHeight);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.15;
+  renderer.toneMappingExposure = 1.2;
 
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(50, innerWidth / innerHeight, 0.1, 3000);
@@ -68,9 +68,24 @@ if (canvas) {
   scene.add(starField);
 
   /* ---------- Central star (Sneha's Universe core) ---------- */
-  const sun = new THREE.Mesh(new THREE.SphereGeometry(6, 64, 64), new THREE.MeshBasicMaterial({ color: 0xfff0c0 }));
+  function makeSunTexture() {
+    const W = 512, H = 256, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+    const g = cv.getContext("2d"), img = g.createImageData(W, H), d = img.data, L = (a, b, t) => a + (b - a) * t;
+    for (let y = 0; y < H; y++) {
+      for (let x = 0; x < W; x++) {
+        const u = x / W, v = y / H;
+        let n = 0.5 + 0.32 * Math.sin(v * 42 + Math.sin(u * 9) * 2.2) + 0.18 * Math.sin(v * 96 + u * 6) + 0.1 * Math.sin(u * 30 + v * 12);
+        n = Math.max(0, Math.min(1, n));
+        const i = (y * W + x) * 4;
+        d[i] = L(250, 255, n); d[i + 1] = L(150, 240, n); d[i + 2] = L(38, 150, n); d[i + 3] = 255;
+      }
+    }
+    g.putImageData(img, 0, 0);
+    const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; return t;
+  }
+  const sun = new THREE.Mesh(new THREE.SphereGeometry(6, 64, 64), new THREE.MeshBasicMaterial({ map: makeSunTexture(), color: 0xffffff }));
   scene.add(sun);
-  const sunSkin = new THREE.Mesh(new THREE.SphereGeometry(6.3, 64, 64), new THREE.MeshBasicMaterial({ color: 0x7c8cff, transparent: true, opacity: 0.5, blending: THREE.AdditiveBlending }));
+  const sunSkin = new THREE.Mesh(new THREE.SphereGeometry(6.3, 64, 64), new THREE.MeshBasicMaterial({ color: 0xffc98f, transparent: true, opacity: 0.28, blending: THREE.AdditiveBlending }));
   scene.add(sunSkin);
   function makeHalo(radius, color, opacity) {
     const c = document.createElement("canvas"); c.width = c.height = 256;
@@ -82,10 +97,10 @@ if (canvas) {
     spr.scale.set(radius, radius, 1);
     return spr;
   }
-  sun.add(makeHalo(40, "rgba(124,140,255,0.85)", 0.7));
-  sun.add(makeHalo(26, "rgba(190,220,255,0.95)", 0.9));
-  scene.add(new THREE.PointLight(0xfff2cc, 4.2, 0, 0.16));
-  scene.add(new THREE.AmbientLight(0x2a2e45, 1.0));
+  sun.add(makeHalo(38, "rgba(255,170,80,0.6)", 0.6));
+  sun.add(makeHalo(22, "rgba(255,224,168,0.9)", 0.85));
+  scene.add(new THREE.PointLight(0xfff4da, 3.1, 0, 0.0));   // decay 0 → even sunlight to every orbit; creates day/night terminator
+  scene.add(new THREE.AmbientLight(0x141a30, 0.5));           // low fill so the night side stays dark but not pure black
 
   /* ---------- Procedural texture helpers ---------- */
   const lerp = (a, b, t) => a + (b - a) * t;
@@ -169,14 +184,20 @@ if (canvas) {
       hit.add(inner, wire, pts);
     } else {
       const tex = makeTexture(sec);
-      const emissiveIntensity = sec.style === "earth" ? 0.14 : 0.55;
+      const emissiveIntensity = sec.style === "earth" ? 0.05 : 0.12;
       hit = new THREE.Mesh(
-        new THREE.SphereGeometry(sec.size, 64, 64),
-        new THREE.MeshStandardMaterial({ map: tex.map, bumpMap: tex.bump, bumpScale: 0.05, emissive: sec.colA, emissiveMap: tex.map, emissiveIntensity, roughness: 0.7, metalness: 0.1 })
+        new THREE.SphereGeometry(sec.size, 96, 96),
+        new THREE.MeshStandardMaterial({ map: tex.map, bumpMap: tex.bump, bumpScale: 0.09, emissive: sec.colA, emissiveMap: tex.map, emissiveIntensity, roughness: 0.94, metalness: 0.0 })
       );
+      const atmoColor = new THREE.Color(sec.style === "earth" ? 0x6fd0ff : sec.colB);
       const atmo = new THREE.Mesh(
-        new THREE.SphereGeometry(sec.size * 1.25, 48, 48),
-        new THREE.MeshBasicMaterial({ color: sec.style === "earth" ? 0x4fc3ff : sec.colB, transparent: true, opacity: 0.22, side: THREE.BackSide, blending: THREE.AdditiveBlending, depthWrite: false })
+        new THREE.SphereGeometry(sec.size * 1.22, 48, 48),
+        new THREE.ShaderMaterial({
+          uniforms: { glowColor: { value: atmoColor }, power: { value: sec.style === "earth" ? 3.0 : 3.4 }, strength: { value: sec.style === "earth" ? 1.25 : 0.95 } },
+          vertexShader: "varying float vI; uniform float power; uniform float strength; void main(){ vec3 vn = normalize(normalMatrix * normal); vec3 vp = normalize((modelViewMatrix * vec4(position,1.0)).xyz); vI = pow(clamp(1.0 - abs(dot(vn, vp)), 0.0, 1.0), power) * strength; gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0); }",
+          fragmentShader: "varying float vI; uniform vec3 glowColor; void main(){ gl_FragColor = vec4(glowColor, vI); }",
+          side: THREE.BackSide, blending: THREE.AdditiveBlending, transparent: true, depthWrite: false
+        })
       );
       hit.add(atmo);
     }
@@ -348,7 +369,7 @@ if (canvas) {
   /* ---------- Bloom ---------- */
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene, camera));
-  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.85, 0.5, 0.12));
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.6, 0.55, 0.22));
 
   /* ---------- Loop ---------- */
   const clock = new THREE.Clock();
@@ -366,7 +387,7 @@ if (canvas) {
       if (followTarget) return;           // freeze orbits while focusing a planet
       s._angle += speed * s.speed * 0.35;
       s._pivot.rotation.y = s._angle;
-      s._mesh.rotation.y += speed * s.spin * 20;
+      s._mesh.rotation.y += speed * s.spin * 26;
     });
 
     if (followTarget) {
