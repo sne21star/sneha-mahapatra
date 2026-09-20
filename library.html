@@ -254,5 +254,30 @@ permalink: /library/
 
     render();
   }
+
+  /* --- extrude the genre emojis into real rotating 3D objects --- */
+  (function build3D() {
+    var emojis = document.querySelectorAll(".library .go-emoji");
+    var N = 12;
+    emojis.forEach(function (el, idx) {
+      if (el.querySelector(".e3d")) return;          // already built (guard against re-runs)
+      var ch = (el.textContent || "").trim();
+      if (!ch) return;
+      el.textContent = "";
+      var stage = document.createElement("span");
+      stage.className = "e3d";
+      stage.style.animationDelay = (-idx * 0.6) + "s";
+      for (var i = 0; i < N; i++) {
+        var layer = document.createElement("span");
+        layer.className = "e3d-layer";
+        layer.textContent = ch;
+        var z = (i - (N - 1) / 2) * 1.8;
+        layer.style.transform = "translateZ(" + z.toFixed(2) + "px)";
+        layer.style.filter = "brightness(" + (0.5 + 0.5 * (i / (N - 1))).toFixed(3) + ")";
+        stage.appendChild(layer);
+      }
+      el.appendChild(stage);
+    });
+  })();
 })();
 </script>

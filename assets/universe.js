@@ -11,7 +11,7 @@ const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const SECTIONS = [
   { id: "about",        name: "About",        kick: "Who I am",        style: "neon",   colA: 0x5eead4, colB: 0x3b82f6, size: 1.7, dist: 16, speed: 1.25, spin: 0.03, path: "/about/",        orb: ["#8ff5e6", "#5eead4", "#3b82f6", "rgba(94,234,212,.65)"] },
   { id: "resume",       name: "Resume",       kick: "My experience",   style: "neon",   colA: 0xffd24a, colB: 0xff8a1e, size: 1.5, dist: 24, speed: 1.02, spin: 0.028, path: "/cv/",          orb: ["#ffe9a8", "#ffd24a", "#ff8a1e", "rgba(255,180,60,.6)"] },
-  { id: "blog",         name: "Blog",         kick: "Thoughts & words", style: "tiedye", colA: 0xff3ea5, colB: 0x8b5cf6, size: 2.0, dist: 33, speed: 0.82, spin: 0.035, path: null,           orb: ["#ff8fd0", "#ff3ea5", "#22d3ee", "rgba(255,62,165,.55)"] },
+  { id: "blog",         name: "Blog",         kick: "Thoughts & words", style: "tiedye", colA: 0xff3ea5, colB: 0x8b5cf6, size: 2.0, dist: 33, speed: 0.82, spin: 0.035, path: null, url: "/blog/", orb: ["#ff8fd0", "#ff3ea5", "#22d3ee", "rgba(255,62,165,.55)"] },
   { id: "projects",     name: "Projects",     kick: "Things I built",  style: "ico",    colA: 0x5eead4, colB: 0x7c8cff, size: 2.1, dist: 44, speed: 0.6,  spin: 0.02, path: "/projects/",     orb: ["#b6fff2", "#5eead4", "#7c8cff", "rgba(124,140,255,.6)"] },
   { id: "library",      name: "Library",      kick: "Books I've read", style: "tiedye", colA: 0xf6b73c, colB: 0x8b5cf6, size: 1.9, dist: 49, speed: 0.5,  spin: 0.03, path: "/library/",      orb: ["#ffe0a3", "#f6b73c", "#8b5cf6", "rgba(246,183,60,.55)"] },
   { id: "publications", name: "Publications", kick: "Research",        style: "neon",   colA: 0x34d399, colB: 0x10b981, size: 1.6, dist: 54, speed: 0.44, spin: 0.03, path: "/publications/", orb: ["#9df3cf", "#34d399", "#10b981", "rgba(52,211,153,.55)"] },
@@ -257,20 +257,10 @@ if (canvas) {
     docked = false;
     followTarget = sec._mesh;
     controls.minDistance = 0.5;            // allow the camera to get close enough to cover the screen
-    if (sec.path) {                       // zoom the camera into the planet, fade a themed
-                                          // curtain over the fully-zoomed planet, THEN navigate
-      const curtain = document.createElement("div");
-      curtain.className = "warp-curtain";
-      curtain.style.background =
-        "radial-gradient(circle at 50% 45%, " + sec.orb[1] + " 0%, " + sec.orb[2] + " 38%, #05070d 78%)";
-      document.body.appendChild(curtain);
-      requestAnimationFrame(() => curtain.classList.add("hold")); // ensure transition applies
-      setTimeout(() => curtain.classList.add("show"), 1150);      // zoom has covered the screen -> fade in
-      setTimeout(() => { window.location.href = BASE + sec.path; }, 1850);
-      return;
-    }
-    loadContent(sec);                     // blog has no standalone page — fetch into the panel
+    loadContent(sec);                     // fetch the real page into the panel while the camera zooms in
     document.body.classList.add("panel-open");
+    var pageUrl = sec.path || sec.url;    // reflect the page in the address bar (e.g. /library, /blog)
+    if (pageUrl) history.pushState({ planet: sec.id }, "", BASE + pageUrl);
     setTimeout(() => panel.classList.add("open"), 2100); // hold the full-screen planet longer, THEN fade to the page
     setTimeout(() => dockCorner(sec), 3150);             // page now opaque -> bring the planet into the corner
   }
@@ -314,7 +304,7 @@ if (canvas) {
     docked = true;                                        // pull the camera back so the corner shows the whole planet
   }
 
-  function closePanel() {
+  function doClosePanel() {                                // just the visual close (no history changes)
     panel.classList.remove("open");                      // page fades out...
     universeEl.classList.remove("clip", "docking");      // ...revealing the fullscreen scene behind it
     homing = true; followTarget = null; docked = false;  // camera eases back out to home
@@ -322,6 +312,14 @@ if (canvas) {
     controls.autoRotate = !reduced;
     setTimeout(() => document.body.classList.remove("panel-open"), reduced ? 0 : 1000);
   }
+  function closePanel() {                                  // triggered by the Back button / Esc
+    if (history.state && history.state.planet) history.back(); // pop the planet URL -> restores home (fires popstate)
+    else doClosePanel();
+  }
+  // Browser Back (or history.back above) while a planet is open -> close the panel and restore the URL
+  addEventListener("popstate", () => {
+    if (document.body.classList.contains("panel-open")) doClosePanel();
+  });
   document.getElementById("panel-back").onclick = closePanel;
   addEventListener("keydown", (e) => { if (e.key === "Escape" && document.body.classList.contains("panel-open")) closePanel(); });
 
