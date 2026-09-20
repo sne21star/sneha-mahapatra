@@ -580,6 +580,9 @@ hr { border-color: var(--border); }
 
 /* ---------- Post previews / list items ---------- */
 .post-preview {
+  flex: 0 0 100%;
+  width: 100%;
+  box-sizing: border-box;
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -849,7 +852,7 @@ body.universe-page.panel-open { overflow: hidden; }
 }
 
 /* ===== Library / bookshelf ===== */
-.library { padding-top: 4px; width: min(1060px, 94vw); margin-left: 50%; transform: translateX(-50%); }
+.library { padding-top: 4px; width: min(1360px, 94vw); margin-left: 50%; transform: translateX(-50%); }
 .lib-intro { color: var(--muted); font-size: 0.98rem; max-width: 640px; margin: 0 0 26px; }
 .lib-intro a { color: var(--accent); }
 .lib-hint { color: var(--muted); font-size: 0.85rem; margin: -2px 0 14px; }
@@ -873,7 +876,7 @@ body.universe-page.panel-open { overflow: hidden; }
 .lib-genre { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-family: var(--font-head); font-size: 0.8rem; }
 
 /* Genre display shelf — big pickable 3D objects standing on the bookcase roof */
-.library-case-wrap { max-width: 1040px; margin: 0 auto 12px; }
+.library-case-wrap { max-width: 1360px; margin: 0 auto 12px; }
 .genre-ledge { position: relative; z-index: 2; padding: 0 16px; }
 .genre-ledge-shelf {
   display: flex; flex-wrap: nowrap; align-items: flex-end; justify-content: center;
@@ -1122,8 +1125,11 @@ body.book-modal-open { overflow: hidden; }
 .ig-handle:hover { color: var(--accent); }
 .ig-sub { color: var(--muted); font-size: 0.85rem; }
 .ig-follow { margin-left: auto; padding: 8px 20px !important; }
-.ig-embeds { padding: 0 20px; }
+.ig-embeds { padding: 16px 20px; }
+.ig-embeds { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
 .ig-embeds:empty { display: none; }
+.ig-embeds .instagram-media { margin: 0 !important; flex: 0 1 326px; }
+.ig-empty { flex: 1 1 100%; text-align: center; opacity: .8; margin: 8px 0; }
 .instagram-media { margin: 16px auto !important; }
 .ig-cta {
   display: block; text-align: center; padding: 16px; border-radius: 0 0 15px 15px;

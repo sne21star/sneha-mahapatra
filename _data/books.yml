@@ -1,6 +1,45 @@
 # Auto-generated from Goodreads RSS by scripts/fetch_books.py -- do not edit by hand.
-# Last refreshed: 2026-09-19
+# Last refreshed: 2026-09-20
 read:
+  - id: "59807968"
+    title: "Leech"
+    author: "Hiron Ennes"
+    cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1641921333l/59807968.jpg"
+    link: "https://www.goodreads.com/book/show/59807968"
+    rating: 4
+    avg: "3.57"
+    year: "2022"
+    read_year: ""
+    review: ""
+    desc: "In an isolated chateau, as far north as north goes, the baron’s doctor has died. The doctor’s replacement has a mystery to solve: discovering how the Institute lost track of one of its many bodies.For hundreds of years the Interprovincial Medical Institute has grown by taking root in young minds and shaping them into doctors, replacing every human practitioner of medicine. The Institute is here to help humanity, to cure and to cut, to cradle and protect the species from the…"
+    genre: "Horror"
+    genres: ["Horror", "Science Fiction", "Gothic"]
+  - id: "62874029"
+    title: "Your First Million: Why You Don’t Have to Be Born into a Legacy of Wealth to Leave One Behind"
+    author: "Arlan Hamilton"
+    cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1687142465l/62874029.jpg"
+    link: "https://www.goodreads.com/book/show/62874029"
+    rating: 5
+    avg: "4.04"
+    year: ""
+    read_year: ""
+    review: ""
+    desc: "One of the few Black women to break into the boy's club of Silicon Valley offers her secrets for how anyone can build a legacy of wealth and impact.Having lived nearly her entire life below the poverty line before going on to attain wealth and success as an entrepreneur and investor, Arlan Hamilton knows that money is power—but not for the reasons most people believe. Money is power, she says, because it provides us with options : to pursue our passions, take risks, and…"
+    genre: "Business"
+    genres: ["Business", "Nonfiction", "Self Help"]
+  - id: "26032825"
+    title: "The Cruel Prince (The Folk of the Air, #1)"
+    author: "Holly Black"
+    cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1574535986l/26032825._SY475_.jpg"
+    link: "https://www.goodreads.com/book/show/26032825"
+    rating: 4
+    avg: "4.00"
+    year: "2018"
+    read_year: ""
+    review: ""
+    desc: "Of course I want to be like them. They’re beautiful as blades forged in some divine fire. They will live forever.And Cardan is even more beautiful than the rest. I hate him more than all the others. I hate him so much that sometimes when I look at him, I can hardly breathe.Jude was seven when her parents were murdered and she and her two sisters were stolen away to live in the treacherous High Court of Faerie. Ten years later, Jude wants nothing more than to belong there,…"
+    genre: "Fantasy"
+    genres: ["Fantasy", "Young Adult", "Romance"]
   - id: "210670920"
     title: "Give Her Credit: The Untold Account of a Women's Bank That Empowered a Generation"
     author: "Grace L. Williams"
@@ -207,8 +246,8 @@ read:
     read_year: ""
     review: ""
     desc: "Over the past few years, Brianna Wiest has gained renown for her deeply moving, philosophical writing. This new compilation of her published work features pieces on why you should pursue purpose over passion, embrace negative thinking, see the wisdom in daily routine, and become aware of the cognitive biases that are creating the way you see your life. Some of these pieces have never been seen; others have been read by millions of people around the world. Regardless, each…"
-    genre: ""
-    genres: []
+    genre: "Self Help"
+    genres: ["Self Help", "Nonfiction", "Psychology"]
   - id: "65137920"
     title: "The Lost Bookshop"
     author: "Evie Woods"
@@ -249,6 +288,19 @@ read:
     genre: "Historical Fiction"
     genres: ["Historical Fiction", "Book Club", "Fiction"]
 currently_reading:
+  - id: "52283963"
+    title: "The Mom Test: How to talk to customers & learn if your business is a good idea when everyone is lying to you"
+    author: "Rob Fitzpatrick"
+    cover: "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1566473431l/52283963._SY475_.jpg"
+    link: "https://www.goodreads.com/book/show/52283963"
+    rating: 0
+    avg: "4.36"
+    year: "2013"
+    read_year: ""
+    review: ""
+    desc: "The Mom Test is a quick, practical guide that will save you time, money, and heartbreak. They say you shouldn't ask your mom whether your business is a good idea, because she loves you and will lie to you. This is technically true, but it misses the point. You shouldn't ask anyone if your business is a good idea. It's a bad question and everyone will lie to you at least a little . As a matter of fact, it's not their responsibility to tell you the truth. It's your…"
+    genre: ""
+    genres: []
   - id: "43352954"
     title: "This Is How You Lose the Time War"
     author: "Amal El-Mohtar"

@@ -26,7 +26,7 @@ layout: default_about
 <div class="content-area">
     <div class="sidebar">
       <div class="profile-pic">
-        <img src="https://sgu.ac.id/wp-content/uploads/2020/12/1_QHxBLzMK7rp_5ysw77uK3A.gif" alt="Profile Picture">
+        <img src="{{ '/img/posts/mee.png' | relative_url }}" alt="Sneha Mahapatra">
     </div>
         <a href="https://www.linkedin.com/in/sneha-mahapatra/" target="_blank"> <i class="fab fa-linkedin"></i>&nbsp; LinkedIn </a>
         <a href="https://github.com/sne21star" target="_blank"><i class="fab fa-github"></i>&nbsp;GitHub</a>
@@ -49,25 +49,31 @@ layout: default_about
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-k6RqeWeci5ZR/Lv4MR0sA0FfDOMUuA9nOW9LRB1e9D4KtO0cq5eegKmqKzM4/yyI" crossorigin="anonymous">
 <style>
     .content-area {
-        display: flex;
-        flex-direction: row;
-        margin-top: 20px; /* Adjust margin from masthead */
+        position: relative;      /* anchor the absolutely-placed menu */
+        display: block;          /* let the paragraph center on the page */
+        margin-top: 20px;
     }
     .sidebar {
-        width: 2in; /* Set margin to 2 inches */
+        position: absolute;      /* float in the left gutter, tracking the paragraph */
+        top: 0;
+        left: max(16px, calc(50% - 938px)); /* keep 288px gap on wide screens, clamp so the menu never clips */
+        right: auto;
+        width: 320px; /* wider left menu */
+        box-sizing: border-box;
         background: rgba(255,255,255,0.04);
         border: 1px solid rgba(255,255,255,0.10);
         border-radius: 16px;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center; /* center the menu contents */
         padding-top: 20px;
         padding-bottom: 10px;
-        margin-left: 2cm; /* Add left margin of 2 cm */
     }
     .sidebar a {
         display: flex;
         align-items: center;
+        justify-content: center; /* center icon + label */
+        width: 100%;
         font-size: 17.5px; /* Adjust text size */
         margin: 15px 0;
         color: #93a0b8;
@@ -77,28 +83,42 @@ layout: default_about
     }
     .sidebar i {
         font-size: 46.5px; /* Increase icon size */
-        margin-right: 25px; /* Add space between icon and text */
-        margin-left: 25px; /* Add space between icon and text */
+        margin-right: 18px; /* space between icon and text */
+        margin-left: 0;
     }
     .sidebar a:hover {
         color: #5eead4; /* Change color on hover */
     }
     .container {
-        flex-grow: 1;
-        padding: 20px;
+        padding: 20px 0;
+    }
+    /* center the paragraph column under the (centered) page title */
+    .content-area .container { max-width: 660px; width: 100%; margin: 0 auto; }
+    .content-area .row { margin: 0; justify-content: center; }
+    .content-area .col-lg-8,
+    .content-area .col-md-10 {
+        flex: 0 1 auto;
+        max-width: 660px;   /* comfortable reading width */
+        width: 100%;
+        margin: 0 !important;
+        padding: 0;
     }
     .profile-pic {
-        width: 200px; /* Adjust width for ellipse */
-        height: 160px; /* Adjust height for ellipse */
-        border-radius: 110%; /* Makes the image elliptical */
+        width: 160px; /* circular avatar */
+        height: 160px;
+        border-radius: 50%; /* perfect circle */
         overflow: hidden;
-        margin-bottom: 10px; /* Space below the image */
+        margin: 0 auto 16px; /* center within the sidebar */
+        align-self: center;
+        border: 3px solid rgba(94,234,212,0.5);
+        box-shadow: 0 0 30px rgba(94,234,212,0.22);
         display: flex;
         align-items: center;
         justify-content: center;
     }
     .profile-pic img {
-        width: 100%; /* Makes image cover the container */
-        height: auto;
+        width: 100%; /* fill the circle */
+        height: 100%;
+        object-fit: cover;
     }
 </style>
