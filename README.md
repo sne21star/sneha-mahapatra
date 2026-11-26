@@ -123,7 +123,7 @@ When using the core files, the demo images, posts, and pages are all included wi
     * `description`
     * `author`
     * `twitter_username` (Optional)
-    * `facebook_username` (Optional)
+    * `facebook_usernamxe` (Optional)
     * `github_username` (Optional)
     * `linkedin_username` (Optional)
     * `instagram_username` (Optional)
