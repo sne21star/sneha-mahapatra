@@ -20,7 +20,7 @@ When installing the theme using RubyGems, demo images, posts, and pages are not 
 2. Replace the current theme in your `Gemfile` with `gem "jekyll-theme-clean-blog"`.
 3. Install the theme (run the command inside your site directory): `bundle install`
 4. Replace the current theme in your `_config.yml` file with `theme: jekyll-theme-clean-blog`.
-5. Build your site: `bundle exec jekyll serve`
+5. Build your site: `bundle exec jekyll serve --host 0.0.0.0 --port 4000 --baseurl ""`
 
 Assuming there are no errors and the site is building properly, follow these steps next:
 
@@ -123,7 +123,7 @@ When using the core files, the demo images, posts, and pages are all included wi
     * `description`
     * `author`
     * `twitter_username` (Optional)
-    * `facebook_username` (Optional)
+    * `facebook_usernamxe` (Optional)
     * `github_username` (Optional)
     * `linkedin_username` (Optional)
     * `instagram_username` (Optional)
